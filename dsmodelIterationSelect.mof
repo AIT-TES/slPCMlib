@@ -1,0 +1,3 @@
+model dsmodelIterationSelect
+  extends slPCMlib.Examples.heatConduction1D;
+end dsmodelIterationSelect;

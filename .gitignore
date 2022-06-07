@@ -1,0 +1,11 @@
+# Modelica binary files
+*.c
+*.h
+*.mat
+*.o
+*.exe
+*.txt
+*.obj
+
+# Dymola
+*.bak-mo

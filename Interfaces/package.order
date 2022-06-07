@@ -1,0 +1,9 @@
+partialPCM
+basicPhTransModel
+inductionAtNode
+phTransModMeltingCurve
+phTransModCurveTrackHysteresis
+phTransModCurveScaleHysteresisAlgebraic
+phTransModCurveScaleHysteresisDifferentiated
+phTransModCurveSwitchHysteresis
+phTransModCurveSwitchHysteresisDifferentiated
