@@ -9,3 +9,4 @@
 
 # Dymola
 *.bak-mo
+*.mof
