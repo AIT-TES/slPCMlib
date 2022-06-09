@@ -17,14 +17,14 @@ package generic_GumbelMinimum "Generic, Gumbel Minimum distribution, asymmetric 
     constant Real GumbelMinSoli_beta = 0.4
              "Shape parameter, smaller is sharper, beta>0";
     constant Modelica.SIunits.Temp_K rangeTsolidification[2] = {
-               slPCMlib.BasicUtilities.GumbelMinimum.invCDF(
+               slPCMlib.BasicUtilities.GumbelMinimum.quantile(
                  mu=propData.GumbelMinSoli_mu,
                  beta=propData.GumbelMinSoli_beta,
-                 P=0.001),
-               slPCMlib.BasicUtilities.GumbelMinimum.invCDF(
+                 u=0.001),
+               slPCMlib.BasicUtilities.GumbelMinimum.quantile(
                  mu=propData.GumbelMinSoli_mu,
                  beta=propData.GumbelMinSoli_beta,
-                 P=0.999)}
+                 u=0.999)}
              "temperature range solidification {startT, endT}";
     // ---
     constant Real GumbelMinMelt_mu =   273.15 + 30
@@ -32,14 +32,14 @@ package generic_GumbelMinimum "Generic, Gumbel Minimum distribution, asymmetric 
     constant Real GumbelMinMelt_beta = 1.
              "Shape parameter, smaller is sharper, beta>0";
     constant Modelica.SIunits.Temp_K rangeTmelting[2] = {
-               slPCMlib.BasicUtilities.GumbelMinimum.invCDF(
+               slPCMlib.BasicUtilities.GumbelMinimum.quantile(
                  mu=propData.GumbelMinMelt_mu,
                  beta=propData.GumbelMinMelt_beta,
-                 P=0.001),
-               slPCMlib.BasicUtilities.GumbelMinimum.invCDF(
+                 u=0.001),
+               slPCMlib.BasicUtilities.GumbelMinimum.quantile(
                  mu=propData.GumbelMinMelt_mu,
                  beta=propData.GumbelMinMelt_beta,
-                 P=0.999)}
+                 u=0.999)}
              "temperature range melting {startT, endT}";
 
     // --- parameters for heat capacity and enthalpy ---
@@ -63,27 +63,27 @@ package generic_GumbelMinimum "Generic, Gumbel Minimum distribution, asymmetric 
   redeclare function extends phaseFrac_complMelting
      "Returns liquid mass phase fraction for complete melting processes"
   algorithm
-    Xi  :=slPCMlib.BasicUtilities.GumbelMinimum.CDF(
+    Xi  :=slPCMlib.BasicUtilities.GumbelMinimum.cumulative(
         mu=propData.GumbelMinMelt_mu,
         beta=propData.GumbelMinMelt_beta,
-        x=T);
-    dXi :=slPCMlib.BasicUtilities.GumbelMinimum.PDF(
+        u=T);
+    dXi :=slPCMlib.BasicUtilities.GumbelMinimum.density(
         mu=propData.GumbelMinMelt_mu,
         beta=propData.GumbelMinMelt_beta,
-        x=T);
+        u=T);
   end phaseFrac_complMelting;
   // ----------------------------------
   redeclare function extends phaseFrac_complSolidification
      "Returns liquid mass phase fraction for complete solidification processes"
   algorithm
-    Xi  :=slPCMlib.BasicUtilities.GumbelMinimum.CDF(
+    Xi  :=slPCMlib.BasicUtilities.GumbelMinimum.cumulative(
         mu=propData.GumbelMinSoli_mu,
         beta=propData.GumbelMinSoli_beta,
-        x=T);
-    dXi :=slPCMlib.BasicUtilities.GumbelMinimum.PDF(
+        u=T);
+    dXi :=slPCMlib.BasicUtilities.GumbelMinimum.density(
         mu=propData.GumbelMinSoli_mu,
         beta=propData.GumbelMinSoli_beta,
-        x=T);
+        u=T);
   end phaseFrac_complSolidification;
   // ----------------------------------
   redeclare function extends density_solid "Returns solid density"

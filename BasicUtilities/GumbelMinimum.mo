@@ -1,46 +1,42 @@
 within slPCMlib.BasicUtilities;
 package GumbelMinimum
+  "Library of Gumbel Minimum distribution functions"
+   extends Modelica.Icons.Package;
 
-  function PDF "Gumbel Minimum PDF"
-    extends Modelica.Icons.Function;
-      input  Real x     "Random number";
-      input  Real mu    "Maximum, location parameter";
-      input  Real beta  "Shape parameter, smaller is sharper, beta>0";
-      output Real phi   "Density";
+  function density "Density of Gumbel Minimum distribution"
+    extends Modelica.Math.Distributions.Interfaces.partialDensity;
+      input  Real mu = 0     "Maximum, location parameter" annotation(Dialog);
+      input  Real beta = 1   "Shape parameter, smaller is sharper, beta>0" annotation(Dialog);
   protected
       Real tmp1, tmp2, tmp3;
   algorithm
-      tmp1 :=(x - mu)/beta;
+      tmp1 :=(u - mu)/beta;
       tmp2 :=Modelica.Math.exp(tmp1);
       tmp3 :=Modelica.Math.exp(-tmp2);
-      phi :=1.0/beta*tmp2 .* tmp3;
-  end PDF;
+      y :=1.0/beta*tmp2 .* tmp3;
+  end density;
 
-  function CDF "Gumbel Minimum CDF"
-    extends Modelica.Icons.Function;
-      input  Real x       "Random number";
-      input  Real mu      "Maximum, location parameter";
-      input  Real beta    "Shape parameter, smaller is sharper, beta>0";
-      output Real P       "Probability";
+  function cumulative
+    "Cumulative distribution function of Gumbel Minimum distribution"
+    extends Modelica.Math.Distributions.Interfaces.partialCumulative;
+      input  Real mu =   0   "Maximum, location parameter" annotation(Dialog);
+      input  Real beta = 1   "Shape parameter, smaller is sharper, beta>0" annotation(Dialog);
   protected
       Real tmp1, tmp2, tmp3;
   algorithm
-      tmp1 :=(x - mu)/beta;
+      tmp1 :=(u - mu)/beta;
       tmp2 :=Modelica.Math.exp(tmp1);
       tmp3 :=Modelica.Math.exp(-tmp2);
-      P    :=(1.0 - tmp3);
-  end CDF;
+      y    :=(1.0 - tmp3);
+  end cumulative;
 
-  function invCDF
-    "Gumbel Minimum inverse CDF"
-    extends Modelica.Icons.Function;
-      input  Real P       "Probability";
-      input  Real mu      "Maximum, location parameter";
-      input  Real beta    "Shape parameter, smaller is sharper, beta>0";
-      output Real x       "Random number";
+  function quantile "Quantile of Gumbel Minimum distribution"
+    extends Modelica.Math.Distributions.Interfaces.partialQuantile;
+      input  Real mu =   0   "Maximum, location parameter" annotation(Dialog);
+      input  Real beta = 1   "Shape parameter, smaller is sharper, beta>0" annotation(Dialog);
   algorithm
-      x :=Modelica.Math.log(-Modelica.Math.log(1.0 - P))*beta + mu;
-  end invCDF;
+      y :=Modelica.Math.log(-Modelica.Math.log(1.0 - u))*beta + mu;
+  end quantile;
 annotation (Documentation(info="<html>
       <p>
       This package provides the PDF, CDF and inverse CDF of the 
