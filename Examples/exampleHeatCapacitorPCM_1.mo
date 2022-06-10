@@ -5,7 +5,8 @@ model exampleHeatCapacitorPCM_1 "Example using PCM heat capacitor"
   Components.SineT sineT(ampl=3.5)
     annotation (Placement(transformation(extent={{-66,-20},{-46,0}})));
   Components.HeatCapacitorPCM heatCapacitorPCM(redeclare package PCM =
-        Media.generic_7thOrderSmoothStepHysteresis)
+        Media.generic_7thOrderSmoothStep, redeclare
+      Interfaces.phTransModMeltingCurve phTrModel(PCM=PCM) "Melting Curve")
     annotation (Placement(transformation(extent={{12,44},{32,64}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalConductor(G=20)
     annotation (Placement(transformation(extent={{-24,-20},{-4,0}})));
