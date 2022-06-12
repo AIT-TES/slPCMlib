@@ -9,12 +9,9 @@ package generic_GumbelMinimum "Generic, Gumbel Minimum distribution, asymmetric 
     constant String mediumName = "generic_GumbelMinimumHysteresis";
 
     // --- parameters for phase transition function ---
-    constant Boolean modelForMelting =        true;
-    constant Boolean modelForSolidification = false;
-    // ---
-    constant Real GumbelMinSoli_mu =   273.15 + 26
+    constant Real GumbelMinSoli_mu =   273.15 + 28
              "Location parameter";
-    constant Real GumbelMinSoli_beta = 0.4
+    constant Real GumbelMinSoli_beta = 0.2
              "Shape parameter, smaller is sharper, beta>0";
     constant Modelica.SIunits.Temp_K rangeTsolidification[2] = {
                slPCMlib.BasicUtilities.GumbelMinimum.quantile(
@@ -29,7 +26,7 @@ package generic_GumbelMinimum "Generic, Gumbel Minimum distribution, asymmetric 
     // ---
     constant Real GumbelMinMelt_mu =   273.15 + 30
              "Location parameter";
-    constant Real GumbelMinMelt_beta = 1.
+    constant Real GumbelMinMelt_beta = 0.4
              "Shape parameter, smaller is sharper, beta>0";
     constant Modelica.SIunits.Temp_K rangeTmelting[2] = {
                slPCMlib.BasicUtilities.GumbelMinimum.quantile(
@@ -63,11 +60,11 @@ package generic_GumbelMinimum "Generic, Gumbel Minimum distribution, asymmetric 
   redeclare function extends phaseFrac_complMelting
      "Returns liquid mass phase fraction for complete melting processes"
   algorithm
-    Xi  :=slPCMlib.BasicUtilities.GumbelMinimum.cumulative(
+    xi  :=slPCMlib.BasicUtilities.GumbelMinimum.cumulative(
         mu=propData.GumbelMinMelt_mu,
         beta=propData.GumbelMinMelt_beta,
         u=T);
-    dXi :=slPCMlib.BasicUtilities.GumbelMinimum.density(
+    dxi :=slPCMlib.BasicUtilities.GumbelMinimum.density(
         mu=propData.GumbelMinMelt_mu,
         beta=propData.GumbelMinMelt_beta,
         u=T);
@@ -76,11 +73,11 @@ package generic_GumbelMinimum "Generic, Gumbel Minimum distribution, asymmetric 
   redeclare function extends phaseFrac_complSolidification
      "Returns liquid mass phase fraction for complete solidification processes"
   algorithm
-    Xi  :=slPCMlib.BasicUtilities.GumbelMinimum.cumulative(
+    xi  :=slPCMlib.BasicUtilities.GumbelMinimum.cumulative(
         mu=propData.GumbelMinSoli_mu,
         beta=propData.GumbelMinSoli_beta,
         u=T);
-    dXi :=slPCMlib.BasicUtilities.GumbelMinimum.density(
+    dxi :=slPCMlib.BasicUtilities.GumbelMinimum.density(
         mu=propData.GumbelMinSoli_mu,
         beta=propData.GumbelMinSoli_beta,
         u=T);
@@ -120,10 +117,10 @@ annotation (Documentation(info="<html>
         </blockquote>          
       <p>
       The cumulative distribution function (CDF) is used to model the 
-      liquid mass phase fraction <var>xi_m</var> for complete phase transitions 
+      liquid mass phase fraction <var>xi</var> for complete phase transitions 
       (complete melting or solidification). <br>
       The probability distribution function 
-      (PDF) is used to model the derivative w.r.t. temperature <var>d xi_m / d T</var>. 
+      (PDF) is used to model the derivative w.r.t. temperature <var>d xi / d T</var>. 
       </p>
       <p>
       The Gumbel Minimum distribution 

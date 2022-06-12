@@ -6,9 +6,6 @@ partial package partialPCM "Partial PCM model"
 
     constant String mediumName = "";
 
-    constant Boolean modelForMelting =        false;
-    constant Boolean modelForSolidification = false;
-
     // --- parameters for phase transition functions ---
     constant Modelica.SIunits.Temp_K rangeTsolidification[2] = {0,0}
              "temperature range solidification {startT, endT}";
@@ -37,16 +34,16 @@ partial package partialPCM "Partial PCM model"
       extends Modelica.Icons.Function;
     //      input propData pcmData;
       input Modelica.SIunits.Temp_K T; //T(displayUnit="K");
-      output Modelica.SIunits.MassFraction Xi;
-      output Real dXi(unit="1/K");
+      output Modelica.SIunits.MassFraction xi;
+      output Real dxi(unit="1/K");
   end phaseFrac_complMelting;
 
   replaceable partial function phaseFrac_complSolidification
     "Returns liquid mass phase fraction for complete solidification processes"
       extends Modelica.Icons.Function;
       input  Modelica.SIunits.Temp_K T; //  (displayUnit="K");
-      output Modelica.SIunits.MassFraction Xi;
-      output Real dXi(unit="1/K");
+      output Modelica.SIunits.MassFraction xi;
+      output Real dxi(unit="1/K");
   end phaseFrac_complSolidification;
 
   replaceable partial function density_solid "Returns solid density"
@@ -85,11 +82,7 @@ partial package partialPCM "Partial PCM model"
           <p>
           The record &lt; propData &gt; holds information on: 
           <ul>
-          <li>(liquid mass) phase transition functions for melting 
-          &lt; modelForMelting &gt;,</li> 
-          <li>for solidification 
-          &lt; modelForSolidification &gt;</li>
-          <li>corresponding phase transition temperature ranges 
+          <li>phase transition temperature ranges 
           &lt; rangeTmeltingsolidification[2]&gt;, 
           &lt; rangeTsolidification[2]&gt;</li> 
           <li>coefficients of linear models of the 
@@ -98,7 +91,7 @@ partial package partialPCM "Partial PCM model"
           <pre>
           cp_S(T) = cpS_linCoef[1] + cpS_linCoef[2]*(T-Tref) 
           cp_L(T) = cpL_linCoef[1] + cpL_linCoef[2]*(T-Tref)  </pre>
-          <li>reference enthalpy &lt; href = h(Tref) &gt;</li> 
+          <li>reference temperature &lt; Tref &gt; and enthalpy &lt; href = h(Tref) &gt;</li> 
           </ul>
           <p>
           The package also contains functions for the computation of 

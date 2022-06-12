@@ -9,8 +9,6 @@ package generic_7thOrderSmoothStep "Generic, 7th-order smoothstep, symmetric pea
     constant String mediumName = "generic_7thOrderSmoothStepHysteresis";
 
     // --- parameters for phase transition functions ---
-    constant Boolean modelForMelting =        true;
-    constant Boolean modelForSolidification = true;
     constant Modelica.SIunits.Temp_K rangeTmelting[2] =  {273.15+26, 273.15+30}
              "temperature range melting {startT, endT}";
     constant Modelica.SIunits.Temp_K rangeTsolidification[2] = {273.15+24, 273.15+29}
@@ -35,7 +33,7 @@ package generic_7thOrderSmoothStep "Generic, 7th-order smoothstep, symmetric pea
   redeclare function extends phaseFrac_complMelting
     "Returns liquid mass phase fraction for complete melting processes"
   algorithm
-    (Xi, dXi) := BasicUtilities.smoothStep7thOrder(x = T,
+    (xi, dxi) := BasicUtilities.smoothStep7thOrder(x = T,
                   startStepX = propData.rangeTmelting[1],
                   endStepX =   propData.rangeTmelting[2]);
   end phaseFrac_complMelting;
@@ -43,7 +41,7 @@ package generic_7thOrderSmoothStep "Generic, 7th-order smoothstep, symmetric pea
   redeclare function extends phaseFrac_complSolidification
    "Returns liquid mass phase fraction for complete solidification processes"
   algorithm
-    (Xi, dXi) := BasicUtilities.smoothStep7thOrder(x = T,
+    (xi, dxi) := BasicUtilities.smoothStep7thOrder(x = T,
                   startStepX = propData.rangeTsolidification[1],
                   endStepX =   propData.rangeTsolidification[2]);
   end phaseFrac_complSolidification;
@@ -78,10 +76,10 @@ annotation (Documentation(info="<html>
         </blockquote>          
       <p>
       The smoothstep function is used to model the 
-      liquid mass phase fraction <var>xi_m</var> for complete phase transitions 
+      liquid mass phase fraction <var>xi</var> for complete phase transitions 
       (complete melting or solidification). <br>
       It's derivative is used to model 
-      the derivative of <var>xi_m</var> w.r.t. temperature: <var>d xi_m / d T</var>. 
+      the derivative of <var>xi</var> w.r.t. temperature: <var>d xi / d T</var>. 
       </p>
       <p>
       The smoothstep function is sigmoid-like and <strong>symmetric</strong>. 

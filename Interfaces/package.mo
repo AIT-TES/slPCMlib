@@ -3,10 +3,16 @@ package Interfaces "Interfaces for PCM properties and models"
     extends Modelica.Icons.InterfacesPackage;
 
   replaceable model phTransModMeltingCurve
-  "Melting curve model, static (default model, no hysteresis)"
-  extends basicPhTransModel;
+    "Melting curve model, static (default model, no hysteresis)"
+
+    extends basicPhTransModel;
+
+  //   constant Modelica.SIunits.Temp_K  phaseTrange[2]= {
+  //              PCM.propData.rangeTsolidification[1],
+  //              PCM.propData.rangeTmelting[2]};
+
   equation
-    (xi_m, dxi_m)  = PCM.phaseFrac_complMelting(indVar.T);
+    (xi, dxi)  = PCM.phaseFrac_complMelting(indVar.T);
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false),
       graphics={Text(lineColor={108,88,49},
@@ -14,16 +20,16 @@ package Interfaces "Interfaces for PCM properties and models"
       textString="→")}),
       Diagram(graphics, coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>
-	<p>
-	The model predicts the liquid mass phase fraction as function of 
-	temperature, see the following example.
-	</p>          
-	</blockquote>          
-	<p> 
-	<img src=\"modelica://slPCMlib/Resources/Images/meltingCurveModel.png\">
-	<br>
-	</p>
-	</html>",
+        <p>
+        The model predicts the liquid mass phase fraction as function of 
+        temperature, see the following example.
+        </p>          
+        </blockquote>          
+        <p> 
+        <img src=\"modelica://slPCMlib/Resources/Images/meltingCurveModel.png\">
+        <br>
+        </p>
+        </html>",
     revisions="<html>
 <ul>
 <li>2022-06-01; initial version; by Tilman Barz </li>
@@ -36,7 +42,14 @@ package Interfaces "Interfaces for PCM properties and models"
 
     extends basicPhTransModel;
 
+protected
     discrete Boolean heatingOn(start=true);
+    constant Modelica.SIunits.Temp_K lowLimPhTrange=
+               min(PCM.propData.rangeTmelting[1],
+                   PCM.propData.rangeTsolidification[1]);
+    constant Modelica.SIunits.Temp_K uppLimPhTrange=
+               max(PCM.propData.rangeTmelting[2],
+                   PCM.propData.rangeTsolidification[2]);
 
   initial algorithm
     if  (indVar.der_T >= 0) then
@@ -46,22 +59,20 @@ package Interfaces "Interfaces for PCM properties and models"
     end if;
 
   algorithm
-     when (heatingOn==true)  and (indVar.T > PCM.propData.rangeTmelting[2]) then
+     when (heatingOn==true)  and (indVar.T > uppLimPhTrange) then
         heatingOn :=false;
      end when;
-     when (heatingOn==false) and (indVar.T < PCM.propData.rangeTsolidification[1]) then
+     when (heatingOn==false) and (indVar.T < lowLimPhTrange) then
         heatingOn :=true;
      end when;
 
-  // --- conditional if-equations
-     if noEvent(heatingOn) then
-       (xi_m, dxi_m) :=PCM.phaseFrac_complMelting(indVar.T);
+     if heatingOn then
+       (xi, dxi) :=PCM.phaseFrac_complMelting(indVar.T);
        //   print("pos", der(indVar.T), time);
      else
-       (xi_m, dxi_m) :=PCM.phaseFrac_complSolidification(indVar.T);
+       (xi, dxi) :=PCM.phaseFrac_complSolidification(indVar.T);
        //   print("  neg", der(indVar.T), time);
      end if;
-
 
     annotation (Icon(coordinateSystem(preserveAspectRatio=false),
                 graphics={Text(lineColor={108,88,49},
@@ -96,79 +107,72 @@ package Interfaces "Interfaces for PCM properties and models"
 
   replaceable model phTransModCurveScaleHysteresisAlgebraic
     "Curve scale hysteresis model, static (algebraic equations)"
-  extends Modelica.Icons.ObsoleteModel;
-    extends basicPhTransModel;
+
   //  extends Modelica.Icons.ObsoleteModel;
+    extends basicPhTransModel;
 
-  //protected
+protected
     discrete Real T0(start=0.0);
-    discrete Real Xi0(start=1.0); //(fixed=true, start=0.5);
-    discrete Real Xi_at_T0(start=1.0); //(fixed=true, start=0.5);
-    discrete Real scaler(start=1.0); //(fixed=true, start=0.5);
-    discrete Boolean posRate(start=true); //(,fixed=true, start=true);
+    discrete Real xi0(start=1.0);
+    discrete Real xi_at_T0(start=1.0);
+    discrete Real scaler(start=1.0);
+    discrete Boolean heatingOn(start=true);
     final constant Real eps = Modelica.Constants.small;
-    Real Xi_at_T(start=1.0), dXi_at_T(start=1.0);
+    Real xi_at_T(start=1.0), dxi_at_T(start=1.0);
 
-  //  Real der_T=indVar.der_T;
   initial algorithm
 
     if  (indVar.der_T >= 0) then
-      (xi_m,)  := PCM.phaseFrac_complMelting(indVar.T);
+      (xi,)  := PCM.phaseFrac_complMelting(indVar.T);
       T0  :=pre(indVar.T);
-      Xi0 :=pre(xi_m);
-      Xi_at_T0  := Xi0;
-      scaler := 1.0; //(1.0 - Xi0)/max((1.0 - Xi_at_T0),eps);
-      posRate := true;
+      xi0 :=pre(xi);
+      xi_at_T0  := xi0;
+      scaler := 1.0;
+      heatingOn := true;
     else
-      (xi_m,)  := PCM.phaseFrac_complSolidification(indVar.T);
+      (xi,)  := PCM.phaseFrac_complSolidification(indVar.T);
       T0  :=pre(indVar.T);
-      Xi0 :=pre(xi_m);
-      Xi_at_T0 := Xi0;
-      scaler := 1.0; //Xi0/max(Xi_at_T0, eps);
-      posRate := false;
+      xi0 :=pre(xi);
+      xi_at_T0 := xi0;
+      scaler := 1.0;
+      heatingOn := false;
     end if;
 
   algorithm
     when (indVar.der_T > 0) then
       T0   :=pre(indVar.T);
-      Xi0  :=pre(xi_m); // unclocked discrete time variables
-                        // use pre() if it is algebraic (and not calculated before?),
-                        // not previous() which is for clocked variables
-      (Xi_at_T0,)  :=PCM.phaseFrac_complMelting(T0);
-      if (Xi_at_T0 >= Xi0) then
+      xi0  :=pre(xi);
+      (xi_at_T0,)  :=PCM.phaseFrac_complMelting(T0);
+      if (xi_at_T0 >= xi0) then
         scaler :=1.0;
-  //     elseif (Xi0 > 1.0) then
-  //      scaler := 0.0;
       else
-        scaler :=(1.0 - Xi0)/max((1.0 - Xi_at_T0),eps);
+        scaler :=(1.0 - xi0)/max((1.0 - xi_at_T0),eps);
       end if;
-      posRate :=true;
+      heatingOn :=true;
     end when;
     when  (indVar.der_T < 0) then
       T0   :=pre(indVar.T);
-      Xi0  :=pre(xi_m);
-      (Xi_at_T0,)  :=PCM.phaseFrac_complSolidification(T0);
-      if (Xi_at_T0 <= Xi0) then // + 1e-6
+      xi0  :=pre(xi);
+      (xi_at_T0,)  :=PCM.phaseFrac_complSolidification(T0);
+      if (xi_at_T0 <= xi0) then
         scaler :=1.0;
-      // elseif noEvent(Xi0 < 0.0) then
-      //   scalerS = 0.0;
       else
-        scaler :=Xi0/max(Xi_at_T0, eps);
+        scaler :=xi0/max(xi_at_T0, eps);
       end if;
-      posRate :=false;
+      heatingOn :=false;
     end when;
 
-    if noEvent(posRate) then //noEvent(posRate)
-      (Xi_at_T, dXi_at_T) :=PCM.phaseFrac_complMelting(indVar.T);
-      xi_m     :=1.0 - scaler*(1.0 - Xi_at_T);
-      dxi_m    :=scaler*dXi_at_T;
+    if noEvent(heatingOn) then
+      (xi_at_T, dxi_at_T) :=PCM.phaseFrac_complMelting(indVar.T);
+      xi     :=1.0 - scaler*(1.0 - xi_at_T);
+      dxi    :=scaler*dxi_at_T;
         //   print("pos", indVar.der_T, time);
         //   shifth := 0.0; //(iXiM - ((T-Tref) - scaler*(T-Tref) + scaler*iXiM))*(cp_liquid-cp_solid);
     else
-      (Xi_at_T, dXi_at_T) :=PCM.phaseFrac_complSolidification(indVar.T);
-      xi_m     :=scaler*Xi_at_T;
-      dxi_m    :=scaler*dXi_at_T;
-      //  PCMlib.print("  neg XiAtT0 = ", Xi_at_T0, T0);
+      (xi_at_T, dxi_at_T) :=PCM.phaseFrac_complSolidification(indVar.T);
+      xi     :=scaler*xi_at_T;
+      dxi    :=scaler*dxi_at_T;
+      //  PCMlib.print("  neg XiAtT0 = ", xi_at_T0, T0);
       //    print("  neg", indVar.der_T, time);
     end if;
 
@@ -204,92 +208,81 @@ package Interfaces "Interfaces for PCM properties and models"
   end phTransModCurveScaleHysteresisAlgebraic;
 
 
+
   replaceable model phTransModCurveScaleHysteresisDifferentiated
-  "Curve scale hysteresis model, static (differentiated equations)"
+    "Curve scale hysteresis model, static (differentiated equations)"
 
     extends basicPhTransModel;
 
-  //protected
+protected
     Real scalerM, scalerS;
-   // Real scalerM1, scalerS1;
     final constant Real eps = Modelica.Constants.small;
-    Real XiM_at_T, dXiM_at_T;
-    Real XiS_at_T, dXiS_at_T;
-  //  discrete Boolean isInRange;
+    Real xiH_at_T, dxiH_at_T;
+    Real xiC_at_T, dxiC_at_T;
+    discrete Boolean heatingOn(start=true);
 
   initial algorithm
-     if  (indVar.der_T >= 0) then
-       // unclocked discrete time variables
-       // use pre() if it is algebraic (and not calculated before?),
-       // not previous() which is for clocked variables
+    if  (indVar.der_T >= 0) then
+      (xi,)  := PCM.phaseFrac_complMelting(indVar.T);
+      heatingOn := true;
+    else
+      (xi,)  := PCM.phaseFrac_complSolidification(indVar.T);
+      heatingOn := false;
+    end if;
 
-       (xi_m,)  := PCM.phaseFrac_complMelting(indVar.T);
-     else
-       (xi_m,)  := PCM.phaseFrac_complSolidification(indVar.T);
-     end if;
-
-  equation
-    (XiM_at_T, dXiM_at_T) = PCM.phaseFrac_complMelting(indVar.T);
-    (XiS_at_T, dXiS_at_T) = PCM.phaseFrac_complSolidification(indVar.T);
-
-  //  if (indVar.T >= PCM.propData.rangeTsolidification[1])
-  //      and (indVar.T <= PCM.propData.rangeTmelting[2]) then
-  //    isInRange = true;
-  //  else
-  //    isInRange = false;
-  //  end if;
-
-     when (indVar.T <= PCM.propData.rangeTsolidification[1]) then
-       reinit(xi_m, 0.0);
-     elsewhen (indVar.T >= PCM.propData.rangeTmelting[2]) then
-       reinit(xi_m, 1.0);
+  algorithm
+     when (indVar.T >= PCM.propData.rangeTsolidification[1])
+      and (indVar.T <= PCM.propData.rangeTmelting[2])
+      and (indVar.der_T > 0) then
+        heatingOn :=true;
+     end when;
+     when (indVar.T >= PCM.propData.rangeTsolidification[1])
+      and (indVar.T <= PCM.propData.rangeTmelting[2])
+      and (indVar.der_T < 0) then
+        heatingOn :=false;
      end when;
 
+  equation
+    (xiH_at_T, dxiH_at_T) = PCM.phaseFrac_complMelting(indVar.T);
+    (xiC_at_T, dxiC_at_T) = PCM.phaseFrac_complSolidification(indVar.T);
+
+    when (indVar.T <= PCM.propData.rangeTsolidification[1]) then
+      reinit(xi, 0.0);
+    elsewhen (indVar.T >= PCM.propData.rangeTmelting[2]) then
+      reinit(xi, 1.0);
+    end when;
+
     // alternative hysteresis
-    // scalerM = ( XiS_at_T - Xi)
-    //         / ( XiS_at_T - XiM_at_T+eps);
-    // scalerS = ( Xi - XiM_at_T)
-    //         / ( XiS_at_T - XiM_at_T + eps);
+    // scalerM = ( xiC_at_T - Xi)
+    //         / ( xiC_at_T - xiH_at_T+eps);
+    // scalerS = ( Xi - xiH_at_T)
+    //         / ( xiC_at_T - xiH_at_T + eps);
 
-  // -> das wieder rein
-  //       scalerM  = (1.0 - xi_m)/max((1.0 - XiM_at_T), eps);
-  //       scalerS  = xi_m/max(XiS_at_T, eps);
-
-    // -> ab hier zurück
-    if noEvent(XiM_at_T >= xi_m) then
+    if noEvent(xiH_at_T >= xi) then
       scalerM = 1.0;
-    elseif noEvent(xi_m > 1.0) then
+    elseif noEvent(xi > 1.0) then
       scalerM = 0.0;
     else
-      scalerM  = (1.0 - xi_m)/max((1.0 - XiM_at_T), eps);
+      scalerM  = (1.0 - xi)/max((1.0 - xiH_at_T), eps);
     end if;
-    if noEvent(XiS_at_T <= xi_m) then
+    if noEvent(xiC_at_T <= xi) then
       scalerS = 1.;
-    elseif noEvent(xi_m < 0.0) then
+    elseif noEvent(xi < 0.0) then
       scalerS = 0.0;
     else
-      scalerS  = xi_m/max(XiS_at_T, eps);
+      scalerS  = xi/max(xiC_at_T, eps);
     end if;
-    // <- ab hier zurück
 
-    // --- direction changes ---
-    if (indVar.der_T >= 0) then
-      der(xi_m) = scalerM*dXiM_at_T*indVar.der_T; // - max(xi_m-1.0,0.0); // + max(XiM_at_T-xi_m,0.0);
-      dxi_m     = scalerM*dXiM_at_T;
+    if noEvent(heatingOn == true) then
+      der(xi) = scalerM*dxiH_at_T*indVar.der_T;
+      dxi     = scalerM*dxiH_at_T;
       //   print("pos", indVar.der_T, time);
     else
-      der(xi_m) = scalerS*dXiS_at_T*indVar.der_T;
-      dxi_m     = scalerS*dXiS_at_T;
+      der(xi) = scalerS*dxiC_at_T*indVar.der_T;
+      dxi     = scalerS*dxiC_at_T;
       //  PCMlib.print("  neg XiAtT0 = ", Xi_at_T0, T0);
       //    print("  neg", der(T), time);
     end if;
-  //      end when;
-  //      else
-  //
-  //        der(xi_m) :=0.0;
-  //        dxi_m :=0.0;
-  //
-  //      end if;
 
     annotation (Icon(coordinateSystem(preserveAspectRatio=false),
                 graphics={Text(lineColor={108,88,49},
@@ -322,60 +315,53 @@ package Interfaces "Interfaces for PCM properties and models"
           </html>"));
   end phTransModCurveScaleHysteresisDifferentiated;
 
-  replaceable model phTransModCurveSwitchHysteresis
-                    "Curve switch hysteresis model, static"
-  extends Modelica.Icons.ObsoleteModel;
+  replaceable model phTransModCurveSwitchHysteresisAlgebraic
+    "Curve switch hysteresis model, static"
+
+    //extends Modelica.Icons.ObsoleteModel;
     extends basicPhTransModel;
-    discrete Integer modelInd(start=1);
-    discrete Real Xi0(start=0.5);
+
 protected
-    Real Xi_s, Xi_l;
+    discrete Integer modelInd(start=1);
+    discrete Real xi0(start=0.5);
+    Real xiC_at_T, xiH_at_T;
 
   initial algorithm
     if  (der(indVar.T) >= 0) then
       modelInd := 1;
-      (xi_m,)  := PCM.phaseFrac_complMelting(indVar.T);
-      Xi0 := pre(xi_m);
+      (xi,)  := PCM.phaseFrac_complMelting(indVar.T);
+      xi0 := pre(xi);
 
     else
       modelInd := -1;
-      (xi_m,)  := PCM.phaseFrac_complSolidification(indVar.T);
-      Xi0 := pre(xi_m);
+      (xi,)  := PCM.phaseFrac_complSolidification(indVar.T);
+      xi0 := pre(xi);
     end if;
-
-
-    // --- on leaving the phase transition temperature range ---
-    //    when      (modelInd <> 1) and  (indVar.T < PCM.propData.rangeTsolidification[1]) then
 
   algorithm
     when        (indVar.T < PCM.propData.rangeTsolidification[1]) then
-    //  when     (switch2heating) then
       modelInd := 1; // activate melting curve
-    //   print("  ->Low", modelInd, time);
+      //   print("  ->Low", modelInd, time);
       //    elsewhen  (modelInd <>-1) and  (indVar.T > PCM.propData.rangeTmelting[2]) then
     end when;
     when    (indVar.T > PCM.propData.rangeTmelting[2]) then
-    //  else when (switch2cooling) then
       modelInd := -1; // activate solidification curve
     //   print("  ->Up", modelInd, time);
     end when;
 
-    // --- switch between melting/solidification curve ---
-    //  when (switch2posRate) then
     when (der(indVar.T) > 0) then
       // if during phase transition
       if ( (PCM.propData.rangeTsolidification[1] < indVar.T) and (indVar.T < PCM.propData.rangeTmelting[2])) then
         modelInd  := 0; // switch: transition from melting to solidification curve
-        (Xi0,)  := PCM.phaseFrac_complSolidification(indVar.T); // unclocked discrete time variables
+        (xi0,)  := PCM.phaseFrac_complSolidification(indVar.T); // unclocked discrete time variables
         //print("  ->pos sign . change in the phTrRg", modelInd, time);
       end if;
     end when;
-    //  elsewhen (switch2negRate) then
     when (der(indVar.T) <= 0) then
       // if during phase transition
         if ( (PCM.propData.rangeTsolidification[1] < indVar.T) and (indVar.T < PCM.propData.rangeTmelting[2])) then
         modelInd  := 0; // switch: transition from cooling to heating curve
-        (Xi0,)  := PCM.phaseFrac_complMelting(indVar.T); // unclocked discrete time variables
+        (xi0,)  := PCM.phaseFrac_complMelting(indVar.T); // unclocked discrete time variables
         //print("  ->neg sign . change in the phTrRg", modelInd, time);
       end if;
     end when;
@@ -383,18 +369,16 @@ protected
     // --- finish the curve switch,
     //     i.e. apporach the melting/solidification curve during phase switch ---
 
-    //  when (finishSwitchPos) then
-    (Xi_s,)   := PCM.phaseFrac_complSolidification(indVar.T);
-    (Xi_l,)   := PCM.phaseFrac_complMelting(indVar.T);
-    when (Xi0 < Xi_l) then
+    (xiC_at_T,)   := PCM.phaseFrac_complSolidification(indVar.T);
+    (xiH_at_T,)   := PCM.phaseFrac_complMelting(indVar.T);
+    when (xi0 < xiH_at_T) then
       // if during switch transition
       if ( modelInd==0) then
         modelInd := 1;  // activate melting curve
         //print("  ->finish curve switch - now heating curve", modelInd, time);
       end if;
     end when;
-    //  elsewhen (finishSwitchNeg) then
-    when (Xi0 > Xi_s) then
+    when (xi0 > xiC_at_T) then
         // if during switch transition
       if ( modelInd==0) then
         modelInd := -1;  // activate cooling curve
@@ -402,18 +386,15 @@ protected
       end if;
     end when;
 
-    // --- now update Xi ---
-    // --- conditional if-equations
-    //if noEvent(
     if noEvent(modelInd==1) then
-      (xi_m, dxi_m) := PCM.phaseFrac_complMelting(indVar.T);
+      (xi, dxi) := PCM.phaseFrac_complMelting(indVar.T);
       //   print("pos", der(indVar.T), time);
     elseif noEvent(modelInd==-1) then
-      (xi_m, dxi_m) := PCM.phaseFrac_complSolidification(indVar.T);
+      (xi, dxi) := PCM.phaseFrac_complSolidification(indVar.T);
       //    print("  neg", der(indVar.T), time);
     elseif noEvent(modelInd==0) then
-      xi_m  := Xi0;
-      dxi_m := 0.0;
+      xi  := xi0;
+      dxi := 0.0;
     end if;
 
     annotation (Icon(coordinateSystem(preserveAspectRatio=false),
@@ -446,46 +427,58 @@ protected
           <li>2022-06-01; initial version; by Tilman Barz </li>
           </ul>
           </html>"));
-  end phTransModCurveSwitchHysteresis;
+  end phTransModCurveSwitchHysteresisAlgebraic;
+
 
 
   replaceable model phTransModCurveSwitchHysteresisDifferentiated
     "Curve switch hysteresis model, static"
 
     extends basicPhTransModel;
+
+  //protected
     discrete Integer modelInd(start=1);
-   // discrete Real Xi0(start=0.5);
-    Modelica.SIunits.MassFraction xi_SC(start=0.5), xi_MC(start=0.5);
-    Real dxi_SC(start=0.), dxi_MC(start=0.);
+    Modelica.SIunits.MassFraction xiC_at_T(start=0.5), xiH_at_T(start=0.5);
+    Real dxiC_at_T(start=0.), dxiH_at_T(start=0.);
+
+    constant Modelica.SIunits.Temp_K losch1 = PCM.propData.rangeTsolidification[1];
+    constant Modelica.SIunits.Temp_K losch2 = PCM.propData.rangeTmelting[2];
+
 
   initial algorithm
     if  (der(indVar.T) >= 0) then
       modelInd := 1;
-      (xi_m,)  := PCM.phaseFrac_complMelting(indVar.T);
-   //   Xi0 := pre(xi_m);
-
+      (xi,)  := PCM.phaseFrac_complMelting(indVar.T);
     else
       modelInd := -1;
-      (xi_m,)  := PCM.phaseFrac_complSolidification(indVar.T);
-    //  Xi0 := pre(xi_m);
+      (xi,)  := PCM.phaseFrac_complSolidification(indVar.T);
     end if;
-  // --- on leaving the phase transition temperature range ---
-  //    when      (modelInd <> 1) and  (indVar.T < PCM.propData.rangeTsolidification[1]) then
+
+
+    assert(PCM.propData.rangeTmelting[1] >= PCM.propData.rangeTsolidification[1],
+           "PCM.propData.rangeTmelting[1] < PCM.propData.rangeTsolidification[1]. 
+          Phase transition function for complete melting should give always smaller values 
+          compared with the function for solidification!",
+           AssertionLevel.error);
+     assert(PCM.propData.rangeTmelting[2] >= PCM.propData.rangeTsolidification[2],
+            "PCM.propData.rangeTmelting[2] < PCM.propData.rangeTsolidification[2]. 
+           Phase transition function for complete melting should give always smaller values 
+           compared with the function for solidification!",
+            AssertionLevel.error);
 
   equation
-  //algorithm
-    (xi_SC, dxi_SC)   = PCM.phaseFrac_complSolidification(indVar.T);
-    (xi_MC, dxi_MC)   = PCM.phaseFrac_complMelting(indVar.T);
+    (xiC_at_T, dxiC_at_T)   = PCM.phaseFrac_complSolidification(indVar.T);
+    (xiH_at_T, dxiH_at_T)   = PCM.phaseFrac_complMelting(indVar.T);
 
   algorithm
 
-    // leave the temperature range
-    when        (indVar.T < PCM.propData.rangeTsolidification[1]) then
+    // --- leave the temperature range ---
+    when    (indVar.T > PCM.propData.rangeTsolidification[1]) then
       modelInd :=1;  // activate melting curve
     //   print("  ->Low", modelInd, time);
       //    elsewhen  (modelInd <>-1) and  (indVar.T > PCM.propData.rangeTmelting[2]) then
     end when;
-    when    (indVar.T > PCM.propData.rangeTmelting[2]) then
+    when    (indVar.T < PCM.propData.rangeTmelting[2]) then
       modelInd :=-1;  // activate solidification curve
     //   print("  ->Up", modelInd, time);
     end when;
@@ -493,14 +486,14 @@ protected
     // --- switch between heating and cooling ---
     //     during phase transition
     when (der(indVar.T) > 0) then
-      if noEvent(( (PCM.propData.rangeTsolidification[1] < indVar.T)
+      if (( (PCM.propData.rangeTsolidification[1] < indVar.T)
         and (indVar.T < PCM.propData.rangeTmelting[2]))) then
         modelInd  :=0;  // switch: transition from melting to solidification curve
         //print("  ->pos sign . change in the phTrRg", modelInd, time);
       end if;
     end when;
     when (der(indVar.T) <= 0) then
-      if noEvent( (PCM.propData.rangeTsolidification[1] < indVar.T)
+      if ( (PCM.propData.rangeTsolidification[1] < indVar.T)
         and (indVar.T < PCM.propData.rangeTmelting[2])) then
         modelInd  :=0;  // switch: transition from solidification to melting curve
         //print("  ->neg sign . change in the phTrRg", modelInd, time);
@@ -509,16 +502,16 @@ protected
 
     // --- finish the curve switch,
     //     i.e. apporach the melting/solidification curve during phase switch ---
-     when (xi_m < xi_MC) then
+     when (xi < xiH_at_T) then
       // if during switch transition
-      if noEvent(modelInd==0) then
+      if (modelInd==0) then
         modelInd :=1;   // activate melting curve
         //print("  ->finish curve switch - now heating curve", modelInd, time);
       end if;
     end when;
-    when (xi_m > xi_SC) then
+    when (xi > xiC_at_T) then
         // if during switch transition
-      if noEvent(modelInd==0) then
+      if (modelInd==0) then
         modelInd :=-1;   // activate cooling curve
         //print("  ->finish curve switch - now cooling curve", modelInd, time);
       end if;
@@ -526,24 +519,25 @@ protected
 
   equation
 
-     when noEvent(modelInd==1) then
-       reinit(xi_m, xi_MC);
-     elsewhen noEvent(modelInd==-1) then
-       reinit(xi_m, xi_SC);
-     end when;
+     when (modelInd==1) then
+      //  when (modelInd>0) then
+        reinit(xi, xiH_at_T);
+      elsewhen (modelInd==-1) then
+      //  elsewhen (modelInd<0) then
+       reinit(xi, xiC_at_T);
+      end when;
 
-    // --- now update Xi ---
-    if noEvent(modelInd==1) then
-      dxi_m = dxi_MC;
-      der(xi_m) = dxi_MC*indVar.der_T; // - max(xi_m-1.0,0.0); // + max(XiM_at_T-xi_m,0.0);
+    if (modelInd==1) then
+      dxi = dxiH_at_T;
+      der(xi) = dxiH_at_T*indVar.der_T;
       //   print("pos", der(indVar.T), time);
-    elseif noEvent(modelInd==-1) then
-      dxi_m = dxi_SC;
-      der(xi_m) = dxi_SC*indVar.der_T;
+    elseif (modelInd==-1) then
+      dxi = dxiC_at_T;
+      der(xi) = dxiC_at_T*indVar.der_T;
       //    print("  neg", der(indVar.T), time);
-    else //if noEvent(modelInd==0) then
-      der(xi_m) = 0.0;
-      dxi_m = 0.0;
+    else
+      der(xi) = 0.0;
+      dxi = 0.0;
     end if;
 
 
@@ -553,30 +547,30 @@ protected
                 textString="⇆")}),
                 Diagram(graphics, coordinateSystem(preserveAspectRatio=false)),
       Documentation(info="<html>
-          <p>
-          The model predicts the liquid mass phase fraction. 
-          It is a static (so-called curve switch) 
-          hysteresis model, see e.g. 
-          </p>
-          <blockquote>          
-          <p>
-           Barz, T., Emhofer, J., Marx, K., Zsembinszki, G., & Cabeza, L. F. 
-           (2019). Phenomenological modelling of phase transitions with 
-           hysteresis in solid/liquid PCM. Journal of Building Performance 
-           Simulation, 12(6), 770-788. 
-          <a href>doi.org/10.1080/19401493.2019.1657953 </a>. 
-          </p>          
-          </blockquote>          
-          <p> 
-          <img src=\"modelica://slPCMlib/Resources/Images/curveSwitchHysteresisModel.png\">
-          <br>
-          </p>
-          </html>",
+        <p>
+        The model predicts the liquid mass phase fraction. 
+        It is a static (so-called curve switch) 
+        hysteresis model, see e.g. 
+        </p>
+        <blockquote>          
+        <p>
+         Barz, T., Emhofer, J., Marx, K., Zsembinszki, G., & Cabeza, L. F. 
+         (2019). Phenomenological modelling of phase transitions with 
+         hysteresis in solid/liquid PCM. Journal of Building Performance 
+         Simulation, 12(6), 770-788. 
+        <a href>doi.org/10.1080/19401493.2019.1657953 </a>. 
+        </p>          
+        </blockquote>          
+        <p> 
+        <img src=\"modelica://slPCMlib/Resources/Images/curveSwitchHysteresisModel.png\">
+        <br>
+        </p>
+        </html>",
       revisions="<html>
-          <ul>
-          <li>2022-06-01; initial version; by Tilman Barz </li>
-          </ul>
-          </html>"));
+        <ul>
+        <li>2022-06-01; initial version; by Tilman Barz </li>
+        </ul>
+        </html>"));
   end phTransModCurveSwitchHysteresisDifferentiated;
 
 annotation (Documentation(info="<html>

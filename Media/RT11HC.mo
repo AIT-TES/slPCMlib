@@ -39,7 +39,7 @@ package RT11HC "Rubitherm RT11HC, data taken from data_sheet"
     constant Real breaks[:] =   data_H.breaks;
     constant Real coefs[:,:] =  data_H.coefs;
   algorithm
-    (Xi, dXi) := BasicUtilities.splineEval(T-273.15,
+    (xi, dxi) := BasicUtilities.splineEval(T-273.15,
                  pieces, order, breaks, coefs[:,:]);
   end phaseFrac_complMelting;
   // ----------------------------------
@@ -51,10 +51,9 @@ package RT11HC "Rubitherm RT11HC, data taken from data_sheet"
     constant Real breaks[:] =   data_C.breaks;
     constant Real coefs[:,:] =  data_C.coefs;
   algorithm
-    (Xi, dXi) := BasicUtilities.splineEval(T-273.15,
+    (xi, dxi) := BasicUtilities.splineEval(T-273.15,
                      pieces, order, breaks, coefs[:,:]);
   end phaseFrac_complSolidification;
-
   // ----------------------------------
   package data_H "spline interpolation data for heating"
     extends Modelica.Icons.Package;

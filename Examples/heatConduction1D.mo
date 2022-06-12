@@ -5,10 +5,10 @@ model heatConduction1D
 
   Components.PCMlayer_1D_1port_1symmetry pCMlayer_1D_1port_1symmetry(
     width=0.003,
-    redeclare package PCM = Media.generic_GumbelMinimum,
+    redeclare package PCM = Media.generic_7thOrderSmoothStep,
     densitySLPCM=800,
     initT=297.15,
-    n_FD=25) annotation (Placement(transformation(extent={{30,16},{66,52}})));
+    n_FD=21) annotation (Placement(transformation(extent={{30,16},{66,52}})));
   Components.SineT sineT(
     ampl=5,
     timePeriod=240,

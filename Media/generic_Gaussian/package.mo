@@ -9,9 +9,6 @@ package generic_Gaussian "Generic, Gaussian distribution, symmetric peak"
     constant String mediumName = "generic_GaussianHysteresis";
 
     // --- parameters for phase transition functions ---
-    constant Boolean modelForMelting =        true;
-    constant Boolean modelForSolidification = true;
-    // ---
     constant Real GaussMelt_mu = 273.15 + 29
              "location parameter";
     constant Real GaussMelt_sigma = 1.0
@@ -61,11 +58,11 @@ package generic_Gaussian "Generic, Gaussian distribution, symmetric peak"
   redeclare function extends phaseFrac_complMelting
      "Returns liquid mass phase fraction for complete melting processes"
   algorithm
-    dXi :=Modelica.Math.Distributions.Normal.density(
+    dxi :=Modelica.Math.Distributions.Normal.density(
         mu=propData.GaussMelt_mu,
         sigma=propData.GaussMelt_sigma,
         u=T);
-     Xi :=Modelica.Math.Distributions.Normal.cumulative(
+     xi :=Modelica.Math.Distributions.Normal.cumulative(
         mu=propData.GaussMelt_mu,
         sigma=propData.GaussMelt_sigma,
         u=T);
@@ -74,11 +71,11 @@ package generic_Gaussian "Generic, Gaussian distribution, symmetric peak"
   redeclare function extends phaseFrac_complSolidification
      "Returns liquid mass phase fraction for complete solidification processes"
   algorithm
-    dXi :=Modelica.Math.Distributions.Normal.density(
+    dxi :=Modelica.Math.Distributions.Normal.density(
         mu=propData.GaussSoli_mu,
         sigma=propData.GaussSoli_sigma,
         u=T);
-     Xi :=Modelica.Math.Distributions.Normal.cumulative(
+     xi :=Modelica.Math.Distributions.Normal.cumulative(
         mu=propData.GaussSoli_mu,
         sigma=propData.GaussSoli_sigma,
         u=T);
@@ -115,11 +112,11 @@ annotation (Documentation(info="<html>
         <a href>Modelica.Math.Distributions.Normal</a>
         </blockquote>          
       The cumulative distribution function (CDF) is used to model the 
-      liquid mass phase fraction <var>xi_m</var> for complete phase transitions 
+      liquid mass phase fraction <var>xi</var> for complete phase transitions 
       (complete melting or solidification).<br> 
       The probability distribution function 
       (PDF) is used to model the derivative w.r.t. 
-      temperature <var>d xi_m / d T</var>.
+      temperature <var>d xi / d T</var>.
       </p>
       <p>
       The peak in the Gaussian PDF is <strong>symmetric</strong>. 

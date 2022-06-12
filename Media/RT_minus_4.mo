@@ -8,8 +8,6 @@ package RT_minus_4 "Rubitherm RT_minus_4, data taken from data_sheet"
     constant String mediumName = "RT_minus_4";
 
     // --- parameters for phase transition functions ---
-    constant Boolean modelForMelting =        true;
-    constant Boolean modelForSolidification = true;
     constant Modelica.SIunits.Temp_K rangeTmelting[2] =  {2.631500000000000e+02, 2.711500000000000e+02}
              "temperature range melting {startT, endT}";
     constant Modelica.SIunits.Temp_K rangeTsolidification[2] = {2.631500000000000e+02, 2.711500000000000e+02}
@@ -39,7 +37,7 @@ package RT_minus_4 "Rubitherm RT_minus_4, data taken from data_sheet"
     constant Real breaks[:] =   data_H.breaks;
     constant Real coefs[:,:] =  data_H.coefs;
   algorithm
-    (Xi, dXi) := BasicUtilities.splineEval(T-273.15,
+    (xi, dxi) := BasicUtilities.splineEval(T-273.15,
                  pieces, order, breaks, coefs[:,:]);
   end phaseFrac_complMelting;
   // ----------------------------------
@@ -51,10 +49,9 @@ package RT_minus_4 "Rubitherm RT_minus_4, data taken from data_sheet"
     constant Real breaks[:] =   data_C.breaks;
     constant Real coefs[:,:] =  data_C.coefs;
   algorithm
-    (Xi, dXi) := BasicUtilities.splineEval(T-273.15,
+    (xi, dxi) := BasicUtilities.splineEval(T-273.15,
                      pieces, order, breaks, coefs[:,:]);
   end phaseFrac_complSolidification;
-
   // ----------------------------------
   package data_H "spline interpolation data for heating"
     extends Modelica.Icons.Package;

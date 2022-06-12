@@ -28,18 +28,30 @@ model PCMlayer_1D_1port_1symmetry
 
 
 
-  replaceable package PCM =
-    slPCMlib.Media.generic_7thOrderSmoothStep
-    constrainedby slPCMlib.Interfaces.partialPCM
-   annotation (Dialog(group="PCM and phase transition model"),
-               choicesAllMatching=true);
+   replaceable package PCM =
+     slPCMlib.Media.generic_7thOrderSmoothStep
+     constrainedby slPCMlib.Interfaces.partialPCM
+     annotation (Dialog(group="PCM and phase transition model"),
+              choicesAllMatching=true);
 
 
-  replaceable slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
-    phTrModel_j[n_FD + 1](redeclare package PCM = PCM) annotation (Dialog(group=
-         "PCM and phase transition model"), choices(choice(redeclare
-          slPCMlib.Interfaces.phTransModMeltingCurve phTrModel_j[n_FD + 1](
-            redeclare package PCM = PCM) "phTransModMeltingCurve (default)")));
+    replaceable slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated
+       phTrModel_j[n_FD + 1](redeclare package PCM = PCM)
+       constrainedby slPCMlib.Interfaces.basicPhTransModel
+       annotation(Dialog(group="PCM and phase transition model"),choices(
+           choice( redeclare slPCMlib.Interfaces.phTransModMeltingCurve
+                   phTrModel_j[n_FD + 1](redeclare package PCM = PCM) "Melting Curve"),
+           choice( redeclare slPCMlib.Interfaces.phTransModCurveTrackHysteresis
+                   phTrModel_j[n_FD + 1](redeclare package PCM = PCM) "Curve Track Hysteresis"),
+           choice( redeclare slPCMlib.Interfaces.phTransModCurveScaleHysteresisAlgebraic
+                   phTrModel_j[n_FD + 1](redeclare package PCM = PCM) "Curve Scale Hysteresis (Algebraic)"),
+           choice( redeclare slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
+                   phTrModel_j[n_FD + 1](redeclare package PCM = PCM) "Curve Scale Hysteresis (Differentiated)"),
+           choice(redeclare  slPCMlib.Interfaces.phTransModCurveSwitchHysteresisAlgebraic
+                   phTrModel_j[n_FD + 1](redeclare package PCM=PCM) "Curve Switch Hysteresis (Algebraic)"),
+           choice( redeclare slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated
+                   phTrModel_j[n_FD + 1](redeclare package PCM = PCM) "Curve Switch Hysteresis (Differentiated)")));
+
 
 
   parameter Modelica.SIunits.Density densitySLPCM=800.0

@@ -1,16 +1,15 @@
 ﻿within slPCMlib.Interfaces;
 partial model basicPhTransModel
-  "Basic phase transition model, computes properties for given T and xi_m"
+  "Basic phase transition model, computes properties for given T and xi"
 
-    replaceable package PCM =
-      slPCMlib.Media.generic_7thOrderSmoothStep
-            constrainedby slPCMlib.Interfaces.partialPCM     "PCM"
-            annotation (Dialog(group="PCM"),
-                        choicesAllMatching=true);
+    replaceable package PCM = slPCMlib.Media.generic_7thOrderSmoothStep;
+//             constrainedby slPCMlib.Interfaces.partialPCM     "PCM"
+//             annotation (Dialog(group="PCM"),
+//                         choicesAllMatching=true);
 
-    Modelica.SIunits.MassFraction          xi_m(min=0,max=1,start=0.5)
+    Modelica.SIunits.MassFraction          xi(min=0,max=1,start=0.5)
       "liquid mass phase fraction";
-    Modelica.SIunits.VolumeFraction        xi_v(min=0,max=1,start=0.5)
+    Modelica.SIunits.VolumeFraction        phi(min=0,max=1,start=0.5)
       "liquid volume phase fraction";
     Modelica.SIunits.Density               rho(start=1e3)      "effective density";
     Modelica.SIunits.SpecificHeatCapacity  cp(start=1e3)       "effective specific heat capacity";
@@ -31,39 +30,50 @@ partial model basicPhTransModel
      package enthFcts =
         slPCMlib.BasicUtilities.enthalpyHelpers(redeclare package PCM = PCM);
 
-    Real dxi_m(unit="1/K");
+    Real dxi(unit="1/K");
 protected
-    parameter Modelica.SIunits.SpecificEnthalpy    h_L_at_Tmax(start=1e3,fixed=false)
-    "phase transition enthalpy at T_max, where melting is finished";
-    parameter Modelica.SIunits.SpecificEnthalpy    h_BL_at_Tmax(start=1e3,fixed=false)
-    "baseline enthalpy at T_max, where melting is finished";
-    parameter Modelica.SIunits.SpecificEnthalpy    h_offset(start=1e3,fixed=false)
-    "offset für h_L";
+  parameter Modelica.SIunits.SpecificEnthalpy    h_L_at_Tmax(start=1e3,fixed=false)
+  "phase transition enthalpy at T_max, where melting is finished";
+  parameter Modelica.SIunits.SpecificEnthalpy    h_BL_at_Tmax(start=1e3,fixed=false)
+  "baseline enthalpy at T_max, where melting is finished";
+  parameter Modelica.SIunits.SpecificEnthalpy    h_offset(start=1e3,fixed=false)
+  "offset für h_L";
 
 
 initial equation
 
-    h_BL_at_Tmax =Modelica.Math.Nonlinear.quadratureLobatto(
-    function BasicUtilities.enthalpyHelpers.spHeatCap_baselineMelting(),
-    PCM.propData.Tref,
-    PCM.propData.rangeTmelting[2],
-    tolerance=100*Modelica.Constants.eps);
+//   assert(PCM.propData.rangeTmelting[1] >= PCM.propData.rangeTsolidification[1],
+//          "PCM.propData.rangeTmelting[1] <= PCM.propData.rangeTsolidification[1].
+//           Phase transition function for complete melting should give always smaller values
+//           compared with the function for solidification!",
+//          AssertionLevel.error);
+//    assert(PCM.propData.rangeTmelting[2] >= PCM.propData.rangeTsolidification[2],
+//           "PCM.propData.rangeTmelting[2] <= PCM.propData.rangeTsolidification[2].
+//            Phase transition function for complete melting should give always smaller values
+//            compared with the function for solidification!",
+//           AssertionLevel.error);
 
-    h_L_at_Tmax = h_BL_at_Tmax + PCM.propData.phTrEnth; // pcmData.phTrEnth;
-    h_offset    = - enthFcts.enthalpy_liquid(PCM.propData.rangeTmelting[2])
-                  + h_L_at_Tmax;
+  h_BL_at_Tmax =Modelica.Math.Nonlinear.quadratureLobatto(
+  function BasicUtilities.enthalpyHelpers.spHeatCap_baselineMelting(),
+  PCM.propData.Tref,
+  PCM.propData.rangeTmelting[2],
+  tolerance=100*Modelica.Constants.eps);
+
+  h_L_at_Tmax = h_BL_at_Tmax + PCM.propData.phTrEnth; // pcmData.phTrEnth;
+  h_offset    = - enthFcts.enthalpy_liquid(PCM.propData.rangeTmelting[2])
+              + h_L_at_Tmax;
 equation
 
-    h       = xi_m*(enthFcts.enthalpy_liquid(indVar.T) + h_offset)
-            + (1.0 - xi_m)*enthFcts.enthalpy_solid(indVar.T);
+    h       = xi*(enthFcts.enthalpy_liquid(indVar.T) + h_offset)
+            + (1.0 - xi)*enthFcts.enthalpy_solid(indVar.T);
     h_S     = enthFcts.enthalpy_solid(indVar.T);
     h_L     = enthFcts.enthalpy_liquid(indVar.T) + h_offset;
-    cp_BL   =  xi_m*enthFcts.spHeatCap_liquid(indVar.T)
-            + (1.0 - xi_m)*enthFcts.spHeatCap_solid(indVar.T);
-    cp      = cp_BL + dxi_m*(h_L - h_S);
-    xi_v    = xi_m/(xi_m + (1 - xi_m)*PCM.density_liquid(indVar.T)/PCM.density_solid(indVar.T));
-    rho     = xi_v*PCM.density_liquid(indVar.T) + (1.0 - xi_v)*PCM.density_solid(indVar.T);
-    lambda  = xi_v*PCM.conductivity_liquid(indVar.T) + (1.0 - xi_v)*PCM.conductivity_solid(indVar.T);
+    cp_BL   =  xi*enthFcts.spHeatCap_liquid(indVar.T)
+            + (1.0 - xi)*enthFcts.spHeatCap_solid(indVar.T);
+    cp      = cp_BL + dxi*(h_L - h_S);
+    phi    = xi/(xi + (1 - xi)*PCM.density_liquid(indVar.T)/PCM.density_solid(indVar.T));
+    rho     = phi*PCM.density_liquid(indVar.T) + (1.0 - phi)*PCM.density_solid(indVar.T);
+    lambda  = phi*PCM.conductivity_liquid(indVar.T) + (1.0 - phi)*PCM.conductivity_solid(indVar.T);
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false),
               graphics={Text(
@@ -98,7 +108,7 @@ equation
           are computed: 
           </p>  
       <ul>
-          <li>liquid mass <var> xi_m </var> and volume <var> xi_v </var> 
+          <li>liquid mass <var> xi </var> and volume <var> phi </var> 
               phase fractions </li>         
           <li>effective density <var> rho </var> </li>
           <li>effective thermal conductivity <var> lambda </var> </li>  
