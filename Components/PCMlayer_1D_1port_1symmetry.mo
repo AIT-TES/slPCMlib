@@ -35,7 +35,7 @@ model PCMlayer_1D_1port_1symmetry
               choicesAllMatching=true);
 
 
-    replaceable slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated
+    replaceable slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
        phTrModel_j[n_FD + 1](redeclare package PCM = PCM)
        constrainedby slPCMlib.Interfaces.basicPhTransModel
        annotation(Dialog(group="PCM and phase transition model"),choices(

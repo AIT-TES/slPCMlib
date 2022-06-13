@@ -1,4 +1,5 @@
 generic_7thOrderSmoothStep
+generic_uniform
 generic_Gaussian
 generic_GumbelMinimum
 RT_minus_9HC

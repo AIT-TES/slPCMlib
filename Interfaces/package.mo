@@ -58,11 +58,14 @@ protected
       heatingOn := false;
     end if;
 
+  equation
+  //   when (heatingOn==true)  and (indVar.T > uppLimPhTrange) then
   algorithm
-     when (heatingOn==true)  and (indVar.T > uppLimPhTrange) then
+     when  (indVar.T < uppLimPhTrange) then
         heatingOn :=false;
      end when;
-     when (heatingOn==false) and (indVar.T < lowLimPhTrange) then
+  //   when (heatingOn==false) and (indVar.T < lowLimPhTrange) then
+     when (indVar.T > lowLimPhTrange) then
         heatingOn :=true;
      end when;
 
