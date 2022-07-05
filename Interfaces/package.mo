@@ -44,12 +44,10 @@ package Interfaces "Interfaces for PCM properties and models"
 
 protected
     discrete Boolean heatingOn(start=true);
-    constant Modelica.SIunits.Temp_K lowLimPhTrange=
-               min(PCM.propData.rangeTmelting[1],
-                   PCM.propData.rangeTsolidification[1]);
-    constant Modelica.SIunits.Temp_K uppLimPhTrange=
-               max(PCM.propData.rangeTmelting[2],
-                   PCM.propData.rangeTsolidification[2]);
+  constant Modelica.Units.SI.Temperature lowLimPhTrange=min(PCM.propData.rangeTmelting[
+      1], PCM.propData.rangeTsolidification[1]);
+  constant Modelica.Units.SI.Temperature uppLimPhTrange=max(PCM.propData.rangeTmelting[
+      2], PCM.propData.rangeTsolidification[2]);
 
   initial algorithm
     if  (indVar.der_T >= 0) then
@@ -108,215 +106,9 @@ protected
           </html>"));
   end phTransModCurveTrackHysteresis;
 
-  replaceable model phTransModCurveScaleHysteresisAlgebraic
-    "Curve scale hysteresis model, static (algebraic equations)"
-
-  //  extends Modelica.Icons.ObsoleteModel;
-    extends basicPhTransModel;
-
-protected
-    discrete Real T0(start=0.0);
-    discrete Real xi0(start=1.0);
-    discrete Real xi_at_T0(start=1.0);
-    discrete Real scaler(start=1.0);
-    discrete Boolean heatingOn(start=true);
-    final constant Real eps = Modelica.Constants.small;
-    Real xi_at_T(start=1.0), dxi_at_T(start=1.0);
-
-  initial algorithm
-
-    if  (indVar.der_T >= 0) then
-      (xi,)  := PCM.phaseFrac_complMelting(indVar.T);
-      T0  :=pre(indVar.T);
-      xi0 :=pre(xi);
-      xi_at_T0  := xi0;
-      scaler := 1.0;
-      heatingOn := true;
-    else
-      (xi,)  := PCM.phaseFrac_complSolidification(indVar.T);
-      T0  :=pre(indVar.T);
-      xi0 :=pre(xi);
-      xi_at_T0 := xi0;
-      scaler := 1.0;
-      heatingOn := false;
-    end if;
-
-  algorithm
-    when (indVar.der_T > 0) then
-      T0   :=pre(indVar.T);
-      xi0  :=pre(xi);
-      (xi_at_T0,)  :=PCM.phaseFrac_complMelting(T0);
-      if (xi_at_T0 >= xi0) then
-        scaler :=1.0;
-      else
-        scaler :=(1.0 - xi0)/max((1.0 - xi_at_T0),eps);
-      end if;
-      heatingOn :=true;
-    end when;
-    when  (indVar.der_T < 0) then
-      T0   :=pre(indVar.T);
-      xi0  :=pre(xi);
-      (xi_at_T0,)  :=PCM.phaseFrac_complSolidification(T0);
-      if (xi_at_T0 <= xi0) then
-        scaler :=1.0;
-      else
-        scaler :=xi0/max(xi_at_T0, eps);
-      end if;
-      heatingOn :=false;
-    end when;
-
-    if noEvent(heatingOn) then
-      (xi_at_T, dxi_at_T) :=PCM.phaseFrac_complMelting(indVar.T);
-      xi     :=1.0 - scaler*(1.0 - xi_at_T);
-      dxi    :=scaler*dxi_at_T;
-        //   print("pos", indVar.der_T, time);
-        //   shifth := 0.0; //(iXiM - ((T-Tref) - scaler*(T-Tref) + scaler*iXiM))*(cp_liquid-cp_solid);
-    else
-      (xi_at_T, dxi_at_T) :=PCM.phaseFrac_complSolidification(indVar.T);
-      xi     :=scaler*xi_at_T;
-      dxi    :=scaler*dxi_at_T;
-      //  PCMlib.print("  neg XiAtT0 = ", xi_at_T0, T0);
-      //    print("  neg", indVar.der_T, time);
-    end if;
-
-    annotation (Icon(coordinateSystem(preserveAspectRatio=false),
-                graphics={Text(lineColor={108,88,49},
-                extent={{-90.0,-90.0},{90.0,90.0}},
-                textString="↔")}),
-                Diagram(graphics, coordinateSystem(preserveAspectRatio=false)),
-      Documentation(info="<html>
-          <p>
-          The model predicts the liquid mass phase fraction. 
-          It is a static (so-called curve scale) hysteresis model as described in  
-          </p>
-          <blockquote>          
-          <p>
-           Barz, T., Emhofer, J., Marx, K., Zsembinszki, G., & Cabeza, L. F. 
-           (2019). Phenomenological modelling of phase transitions with 
-           hysteresis in solid/liquid PCM. Journal of Building Performance 
-           Simulation, 12(6), 770-788. 
-          <a href>doi.org/10.1080/19401493.2019.1657953</a>. 
-          </p>          
-          </blockquote>          
-          <p> 
-          <img src=\"modelica://slPCMlib/Resources/Images/curveScaleHysteresisModel.png\">
-          <br>
-          </p>
-          </html>",
-      revisions="<html>
-          <ul>
-          <li>2022-06-01; initial version; by Tilman Barz </li>
-          </ul>
-          </html>"));
-  end phTransModCurveScaleHysteresisAlgebraic;
 
 
 
-  replaceable model phTransModCurveScaleHysteresisDifferentiated
-    "Curve scale hysteresis model, static (differentiated equations)"
-
-    extends basicPhTransModel;
-
-protected
-    Real scalerM, scalerS;
-    final constant Real eps = Modelica.Constants.small;
-    Real xiH_at_T, dxiH_at_T;
-    Real xiC_at_T, dxiC_at_T;
-    discrete Boolean heatingOn(start=true);
-
-  initial algorithm
-    if  (indVar.der_T >= 0) then
-      (xi,)  := PCM.phaseFrac_complMelting(indVar.T);
-      heatingOn := true;
-    else
-      (xi,)  := PCM.phaseFrac_complSolidification(indVar.T);
-      heatingOn := false;
-    end if;
-
-  algorithm
-     when (indVar.T >= PCM.propData.rangeTsolidification[1])
-      and (indVar.T <= PCM.propData.rangeTmelting[2])
-      and (indVar.der_T > 0) then
-        heatingOn :=true;
-     end when;
-     when (indVar.T >= PCM.propData.rangeTsolidification[1])
-      and (indVar.T <= PCM.propData.rangeTmelting[2])
-      and (indVar.der_T < 0) then
-        heatingOn :=false;
-     end when;
-
-  equation
-    (xiH_at_T, dxiH_at_T) = PCM.phaseFrac_complMelting(indVar.T);
-    (xiC_at_T, dxiC_at_T) = PCM.phaseFrac_complSolidification(indVar.T);
-
-    when (indVar.T <= PCM.propData.rangeTsolidification[1]) then
-      reinit(xi, 0.0);
-    elsewhen (indVar.T >= PCM.propData.rangeTmelting[2]) then
-      reinit(xi, 1.0);
-    end when;
-
-    // alternative hysteresis
-    // scalerM = ( xiC_at_T - Xi)
-    //         / ( xiC_at_T - xiH_at_T+eps);
-    // scalerS = ( Xi - xiH_at_T)
-    //         / ( xiC_at_T - xiH_at_T + eps);
-
-    if noEvent(xiH_at_T >= xi) then
-      scalerM = 1.0;
-    elseif noEvent(xi > 1.0) then
-      scalerM = 0.0;
-    else
-      scalerM  = (1.0 - xi)/max((1.0 - xiH_at_T), eps);
-    end if;
-    if noEvent(xiC_at_T <= xi) then
-      scalerS = 1.;
-    elseif noEvent(xi < 0.0) then
-      scalerS = 0.0;
-    else
-      scalerS  = xi/max(xiC_at_T, eps);
-    end if;
-
-    if noEvent(heatingOn == true) then
-      der(xi) = scalerM*dxiH_at_T*indVar.der_T;
-      dxi     = scalerM*dxiH_at_T;
-      //   print("pos", indVar.der_T, time);
-    else
-      der(xi) = scalerS*dxiC_at_T*indVar.der_T;
-      dxi     = scalerS*dxiC_at_T;
-      //  PCMlib.print("  neg XiAtT0 = ", Xi_at_T0, T0);
-      //    print("  neg", der(T), time);
-    end if;
-
-    annotation (Icon(coordinateSystem(preserveAspectRatio=false),
-                graphics={Text(lineColor={108,88,49},
-                extent={{-90.0,-90.0},{90.0,90.0}},
-                textString="↔")}),
-                Diagram(graphics, coordinateSystem(preserveAspectRatio=false)),
-      Documentation(info="<html>
-          <p>
-          The model predicts the liquid mass phase fraction 
-          as described in  
-          </p>
-          <blockquote>          
-          <p>
-           Barz, T., Emhofer, J., Marx, K., Zsembinszki, G., & Cabeza, L. F. 
-           (2019). Phenomenological modelling of phase transitions with 
-           hysteresis in solid/liquid PCM. Journal of Building Performance 
-           Simulation, 12(6), 770-788. 
-          <a href>doi.org/10.1080/19401493.2019.1657953</a>. 
-          </p>          
-          </blockquote>          
-          <p> 
-          <img src=\"modelica://slPCMlib/Resources/Images/curveScaleHysteresisModel.png\">
-          <br>
-          </p>
-          </html>",
-      revisions="<html>
-          <ul>
-          <li>2022-06-01; initial version; by Tilman Barz </li>
-          </ul>
-          </html>"));
-  end phTransModCurveScaleHysteresisDifferentiated;
 
   replaceable model phTransModCurveSwitchHysteresisAlgebraic
     "Curve switch hysteresis model, static"
@@ -441,11 +233,13 @@ protected
 
   //protected
     discrete Integer modelInd(start=1);
-    Modelica.SIunits.MassFraction xiC_at_T(start=0.5), xiH_at_T(start=0.5);
+  Modelica.Units.SI.MassFraction xiC_at_T(start=0.5);
+  Modelica.Units.SI.MassFraction xiH_at_T(start=0.5);
     Real dxiC_at_T(start=0.), dxiH_at_T(start=0.);
 
-    constant Modelica.SIunits.Temp_K losch1 = PCM.propData.rangeTsolidification[1];
-    constant Modelica.SIunits.Temp_K losch2 = PCM.propData.rangeTmelting[2];
+  constant Modelica.Units.SI.Temperature losch1=PCM.propData.rangeTsolidification[
+      1];
+  constant Modelica.Units.SI.Temperature losch2=PCM.propData.rangeTmelting[2];
 
 
   initial algorithm
@@ -481,6 +275,10 @@ protected
     //   print("  ->Low", modelInd, time);
       //    elsewhen  (modelInd <>-1) and  (indVar.T > PCM.propData.rangeTmelting[2]) then
     end when;
+  //   when    (indVar.T < PCM.propData.rangeTsolidification[1]) then
+  //     // das wieder raus?
+  //     modelInd :=1;  // activate melting curve
+  //   end when;
     when    (indVar.T < PCM.propData.rangeTmelting[2]) then
       modelInd :=-1;  // activate solidification curve
     //   print("  ->Up", modelInd, time);
@@ -575,6 +373,214 @@ protected
         </ul>
         </html>"));
   end phTransModCurveSwitchHysteresisDifferentiated;
+
+  replaceable model phTransModCurveScaleHysteresisAlgebraic
+    "Curve scale hysteresis model, static (algebraic equations)"
+
+  //  extends Modelica.Icons.ObsoleteModel;
+    extends basicPhTransModel;
+
+protected
+    discrete Real T0(start=0.0);
+    discrete Real xi0(start=1.0);
+    discrete Real xi_at_T0(start=1.0);
+    discrete Real scaler(start=1.0);
+    discrete Boolean heatingOn(start=true);
+    final constant Real eps = Modelica.Constants.small;
+    Real xi_at_T(start=1.0), dxi_at_T(start=1.0);
+
+  initial algorithm
+
+    if  (indVar.der_T >= 0) then
+      (xi,)  := PCM.phaseFrac_complMelting(indVar.T);
+      T0  :=pre(indVar.T);
+      xi0 :=pre(xi);
+      xi_at_T0  := xi0;
+      scaler := 1.0;
+      heatingOn := true;
+    else
+      (xi,)  := PCM.phaseFrac_complSolidification(indVar.T);
+      T0  :=pre(indVar.T);
+      xi0 :=pre(xi);
+      xi_at_T0 := xi0;
+      scaler := 1.0;
+      heatingOn := false;
+    end if;
+
+  algorithm
+    when (indVar.der_T > 0) then
+      T0   :=pre(indVar.T);
+      xi0  :=pre(xi);
+      (xi_at_T0,)  :=PCM.phaseFrac_complMelting(T0);
+      if (xi_at_T0 >= xi0) then
+        scaler :=1.0;
+      else
+        scaler :=(1.0 - xi0)/max((1.0 - xi_at_T0),eps);
+      end if;
+      heatingOn :=true;
+    end when;
+    when  (indVar.der_T < 0) then
+      T0   :=pre(indVar.T);
+      xi0  :=pre(xi);
+      (xi_at_T0,)  :=PCM.phaseFrac_complSolidification(T0);
+      if (xi_at_T0 <= xi0) then
+        scaler :=1.0;
+      else
+        scaler :=xi0/max(xi_at_T0, eps);
+      end if;
+      heatingOn :=false;
+    end when;
+
+    if noEvent(heatingOn) then
+      (xi_at_T, dxi_at_T) :=PCM.phaseFrac_complMelting(indVar.T);
+      xi     :=1.0 - scaler*(1.0 - xi_at_T);
+      dxi    :=scaler*dxi_at_T;
+        //   print("pos", indVar.der_T, time);
+        //   shifth := 0.0; //(iXiM - ((T-Tref) - scaler*(T-Tref) + scaler*iXiM))*(cp_liquid-cp_solid);
+    else
+      (xi_at_T, dxi_at_T) :=PCM.phaseFrac_complSolidification(indVar.T);
+      xi     :=scaler*xi_at_T;
+      dxi    :=scaler*dxi_at_T;
+      //  PCMlib.print("  neg XiAtT0 = ", xi_at_T0, T0);
+      //    print("  neg", indVar.der_T, time);
+    end if;
+
+    annotation (Icon(coordinateSystem(preserveAspectRatio=false),
+                graphics={Text(lineColor={108,88,49},
+                extent={{-90.0,-90.0},{90.0,90.0}},
+                textString="↔")}),
+                Diagram(graphics, coordinateSystem(preserveAspectRatio=false)),
+      Documentation(info="<html>
+          <p>
+          The model predicts the liquid mass phase fraction. 
+          It is a static (so-called curve scale) hysteresis model as described in  
+          </p>
+          <blockquote>          
+          <p>
+           Barz, T., Emhofer, J., Marx, K., Zsembinszki, G., & Cabeza, L. F. 
+           (2019). Phenomenological modelling of phase transitions with 
+           hysteresis in solid/liquid PCM. Journal of Building Performance 
+           Simulation, 12(6), 770-788. 
+          <a href>doi.org/10.1080/19401493.2019.1657953</a>. 
+          </p>          
+          </blockquote>          
+          <p> 
+          <img src=\"modelica://slPCMlib/Resources/Images/curveScaleHysteresisModel.png\">
+          <br>
+          </p>
+          </html>",
+      revisions="<html>
+          <ul>
+          <li>2022-06-01; initial version; by Tilman Barz </li>
+          </ul>
+          </html>"));
+  end phTransModCurveScaleHysteresisAlgebraic;
+
+  replaceable model phTransModCurveScaleHysteresisDifferentiated
+    "Curve scale hysteresis model, static (differentiated equations)"
+
+    extends basicPhTransModel;
+
+protected
+    Real scalerM, scalerS;
+    final constant Real eps = Modelica.Constants.small;
+    Real xiH_at_T, dxiH_at_T;
+    Real xiC_at_T, dxiC_at_T;
+    discrete Boolean heatingOn(start=true);
+
+  initial algorithm
+    if  (indVar.der_T >= 0) then
+      (xi,)  := PCM.phaseFrac_complMelting(indVar.T);
+      heatingOn := true;
+    else
+      (xi,)  := PCM.phaseFrac_complSolidification(indVar.T);
+      heatingOn := false;
+    end if;
+
+  algorithm
+     when (indVar.T >= PCM.propData.rangeTsolidification[1])
+      and (indVar.T <= PCM.propData.rangeTmelting[2])
+      and (indVar.der_T > 0) then
+        heatingOn :=true;
+     end when;
+     when (indVar.T >= PCM.propData.rangeTsolidification[1])
+      and (indVar.T <= PCM.propData.rangeTmelting[2])
+      and (indVar.der_T < 0) then
+        heatingOn :=false;
+     end when;
+
+  equation
+    (xiH_at_T, dxiH_at_T) = PCM.phaseFrac_complMelting(indVar.T);
+    (xiC_at_T, dxiC_at_T) = PCM.phaseFrac_complSolidification(indVar.T);
+
+    when (indVar.T <= PCM.propData.rangeTsolidification[1]) then
+      reinit(xi, 0.0);
+    elsewhen (indVar.T >= PCM.propData.rangeTmelting[2]) then
+      reinit(xi, 1.0);
+    end when;
+
+    // alternative hysteresis
+    // scalerM = ( xiC_at_T - Xi)
+    //         / ( xiC_at_T - xiH_at_T+eps);
+    // scalerS = ( Xi - xiH_at_T)
+    //         / ( xiC_at_T - xiH_at_T + eps);
+
+    if noEvent(xiH_at_T >= xi) then
+      scalerM = 1.0;
+    elseif noEvent(xi > 1.0) then
+      scalerM = 0.0;
+    else
+      scalerM  = (1.0 - xi)/max((1.0 - xiH_at_T), eps);
+    end if;
+    if noEvent(xiC_at_T <= xi) then
+      scalerS = 1.;
+    elseif noEvent(xi < 0.0) then
+      scalerS = 0.0;
+    else
+      scalerS  = xi/max(xiC_at_T, eps);
+    end if;
+
+    if noEvent(heatingOn == true) then
+      der(xi) = scalerM*dxiH_at_T*indVar.der_T;
+      dxi     = scalerM*dxiH_at_T;
+      //   print("pos", indVar.der_T, time);
+    else
+      der(xi) = scalerS*dxiC_at_T*indVar.der_T;
+      dxi     = scalerS*dxiC_at_T;
+      //  PCMlib.print("  neg XiAtT0 = ", Xi_at_T0, T0);
+      //    print("  neg", der(T), time);
+    end if;
+
+    annotation (Icon(coordinateSystem(preserveAspectRatio=false),
+                graphics={Text(lineColor={108,88,49},
+                extent={{-90.0,-90.0},{90.0,90.0}},
+                textString="↔")}),
+                Diagram(graphics, coordinateSystem(preserveAspectRatio=false)),
+      Documentation(info="<html>
+          <p>
+          The model predicts the liquid mass phase fraction 
+          as described in  
+          </p>
+          <blockquote>          
+          <p>
+           Barz, T., Emhofer, J., Marx, K., Zsembinszki, G., & Cabeza, L. F. 
+           (2019). Phenomenological modelling of phase transitions with 
+           hysteresis in solid/liquid PCM. Journal of Building Performance 
+           Simulation, 12(6), 770-788. 
+          <a href>doi.org/10.1080/19401493.2019.1657953</a>. 
+          </p>          
+          </blockquote>          
+          <p> 
+          <img src=\"modelica://slPCMlib/Resources/Images/curveScaleHysteresisModel.png\">
+          <br>
+          </p>
+          </html>",
+      revisions="<html>
+          <ul>
+          <li>2022-06-01; initial version; by Tilman Barz </li>
+          </ul>
+          </html>"));
+  end phTransModCurveScaleHysteresisDifferentiated;
 
 annotation (Documentation(info="<html>
       <p>

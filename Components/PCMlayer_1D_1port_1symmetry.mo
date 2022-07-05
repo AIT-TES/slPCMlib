@@ -11,20 +11,17 @@ model PCMlayer_1D_1port_1symmetry
           rotation=90,
           origin={-90,0})));
 
-  parameter Modelica.SIunits.Length width=0.003
+  parameter Modelica.Units.SI.Length width=0.003
     "Width of the PCM layer (direction of heat transfer into the PCM layer)";
 
-  parameter Modelica.SIunits.Length height = 0.10
-      "Height of the PCM layer"
-      annotation(Dialog(tab = "General", group = "Parameters"));
+  parameter Modelica.Units.SI.Length height=0.10 "Height of the PCM layer"
+    annotation (Dialog(tab="General", group="Parameters"));
 
-  parameter Modelica.SIunits.Length length = 0.10
-      "Length of the PCM layer"
-      annotation(Dialog(tab = "General", group = "Parameters"));
+  parameter Modelica.Units.SI.Length length=0.10 "Length of the PCM layer"
+    annotation (Dialog(tab="General", group="Parameters"));
 
-  parameter Modelica.SIunits.Area htrfArea = height*length
-        "Heat transfer area"
-      annotation(Dialog(group = "Parameters", enable=false));
+  parameter Modelica.Units.SI.Area htrfArea=height*length "Heat transfer area"
+    annotation (Dialog(group="Parameters", enable=false));
 
 
 
@@ -54,9 +51,9 @@ model PCMlayer_1D_1port_1symmetry
 
 
 
-  parameter Modelica.SIunits.Density densitySLPCM=800.0
-        "Average (constant) solid/liquid PCM density"
-      annotation(Dialog(group = "PCM and phase transition model"));
+  parameter Modelica.Units.SI.Density densitySLPCM=800.0
+    "Average (constant) solid/liquid PCM density"
+    annotation (Dialog(group="PCM and phase transition model"));
      // (PCM.rho_liquid+PCM.rho_solid)/2.0
 
   // --- port and internal temperatures ---
@@ -64,12 +61,11 @@ model PCMlayer_1D_1port_1symmetry
 //             *(   PCM.rangeTsolidification[1]
 //                - (PCM.rangeTmelting[2] - PCM.rangeTsolidification[1])/2))
 //     "PCM temperatures inside the layer";
-  parameter Modelica.SIunits.Temp_K  initT(start= 273.15 + 20, fixed=true)
+  parameter Modelica.Units.SI.Temperature initT(start=273.15 + 20, fixed=true)
     "initial temperatures inside the PCM layer (homogenous T field assumed)"
-     annotation(Dialog(group = "Initial PCM state"),
-     choicesAllMatching=true);
+    annotation (Dialog(group="Initial PCM state"), choicesAllMatching=true);
 
-  Modelica.SIunits.Temp_K  T_j[n_FD](start=ones(n_FD)*(initT), fixed= true);
+  Modelica.Units.SI.Temperature T_j[n_FD](start=ones(n_FD)*(initT), fixed=true);
 
   parameter Integer n_FD(min=1)=6
       "Number of internal nodes (into the PCM)"
@@ -89,8 +85,8 @@ model PCMlayer_1D_1port_1symmetry
 // ---------------------------------------------------------------------------
 
 protected
-  parameter  Modelica.SIunits.Length width_i = 2*width / (2*n_FD +1)
-      "Thickness of a discrete cell";
+  parameter Modelica.Units.SI.Length width_i=2*width/(2*n_FD + 1)
+    "Thickness of a discrete cell";
 
   Real lambda_jp12_BC;
   Real T_jm1[n_FD], T_jp1[n_FD];

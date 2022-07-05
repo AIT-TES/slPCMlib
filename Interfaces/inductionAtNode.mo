@@ -1,10 +1,9 @@
 within slPCMlib.Interfaces;
 connector inductionAtNode "Connector for temperature (input signal)"
 
-  input Modelica.SIunits.Temp_K T(start=273.15+20)
-      "temperature";
-  input Modelica.SIunits.TemperatureSlope der_T(start=0)
-      "Time derivative of temperature (= der(T))";
+  input Modelica.Units.SI.Temperature T(start=273.15 + 20) "temperature";
+  input Modelica.Units.SI.TemperatureSlope der_T(start=0)
+    "Time derivative of temperature (= der(T))";
 
 annotation(Documentation(info="<html>
   It is assumed that phase transitions are 

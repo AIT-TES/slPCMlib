@@ -24,20 +24,17 @@ extends Modelica.Icons.ObsoleteModel;
           rotation=90,
           origin={-70,0})));
 
-  parameter Modelica.SIunits.Length width = 0.003
-      "Width of the PCM layer (direction of heat transfer into the PCM layer)"
-      annotation(Dialog(tab = "General", group = "Parameters"));
+  parameter Modelica.Units.SI.Length width=0.003
+    "Width of the PCM layer (direction of heat transfer into the PCM layer)"
+    annotation (Dialog(tab="General", group="Parameters"));
 
-  parameter Modelica.SIunits.Length height = 0.10
-      "Height of the PCM layer"
-      annotation(Dialog(tab = "General", group = "Parameters"));
+  parameter Modelica.Units.SI.Length height=0.10 "Height of the PCM layer"
+    annotation (Dialog(tab="General", group="Parameters"));
 
-  parameter Modelica.SIunits.Length length = 0.10
-      "Length of the PCM layer"
-      annotation(Dialog(tab = "General", group = "Parameters"));
+  parameter Modelica.Units.SI.Length length=0.10 "Length of the PCM layer"
+    annotation (Dialog(tab="General", group="Parameters"));
 
-  parameter Modelica.SIunits.Area htrfArea = height*length
-        "Heat transfer area";
+  parameter Modelica.Units.SI.Area htrfArea=height*length "Heat transfer area";
 
   parameter Integer n_FD(min=1)=6
       "Number of internal nodes (into the PCM)"
@@ -67,16 +64,15 @@ extends Modelica.Icons.ObsoleteModel;
                     annotation (Dialog(tab = "General", group="PCM"),
                           choicesAllMatching=true);
 
-  parameter Modelica.SIunits.Density densitySLPCM = (PCM1.rho_liquid+PCM1.rho_solid)/2.0
-      "Average (constant) solid/liquid PCM density"
-      annotation(Dialog(tab = "General", group = "PCM"));
+  parameter Modelica.Units.SI.Density densitySLPCM=(PCM1.rho_liquid + PCM1.rho_solid)
+      /2.0 "Average (constant) solid/liquid PCM density"
+    annotation (Dialog(tab="General", group="PCM"));
 
   // --- port and internal temperatures ---
-  Modelica.SIunits.Temp_K  T_j[n_FD](start=ones(n_FD)
-               *(   PCM1.rangeTsolidification[1]
-                - (PCM1.rangeTmelting[2] - PCM1.rangeTsolidification[1])/2),
-            displayUnit="degC")
-    "PCM temperatures inside the layer";               //*(47.5+273.15),
+  Modelica.Units.SI.Temperature T_j[n_FD](start=ones(n_FD)*(PCM1.rangeTsolidification[
+        1] - (PCM1.rangeTmelting[2] - PCM1.rangeTsolidification[1])/2),
+      displayUnit="degC") "PCM temperatures inside the layer";
+                                                       //*(47.5+273.15),
 //             *(   PCM1.rangeTsolidification[1]
 //                - (PCM1.rangeTmelting[2] - PCM1.rangeTsolidification[1])/2),
 //      annotation(Dialog(tab = "General", group = "PCM"));
@@ -92,8 +88,8 @@ extends Modelica.Icons.ObsoleteModel;
 // ---------------------------------------------------------------------------
 
 protected
-  parameter  Modelica.SIunits.Length width_i = 2*width / (2*n_FD +1)
-      "Thickness of a discrete cell";
+  parameter Modelica.Units.SI.Length width_i=2*width/(2*n_FD + 1)
+    "Thickness of a discrete cell";
 
   Real lambda_jp12_BC;
   Real T_jm1[n_FD], T_jp1[n_FD];

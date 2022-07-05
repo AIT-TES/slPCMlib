@@ -3,13 +3,12 @@ model SineT "Generates sinusoidal temperature variations with linear drift"
 
   import Modelica.Constants.pi;
 //  parameter Real simulTime = 6000 "Simulation time";
-  parameter Modelica.SIunits.Temp_K ampl(displayUnit="K") = 2.5
+  parameter Modelica.Units.SI.Temperature ampl(displayUnit="K") = 2.5
     "Amplitude of sine wave";
-  parameter Modelica.SIunits.Time timePeriod = 1000
-    "Time to complete one cycle";
-  parameter Modelica.SIunits.TemperatureSlope rateT = 1/1000
+  parameter Modelica.Units.SI.Time timePeriod=1000 "Time to complete one cycle";
+  parameter Modelica.Units.SI.TemperatureSlope rateT=1/1000
     "Linear temperature drift";
-  parameter Modelica.SIunits.Temp_K startT(displayUnit="K") = 24+273.15
+  parameter Modelica.Units.SI.Temperature startT(displayUnit="K") = 24 + 273.15
     "Start temperature";
 
 

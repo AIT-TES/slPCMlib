@@ -11,7 +11,7 @@ package enthalpyHelpers
 // ------------------------------------------------------------
   function spHeatCap_solid "Returns solid specific heat capacity"
     extends Modelica.Icons.Function;
-    input  Modelica.SIunits.Temp_K  T;
+    input Modelica.Units.SI.Temperature T;
     output Real  cp;
   protected
     Real  TT;
@@ -23,7 +23,7 @@ package enthalpyHelpers
 // ------------------------------------------------------------
   function spHeatCap_liquid "Returns liquid specific heat capacity"
     extends Modelica.Icons.Function;
-    input  Modelica.SIunits.Temp_K  T;
+    input Modelica.Units.SI.Temperature T;
     output Real  cp;
   protected
     Real  TT;
@@ -36,8 +36,8 @@ package enthalpyHelpers
   function spHeatCap_baselineMelting
     "Returns baseline heat capacity for melting"
     extends Modelica.Icons.Function;
-    input  Modelica.SIunits.Temp_K  T;
-    output Modelica.SIunits.SpecificHeatCapacity  cp;
+    input Modelica.Units.SI.Temperature T;
+    output Modelica.Units.SI.SpecificHeatCapacity cp;
   protected
     Real  xi_M;
   algorithm
@@ -48,10 +48,10 @@ package enthalpyHelpers
 // ------------------------------------------------------------
   function enthalpy_solid "Returns solid enthalpy"
     extends Modelica.Icons.Function;
-    input  Modelica.SIunits.Temp_K  T;
-    output Modelica.SIunits.SpecificEnthalpy   h;
+    input Modelica.Units.SI.Temperature T;
+    output Modelica.Units.SI.SpecificEnthalpy h;
   protected
-    Modelica.SIunits.Temp_K  TT;
+    Modelica.Units.SI.Temperature TT;
   algorithm
     TT := T-PCM.propData.Tref;
      h := PCM.propData.cpS_linCoef[1]*TT
@@ -61,10 +61,10 @@ package enthalpyHelpers
 // ------------------------------------------------------------
   function enthalpy_liquid "Returns liquid enthalpy"
     extends Modelica.Icons.Function;
-    input  Modelica.SIunits.Temp_K  T;
-    output Modelica.SIunits.SpecificEnthalpy   h;
+    input Modelica.Units.SI.Temperature T;
+    output Modelica.Units.SI.SpecificEnthalpy h;
   protected
-    Modelica.SIunits.Temp_K  TT;
+    Modelica.Units.SI.Temperature TT;
   algorithm
     TT := T-PCM.propData.Tref;
      h := PCM.propData.cpL_linCoef[1]*TT

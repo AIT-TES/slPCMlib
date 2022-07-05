@@ -13,45 +13,41 @@ package generic_GumbelMinimum "Generic, Gumbel Minimum distribution, asymmetric 
              "Location parameter";
     constant Real GumbelMinSoli_beta = 0.2
              "Shape parameter, smaller is sharper, beta>0";
-    constant Modelica.SIunits.Temp_K rangeTsolidification[2] = {
-               slPCMlib.BasicUtilities.GumbelMinimum.quantile(
-                 mu=propData.GumbelMinSoli_mu,
-                 beta=propData.GumbelMinSoli_beta,
-                 u=0.001),
-               slPCMlib.BasicUtilities.GumbelMinimum.quantile(
-                 mu=propData.GumbelMinSoli_mu,
-                 beta=propData.GumbelMinSoli_beta,
-                 u=0.999)}
-             "temperature range solidification {startT, endT}";
+  constant Modelica.Units.SI.Temperature rangeTsolidification[2]={
+      slPCMlib.BasicUtilities.GumbelMinimum.quantile(
+        mu=propData.GumbelMinSoli_mu,
+        beta=propData.GumbelMinSoli_beta,
+        u=0.001),slPCMlib.BasicUtilities.GumbelMinimum.quantile(
+        mu=propData.GumbelMinSoli_mu,
+        beta=propData.GumbelMinSoli_beta,
+        u=0.999)} "temperature range solidification {startT, endT}";
     // ---
     constant Real GumbelMinMelt_mu =   273.15 + 30
              "Location parameter";
     constant Real GumbelMinMelt_beta = 0.4
              "Shape parameter, smaller is sharper, beta>0";
-    constant Modelica.SIunits.Temp_K rangeTmelting[2] = {
-               slPCMlib.BasicUtilities.GumbelMinimum.quantile(
-                 mu=propData.GumbelMinMelt_mu,
-                 beta=propData.GumbelMinMelt_beta,
-                 u=0.001),
-               slPCMlib.BasicUtilities.GumbelMinimum.quantile(
-                 mu=propData.GumbelMinMelt_mu,
-                 beta=propData.GumbelMinMelt_beta,
-                 u=0.999)}
-             "temperature range melting {startT, endT}";
+  constant Modelica.Units.SI.Temperature rangeTmelting[2]={
+      slPCMlib.BasicUtilities.GumbelMinimum.quantile(
+        mu=propData.GumbelMinMelt_mu,
+        beta=propData.GumbelMinMelt_beta,
+        u=0.001),slPCMlib.BasicUtilities.GumbelMinimum.quantile(
+        mu=propData.GumbelMinMelt_mu,
+        beta=propData.GumbelMinMelt_beta,
+        u=0.999)} "temperature range melting {startT, endT}";
 
     // --- parameters for heat capacity and enthalpy ---
-    constant Modelica.SIunits.SpecificHeatCapacity[2] cpS_linCoef = {2000.0, 100}
-             "solid specific heat capacity, linear coefficients a + b*T";
-    constant Modelica.SIunits.SpecificHeatCapacity[2] cpL_linCoef = {2000.0, 100}
-             "liquid specific heat capacity, linear coefficients a + b*T";
-    constant Modelica.SIunits.SpecificEnthalpy   phTrEnth = 150000.0
-             "scalar phase transition enthalpy";
+  constant Modelica.Units.SI.SpecificHeatCapacity[2] cpS_linCoef={2000.0,20}
+    "solid specific heat capacity, linear coefficients a + b*T";
+  constant Modelica.Units.SI.SpecificHeatCapacity[2] cpL_linCoef={2000.0,10}
+    "liquid specific heat capacity, linear coefficients a + b*T";
+  constant Modelica.Units.SI.SpecificEnthalpy phTrEnth=150000.0
+    "scalar phase transition enthalpy";
 
     // --- reference values ---
-    constant Modelica.SIunits.Temp_K                Tref = 273.15+26
-             "reference Temperature";
-    constant Modelica.SIunits.SpecificEnthalpy      href = 0.0
-             "reference enthalpy at Tref";
+  constant Modelica.Units.SI.Temperature Tref=273.15 + 26
+    "reference Temperature";
+  constant Modelica.Units.SI.SpecificEnthalpy href=0.0
+    "reference enthalpy at Tref";
 
    // constant String transFctForHeating="7thSmoothStep";
 

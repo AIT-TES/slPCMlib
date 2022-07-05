@@ -9,35 +9,34 @@ package generic_uniform "Generic, uniform distribution, linear"
     constant String mediumName = "generic_GaussianHysteresis";
 
     // --- parameters for phase transition functions ---
-    constant Real UniformMelt_min = 273.15 + 62
-             "lower limit";
-    constant Real UniformMelt_max = 273.15 + 65
-             "upper limit";
-    constant Modelica.SIunits.Temp_K rangeTmelting[2] = {
-               UniformMelt_min, UniformMelt_max}
-             "temperature range melting {startT, endT}";
+    constant Real UniformMelt_min = 273.15 + 26
+             "lower limit";                     //62
+    constant Real UniformMelt_max = 273.15 + 30
+             "upper limit";                     //65
+  constant Modelica.Units.SI.Temperature rangeTmelting[2]={UniformMelt_min,
+      UniformMelt_max} "temperature range melting {startT, endT}";
     // ---
-    constant Real UniformSoli_min = 273.15 + 60.5
-             "lower limit";
-    constant Real UniformSoli_max = 273.15 + 62
-             "upper limit";
-    constant Modelica.SIunits.Temp_K rangeTsolidification[2] = {
-               UniformSoli_min, UniformSoli_max}
-             "temperature range solidification {startT, endT}";
+    constant Real UniformSoli_min = 273.15 + 24
+             "lower limit";                     //60.5
+    constant Real UniformSoli_max = 273.15 + 29
+             "upper limit";                     //62
+  constant Modelica.Units.SI.Temperature rangeTsolidification[2]={
+      UniformSoli_min,UniformSoli_max}
+    "temperature range solidification {startT, endT}";
 
     // --- parameters for heat capacity and enthalpy ---
-    constant Modelica.SIunits.SpecificHeatCapacity[2] cpS_linCoef = {2000.0, 100}
-             "solid specific heat capacity, linear coefficients a + b*T";
-    constant Modelica.SIunits.SpecificHeatCapacity[2] cpL_linCoef = {2000.0, 100}
-             "liquid specific heat capacity, linear coefficients a + b*T";
-    constant Modelica.SIunits.SpecificEnthalpy   phTrEnth = 150000.0
-             "scalar phase transition enthalpy";
+  constant Modelica.Units.SI.SpecificHeatCapacity[2] cpS_linCoef={2000.0,20}
+    "solid specific heat capacity, linear coefficients a + b*T";
+  constant Modelica.Units.SI.SpecificHeatCapacity[2] cpL_linCoef={2000.0,30}
+    "liquid specific heat capacity, linear coefficients a + b*T";
+  constant Modelica.Units.SI.SpecificEnthalpy phTrEnth=150000.0
+    "scalar phase transition enthalpy";
 
     // --- reference values ---
-    constant Modelica.SIunits.Temp_K            Tref = 273.15+26
-             "reference Temperature";
-    constant Modelica.SIunits.SpecificEnthalpy  href = 0.0
-             "reference enthalpy at Tref";
+  constant Modelica.Units.SI.Temperature Tref=273.15 + 26
+    "reference Temperature";
+  constant Modelica.Units.SI.SpecificEnthalpy href=0.0
+    "reference enthalpy at Tref";
 
   end propData;
   // ----------------------------------

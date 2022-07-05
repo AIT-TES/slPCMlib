@@ -8,24 +8,28 @@ package RT_minus_4 "Rubitherm RT_minus_4, data taken from data_sheet"
     constant String mediumName = "RT_minus_4";
 
     // --- parameters for phase transition functions ---
-    constant Modelica.SIunits.Temp_K rangeTmelting[2] =  {2.631500000000000e+02, 2.711500000000000e+02}
-             "temperature range melting {startT, endT}";
-    constant Modelica.SIunits.Temp_K rangeTsolidification[2] = {2.631500000000000e+02, 2.711500000000000e+02}
-             "temperature range solidification {startT, endT}";
+    constant Modelica.Units.SI.Temperature rangeTmelting[2]={
+        2.631500000000000e+02,2.711500000000000e+02}
+      "temperature range melting {startT, endT}";
+    constant Modelica.Units.SI.Temperature rangeTsolidification[2]={
+        2.631500000000000e+02,2.711500000000000e+02}
+      "temperature range solidification {startT, endT}";
 
     // --- parameters for heat capacity and enthalpy ---
-    constant Modelica.SIunits.SpecificHeatCapacity[2] cpS_linCoef = {2.000000000000000e+03, 0.0}
-             "solid specific heat capacity, linear coefficients a + b*T";
-    constant Modelica.SIunits.SpecificHeatCapacity[2] cpL_linCoef = {2.000000000000000e+03, 0.0}
-             "liquid specific heat capacity, linear coefficients a + b*T";
-    constant Modelica.SIunits.SpecificEnthalpy   phTrEnth = 1.501818667202909e+05
-             "scalar phase transition enthalpy";
+    constant Modelica.Units.SI.SpecificHeatCapacity[2] cpS_linCoef={
+        2.000000000000000e+03,0.0}
+      "solid specific heat capacity, linear coefficients a + b*T";
+    constant Modelica.Units.SI.SpecificHeatCapacity[2] cpL_linCoef={
+        2.000000000000000e+03,0.0}
+      "liquid specific heat capacity, linear coefficients a + b*T";
+    constant Modelica.Units.SI.SpecificEnthalpy phTrEnth=1.501818667202909e+05
+      "scalar phase transition enthalpy";
 
     // --- reference values ---
-    constant Modelica.SIunits.Temp_K            Tref = 273.15+25
-             "reference temperature";
-    constant Modelica.SIunits.SpecificEnthalpy  href = 0.0
-             "reference enthalpy at Tref";
+    constant Modelica.Units.SI.Temperature Tref=273.15 + 25
+      "reference temperature";
+    constant Modelica.Units.SI.SpecificEnthalpy href=0.0
+      "reference enthalpy at Tref";
 
   end propData;
   // ----------------------------------
@@ -37,8 +41,12 @@ package RT_minus_4 "Rubitherm RT_minus_4, data taken from data_sheet"
     constant Real breaks[:] =   data_H.breaks;
     constant Real coefs[:,:] =  data_H.coefs;
   algorithm
-    (xi, dxi) := BasicUtilities.splineEval(T-273.15,
-                 pieces, order, breaks, coefs[:,:]);
+    (xi, dxi) :=BasicUtilities.quartQuintSplineEval(
+        T - 273.15,
+        pieces,
+        order,
+        breaks,
+        coefs[:, :]);
   end phaseFrac_complMelting;
   // ----------------------------------
   redeclare function extends phaseFrac_complSolidification
@@ -49,8 +57,12 @@ package RT_minus_4 "Rubitherm RT_minus_4, data taken from data_sheet"
     constant Real breaks[:] =   data_C.breaks;
     constant Real coefs[:,:] =  data_C.coefs;
   algorithm
-    (xi, dxi) := BasicUtilities.splineEval(T-273.15,
-                     pieces, order, breaks, coefs[:,:]);
+    (xi, dxi) :=BasicUtilities.quartQuintSplineEval(
+        T - 273.15,
+        pieces,
+        order,
+        breaks,
+        coefs[:, :]);
   end phaseFrac_complSolidification;
   // ----------------------------------
   package data_H "spline interpolation data for heating"

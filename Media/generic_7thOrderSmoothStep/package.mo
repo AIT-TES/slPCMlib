@@ -9,24 +9,26 @@ package generic_7thOrderSmoothStep "Generic, 7th-order smoothstep, symmetric pea
     constant String mediumName = "generic_7thOrderSmoothStepHysteresis";
 
     // --- parameters for phase transition functions ---
-    constant Modelica.SIunits.Temp_K rangeTmelting[2] =  {273.15+26, 273.15+30}
-             "temperature range melting {startT, endT}";
-    constant Modelica.SIunits.Temp_K rangeTsolidification[2] = {273.15+24, 273.15+29}
-             "temperature range solidification {startT, endT}";
+  constant Modelica.Units.SI.Temperature rangeTmelting[2]={273.15 + 26,
+                                                           273.15 + 30}
+                              "temperature range melting {startT, endT}";
+  constant Modelica.Units.SI.Temperature rangeTsolidification[2]={273.15 + 24,
+                                                                  273.15 + 29}
+                              "temperature range solidification {startT, endT}";
 
     // --- parameters for heat capacity and enthalpy ---
-    constant Modelica.SIunits.SpecificHeatCapacity[2] cpS_linCoef = {2000.0, 30.0}
-             "solid specific heat capacity, linear coefficients a + b*T";
-    constant Modelica.SIunits.SpecificHeatCapacity[2] cpL_linCoef = {3000.0, 200.0}
-             "liquid specific heat capacity, linear coefficients a + b*T";
-    constant Modelica.SIunits.SpecificEnthalpy   phTrEnth = 150e3
-             "scalar phase transition enthalpy";
+  constant Modelica.Units.SI.SpecificHeatCapacity[2] cpS_linCoef={2000.0,20.0}
+    "solid specific heat capacity, linear coefficients a + b*T";
+  constant Modelica.Units.SI.SpecificHeatCapacity[2] cpL_linCoef={3000.0,20.0}
+    "liquid specific heat capacity, linear coefficients a + b*T";
+  constant Modelica.Units.SI.SpecificEnthalpy phTrEnth=150e3
+    "scalar phase transition enthalpy";
 
     // --- reference values ---
-    constant Modelica.SIunits.Temp_K            Tref = 273.15+24
-             "reference temperature";
-    constant Modelica.SIunits.SpecificEnthalpy  href = 0.0
-             "reference enthalpy at Tref";
+  constant Modelica.Units.SI.Temperature Tref=273.15 + 24
+    "reference temperature";
+  constant Modelica.Units.SI.SpecificEnthalpy href=0.0
+    "reference enthalpy at Tref";
 
   end propData;
   // ----------------------------------

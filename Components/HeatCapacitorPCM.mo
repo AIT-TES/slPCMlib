@@ -1,11 +1,11 @@
 within slPCMlib.Components;
 model HeatCapacitorPCM "Lumped thermal PCM element storing heat"
 
-  parameter Modelica.SIunits.Mass m(displayUnit="kg") = 0.100
+  parameter Modelica.Units.SI.Mass m(displayUnit="kg") = 0.100
     "Mass of PCM element";
-  Modelica.SIunits.Temperature T(start=293.15, displayUnit="degC")
+  Modelica.Units.SI.Temperature T(start=293.15, displayUnit="degC")
     "Temperature of element";
-  Modelica.SIunits.TemperatureSlope der_T(start=0)
+  Modelica.Units.SI.TemperatureSlope der_T(start=0)
     "Time derivative of temperature (= der(T))";
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port
     annotation (Placement(transformation(

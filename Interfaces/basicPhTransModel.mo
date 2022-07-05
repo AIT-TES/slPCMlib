@@ -7,17 +7,26 @@ partial model basicPhTransModel
 //             annotation (Dialog(group="PCM"),
 //                         choicesAllMatching=true);
 
-    Modelica.SIunits.MassFraction          xi(min=0,max=1,start=0.5)
-      "liquid mass phase fraction";
-    Modelica.SIunits.VolumeFraction        phi(min=0,max=1,start=0.5)
-      "liquid volume phase fraction";
-    Modelica.SIunits.Density               rho(start=1e3)      "effective density";
-    Modelica.SIunits.SpecificHeatCapacity  cp(start=1e3)       "effective specific heat capacity";
-    Modelica.SIunits.SpecificHeatCapacity  cp_BL(start=1e3)    "baseline specific heat capacity";
-    Modelica.SIunits.SpecificEnthalpy      h(start=1e3)        "specific enthalpy";
-    Modelica.SIunits.SpecificEnthalpy      h_S(start=1e3)      "solid specific enthalpy (extrapolated)";
-    Modelica.SIunits.SpecificEnthalpy      h_L(start=1e3)      "liquid specific enthalpy (extrapolated)";
-    Modelica.SIunits.ThermalConductivity   lambda(start=0.2)   "effective thermal conductivity";
+  Modelica.Units.SI.MassFraction xi(
+    min=0,
+    max=1,
+    start=0.5) "liquid mass phase fraction";
+  Modelica.Units.SI.VolumeFraction phi(
+    min=0,
+    max=1,
+    start=0.5) "liquid volume phase fraction";
+  Modelica.Units.SI.Density rho(start=1e3) "effective density";
+  Modelica.Units.SI.SpecificHeatCapacity cp(start=1e3)
+    "effective specific heat capacity";
+  Modelica.Units.SI.SpecificHeatCapacity cp_BL(start=1e3)
+    "baseline specific heat capacity";
+  Modelica.Units.SI.SpecificEnthalpy h(start=1e3) "specific enthalpy";
+  Modelica.Units.SI.SpecificEnthalpy h_S(start=1e3)
+    "solid specific enthalpy (extrapolated)";
+  Modelica.Units.SI.SpecificEnthalpy h_L(start=1e3)
+    "liquid specific enthalpy (extrapolated)";
+  Modelica.Units.SI.ThermalConductivity lambda(start=0.2)
+    "effective thermal conductivity";
 
     // "Connector for temperature (input signal)"
     inductionAtNode indVar;
@@ -32,16 +41,15 @@ partial model basicPhTransModel
 
     Real dxi(unit="1/K");
 protected
-  parameter Modelica.SIunits.SpecificEnthalpy    h_L_at_Tmax(start=1e3,fixed=false)
-  "phase transition enthalpy at T_max, where melting is finished";
-  parameter Modelica.SIunits.SpecificEnthalpy    h_BL_at_Tmax(start=1e3,fixed=false)
-  "baseline enthalpy at T_max, where melting is finished";
-  parameter Modelica.SIunits.SpecificEnthalpy    h_offset(start=1e3,fixed=false)
-  "offset für h_L";
+  parameter Modelica.Units.SI.SpecificEnthalpy h_L_at_Tmax(start=1e3, fixed=
+        false) "phase transition enthalpy at T_max, where melting is finished";
+  parameter Modelica.Units.SI.SpecificEnthalpy h_BL_at_Tmax(start=1e3, fixed=
+        false) "baseline enthalpy at T_max, where melting is finished";
+  parameter Modelica.Units.SI.SpecificEnthalpy h_offset(start=1e3, fixed=false)
+    "offset für h_L";
 
 
 initial equation
-
 //   assert(PCM.propData.rangeTmelting[1] >= PCM.propData.rangeTsolidification[1],
 //          "PCM.propData.rangeTmelting[1] <= PCM.propData.rangeTsolidification[1].
 //           Phase transition function for complete melting should give always smaller values

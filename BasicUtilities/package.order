@@ -1,4 +1,5 @@
-splineEval
-smoothStep7thOrder
 GumbelMinimum
+quartQuintSplineEval
+cubicHermiteSplineEval
+smoothStep7thOrder
 enthalpyHelpers

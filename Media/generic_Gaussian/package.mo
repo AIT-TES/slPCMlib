@@ -13,45 +13,41 @@ package generic_Gaussian "Generic, Gaussian distribution, symmetric peak"
              "location parameter";
     constant Real GaussMelt_sigma = 1.0
              "standard deviation of the normal distribution";
-    constant Modelica.SIunits.Temp_K rangeTmelting[2] = {
-               Modelica.Math.Distributions.Normal.quantile(
-                 mu=propData.GaussMelt_mu,
-                 sigma=propData.GaussMelt_sigma,
-                 u=0.001),
-               Modelica.Math.Distributions.Normal.quantile(
-                 mu=propData.GaussMelt_mu,
-                 sigma=propData.GaussMelt_sigma,
-                 u=0.999)}
-             "temperature range melting {startT, endT}";
+  constant Modelica.Units.SI.Temperature rangeTmelting[2]={
+      Modelica.Math.Distributions.Normal.quantile(
+        mu=propData.GaussMelt_mu,
+        sigma=propData.GaussMelt_sigma,
+        u=0.001),Modelica.Math.Distributions.Normal.quantile(
+        mu=propData.GaussMelt_mu,
+        sigma=propData.GaussMelt_sigma,
+        u=0.999)} "temperature range melting {startT, endT}";
     // ---
     constant Real GaussSoli_mu = 273.15 + 27
              "location parameter";
     constant Real GaussSoli_sigma = 0.5
              "standard deviation of the normal distribution";
-    constant Modelica.SIunits.Temp_K rangeTsolidification[2] = {
-               Modelica.Math.Distributions.Normal.quantile(
-                 mu=propData.GaussSoli_mu,
-                 sigma=propData.GaussSoli_sigma,
-                 u=0.001),
-               Modelica.Math.Distributions.Normal.quantile(
-                 mu=propData.GaussSoli_mu,
-                 sigma=propData.GaussSoli_sigma,
-                 u=0.999)}
-             "temperature range solidification {startT, endT}";
+  constant Modelica.Units.SI.Temperature rangeTsolidification[2]={
+      Modelica.Math.Distributions.Normal.quantile(
+        mu=propData.GaussSoli_mu,
+        sigma=propData.GaussSoli_sigma,
+        u=0.001),Modelica.Math.Distributions.Normal.quantile(
+        mu=propData.GaussSoli_mu,
+        sigma=propData.GaussSoli_sigma,
+        u=0.999)} "temperature range solidification {startT, endT}";
 
     // --- parameters for heat capacity and enthalpy ---
-    constant Modelica.SIunits.SpecificHeatCapacity[2] cpS_linCoef = {2000.0, 100}
-             "solid specific heat capacity, linear coefficients a + b*T";
-    constant Modelica.SIunits.SpecificHeatCapacity[2] cpL_linCoef = {2000.0, 100}
-             "liquid specific heat capacity, linear coefficients a + b*T";
-    constant Modelica.SIunits.SpecificEnthalpy   phTrEnth = 150000.0
-             "scalar phase transition enthalpy";
+  constant Modelica.Units.SI.SpecificHeatCapacity[2] cpS_linCoef={2000.0,30}
+    "solid specific heat capacity, linear coefficients a + b*T";
+  constant Modelica.Units.SI.SpecificHeatCapacity[2] cpL_linCoef={2000.0,20}
+    "liquid specific heat capacity, linear coefficients a + b*T";
+  constant Modelica.Units.SI.SpecificEnthalpy phTrEnth=150000.0
+    "scalar phase transition enthalpy";
 
     // --- reference values ---
-    constant Modelica.SIunits.Temp_K            Tref = 273.15+26
-             "reference Temperature";
-    constant Modelica.SIunits.SpecificEnthalpy  href = 0.0
-             "reference enthalpy at Tref";
+  constant Modelica.Units.SI.Temperature Tref=273.15 + 26
+    "reference Temperature";
+  constant Modelica.Units.SI.SpecificEnthalpy href=0.0
+    "reference enthalpy at Tref";
 
   end propData;
   // ----------------------------------

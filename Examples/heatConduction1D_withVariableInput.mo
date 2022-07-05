@@ -4,10 +4,11 @@ model heatConduction1D_withVariableInput
   extends Modelica.Icons.Example;
 
 
-  Modelica.Blocks.Tables.CombiTable1D combiTable1D(
+  Modelica.Blocks.Tables.CombiTable1Dv combiTable1D(
     tableOnFile=true,
     tableName="tab1",
-    fileName=ModelicaServices.ExternalReferences.loadResource("modelica://slPCMlib/inputT.txt"),
+    fileName=ModelicaServices.ExternalReferences.loadResource(
+        "modelica://slPCMlib/inputT.txt"),
     columns={2},
     smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments,
     extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint)
@@ -16,7 +17,7 @@ model heatConduction1D_withVariableInput
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
     prescribedTemperature
     annotation (Placement(transformation(extent={{-18,-46},{2,-26}})));
-  Modelica.Blocks.Sources.Clock clock
+  Modelica.Blocks.Sources.ContinuousClock clock
     annotation (Placement(transformation(extent={{-126,-44},{-106,-24}})));
   Components.PCMlayer_1D_1port_1symmetry_2PCM pCMlayer_1D_1port_1symmetry_2PCM(
       redeclare package PCM1 = MediaMyFits.RT35HC_myData_comp1, redeclare

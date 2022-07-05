@@ -6,10 +6,11 @@ model exampleHeatCapacitorPCM_2 "Example using PCM heat capacitor"
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalConductor(G=0.6)
     annotation (Placement(transformation(extent={{18,-46},{40,-24}})));
 
-  Modelica.Blocks.Tables.CombiTable1D combiTable1D(
+  Modelica.Blocks.Tables.CombiTable1Dv combiTable1D(
     tableOnFile=true,
     tableName="tab1",
-    fileName=ModelicaServices.ExternalReferences.loadResource("modelica://slPCMlib/inputT.txt"),
+    fileName=ModelicaServices.ExternalReferences.loadResource(
+        "modelica://slPCMlib/inputT.txt"),
     columns={2},
     smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments,
     extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint)
@@ -18,7 +19,7 @@ model exampleHeatCapacitorPCM_2 "Example using PCM heat capacitor"
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature
     prescribedTemperature
     annotation (Placement(transformation(extent={{-16,-46},{6,-24}})));
-  Modelica.Blocks.Sources.Clock clock
+  Modelica.Blocks.Sources.ContinuousClock clock
     annotation (Placement(transformation(extent={{-80,-44},{-62,-26}})));
   Components.HeatCapacitorPCM heatCapacitorPCM
     annotation (Placement(transformation(extent={{60,8},{80,28}})));

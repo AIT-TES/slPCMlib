@@ -7,23 +7,24 @@ partial package partialPCM "Partial PCM model"
     constant String mediumName = "";
 
     // --- parameters for phase transition functions ---
-    constant Modelica.SIunits.Temp_K rangeTsolidification[2] = {0,0}
-             "temperature range solidification {startT, endT}";
-    constant Modelica.SIunits.Temp_K rangeTmelting[2] = {0,0}
-             "temperature range melting {startT, endT}";
+    constant Modelica.Units.SI.Temperature rangeTsolidification[2]={0,0}
+      "temperature range solidification {startT, endT}";
+    constant Modelica.Units.SI.Temperature rangeTmelting[2]={0,0}
+      "temperature range melting {startT, endT}";
 
     //     constant Modelica.SIunits.Temp_K[2] rangeTphaseTransition = {0,0}
     //              "phase transition temperature range";
 
-    constant Modelica.SIunits.SpecificHeatCapacity[2] cpS_linCoef = {0.0, 0.0}
-             "solid specific heat capacity, linear coefficients a + b*T";
-    constant Modelica.SIunits.SpecificHeatCapacity[2] cpL_linCoef = {0.0, 0.0}
-             "liquid specific heat capacity, linear coefficients a + b*T";
-    constant Modelica.SIunits.SpecificEnthalpy   phTrEnth = 0.0
-             "scalar phase transition enthalpy";
+    constant Modelica.Units.SI.SpecificHeatCapacity[2] cpS_linCoef={0.0,0.0}
+      "solid specific heat capacity, linear coefficients a + b*T";
+    constant Modelica.Units.SI.SpecificHeatCapacity[2] cpL_linCoef={0.0,0.0}
+      "liquid specific heat capacity, linear coefficients a + b*T";
+    constant Modelica.Units.SI.SpecificEnthalpy phTrEnth=0.0
+      "scalar phase transition enthalpy";
 
-    constant Modelica.SIunits.Temp_K                Tref=0.0 "reference Temperature";
-    constant Modelica.SIunits.SpecificEnthalpy      href=0.0 "reference enthalpy at Tref";
+    constant Modelica.Units.SI.Temperature Tref=0.0 "reference Temperature";
+    constant Modelica.Units.SI.SpecificEnthalpy href=0.0
+      "reference enthalpy at Tref";
 
 
   end propData;
@@ -33,41 +34,43 @@ partial package partialPCM "Partial PCM model"
     "Returns liquid mass phase fraction for complete melting processes"
       extends Modelica.Icons.Function;
     //      input propData pcmData;
-      input Modelica.SIunits.Temp_K T; //T(displayUnit="K");
-      output Modelica.SIunits.MassFraction xi;
+    input Modelica.Units.SI.Temperature T;
+                                       //T(displayUnit="K");
+    output Modelica.Units.SI.MassFraction xi;
       output Real dxi(unit="1/K");
   end phaseFrac_complMelting;
 
   replaceable partial function phaseFrac_complSolidification
     "Returns liquid mass phase fraction for complete solidification processes"
       extends Modelica.Icons.Function;
-      input  Modelica.SIunits.Temp_K T; //  (displayUnit="K");
-      output Modelica.SIunits.MassFraction xi;
+    input Modelica.Units.SI.Temperature T;
+                                        //  (displayUnit="K");
+    output Modelica.Units.SI.MassFraction xi;
       output Real dxi(unit="1/K");
   end phaseFrac_complSolidification;
 
   replaceable partial function density_solid "Returns solid density"
       extends Modelica.Icons.Function;
-      input  Modelica.SIunits.Temp_K  T;
-      output Modelica.SIunits.Density rho;
+    input Modelica.Units.SI.Temperature T;
+    output Modelica.Units.SI.Density rho;
   end density_solid;
 
   replaceable partial function density_liquid "Returns liquid density"
       extends Modelica.Icons.Function;
-      input  Modelica.SIunits.Temp_K  T;
-      output Modelica.SIunits.Density rho;
+    input Modelica.Units.SI.Temperature T;
+    output Modelica.Units.SI.Density rho;
   end density_liquid;
 
   replaceable partial function conductivity_solid "Returns solid thermal conductivity"
      extends Modelica.Icons.Function;
-     input  Modelica.SIunits.Temp_K  T;
-     output Modelica.SIunits.ThermalConductivity   lambda;
+    input Modelica.Units.SI.Temperature T;
+    output Modelica.Units.SI.ThermalConductivity lambda;
   end conductivity_solid;
 
   replaceable partial function conductivity_liquid "Returns liquid thermal conductivity"
      extends Modelica.Icons.Function;
-     input  Modelica.SIunits.Temp_K  T;
-     output Modelica.SIunits.ThermalConductivity   lambda;
+    input Modelica.Units.SI.Temperature T;
+    output Modelica.Units.SI.ThermalConductivity lambda;
   end conductivity_liquid;
 // ------------------------------------------------------------
 

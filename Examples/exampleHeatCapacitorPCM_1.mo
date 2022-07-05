@@ -3,9 +3,9 @@ model exampleHeatCapacitorPCM_1 "Example using PCM heat capacitor"
   extends Modelica.Icons.Example;
 
   Components.SineT sineT(
-    ampl=2.5,
+    ampl=6.5,
     rateT=1/2000,
-    startT=273.15 + 26)
+    startT=273.15 + 17)
     annotation (Placement(transformation(extent={{-22,-20},{-2,0}})));
 
 
@@ -14,25 +14,26 @@ model exampleHeatCapacitorPCM_1 "Example using PCM heat capacitor"
     // redeclare package PCM = Media.RT60,
   Components.HeatCapacitorPCM heatCapacitorPCM1(
     T(start=273.15 + 50),
-    redeclare slPCMlib.Interfaces.phTransModMeltingCurve phTrModel(redeclare
-        package PCM = Media.generic_GumbelMinimum))
+    redeclare package PCM = slPCMlib.Media.SP21EK,
+    redeclare slPCMlib.Interfaces.phTransModCurveTrackHysteresis phTrModel(redeclare
+        package PCM = Media.SP21EK))
     annotation (Placement(transformation(extent={{12,14},{32,34}})));
 
   Components.HeatCapacitorPCM heatCapacitorPCM2(
     T(start=273.15 + 50),
     redeclare slPCMlib.Interfaces.phTransModCurveTrackHysteresis phTrModel(redeclare
-        package  PCM = Media.generic_GumbelMinimum))
+        package  PCM = Media.SP21EK))
     annotation (Placement(transformation(extent={{12,-10},{32,10}})));
   Components.HeatCapacitorPCM heatCapacitorPCM3(
     T(start=273.15 + 50),
-    redeclare slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated phTrModel(redeclare
-        package PCM =  Media.generic_GumbelMinimum))
+    redeclare slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated phTrModel(redeclare
+        package PCM =  Media.SP21EK))
     annotation (Placement(transformation(extent={{12,-34},{32,-14}})));
   Components.HeatCapacitorPCM heatCapacitorPCM4(
     T(start=273.15 + 50),
-    redeclare slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated phTrModel(redeclare
+    redeclare slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated phTrModel(redeclare
         package  PCM =
-          Media.generic_GumbelMinimum))
+          Media.SP21EK))
     annotation (Placement(transformation(extent={{12,-58},{32,-38}})));
 equation
   connect(sineT.port, heatCapacitorPCM1.port) annotation (Line(points={{-1,-10},
@@ -48,27 +49,27 @@ equation
         Text(
           extent={{26,8},{64,-10}},
           lineColor={0,0,0},
-          fontSize=14,
+          fontSize=12,
           textString="curve track
 model"),Text(
           extent={{26,32},{64,14}},
           lineColor={0,0,0},
-          fontSize=14,
+          fontSize=12,
           textString="melting curve
-model"),Text(
-          extent={{26,-16},{64,-34}},
-          lineColor={0,0,0},
-          fontSize=14,
-          textString="curve scale
 model"),Text(
           extent={{26,-40},{64,-58}},
           lineColor={0,0,0},
-          fontSize=14,
+          fontSize=12,
+          textString="curve scale
+model"),Text(
+          extent={{26,-16},{64,-34}},
+          lineColor={0,0,0},
+          fontSize=12,
           textString="curve switch
 model")}),
     experiment(
       StopTime=5000,
-      __Dymola_NumberOfIntervals=100000,
+      __Dymola_NumberOfIntervals=1000000,
       Tolerance=1e-08,
       __Dymola_Algorithm="Dassl"),
     __Dymola_Commands(file="doSimulationHeatCapacitorPCM1.mos"
