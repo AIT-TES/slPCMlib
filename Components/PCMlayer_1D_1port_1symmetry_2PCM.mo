@@ -42,17 +42,16 @@ extends Modelica.Icons.ObsoleteModel;
 
   // --- PCM and phase transition model ---
   replaceable package PCM1 =
-      slPCMlib.MediaMyFits.exampleSmoothStepTransitions
+      slPCMlib.Media_generic.generic_7thOrderSmoothStep
             constrainedby slPCMlib.Interfaces.partialPCM
             annotation (Dialog(tab = "General", group="PCM"),
                         choicesAllMatching=true);
 
   replaceable package PCM2 =
-      slPCMlib.MediaMyFits.exampleSmoothStepTransitions
+      slPCMlib.Media_generic.generic_GumbelMinimum
             constrainedby slPCMlib.Interfaces.partialPCM
             annotation (Dialog(tab = "General", group="PCM"),
                         choicesAllMatching=true);
-
 
   // (n_FD+1 is for evaluating the properties at the left boundary/ port)
   PCM1.ModelPhaseTrans model1PhaseTrans_j[n_FD+1]
@@ -63,6 +62,8 @@ extends Modelica.Icons.ObsoleteModel;
        "vector of phase transition models for each discrete node"
                     annotation (Dialog(tab = "General", group="PCM"),
                           choicesAllMatching=true);
+
+
 
   parameter Modelica.Units.SI.Density densitySLPCM=(PCM1.rho_liquid + PCM1.rho_solid)
       /2.0 "Average (constant) solid/liquid PCM density"

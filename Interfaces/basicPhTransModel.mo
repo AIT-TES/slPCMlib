@@ -2,7 +2,8 @@
 partial model basicPhTransModel
   "Basic phase transition model, computes properties for given T and xi"
 
-    replaceable package PCM = slPCMlib.Media.generic_7thOrderSmoothStep;
+    replaceable package PCM =
+      slPCMlib.Media_generic.generic_7thOrderSmoothStep;
 //             constrainedby slPCMlib.Interfaces.partialPCM     "PCM"
 //             annotation (Dialog(group="PCM"),
 //                         choicesAllMatching=true);
@@ -47,7 +48,6 @@ protected
         false) "baseline enthalpy at T_max, where melting is finished";
   parameter Modelica.Units.SI.SpecificEnthalpy h_offset(start=1e3, fixed=false)
     "offset für h_L";
-
 
 initial equation
 //   assert(PCM.propData.rangeTmelting[1] >= PCM.propData.rangeTsolidification[1],

@@ -2,7 +2,6 @@ within slPCMlib.Examples;
 model exampleHeatCapacitorPCM_2 "Example using PCM heat capacitor"
   extends Modelica.Icons.Example;
 
-
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalConductor(G=0.6)
     annotation (Placement(transformation(extent={{18,-46},{40,-24}})));
 

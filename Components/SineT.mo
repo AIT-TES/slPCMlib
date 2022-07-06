@@ -11,7 +11,6 @@ model SineT "Generates sinusoidal temperature variations with linear drift"
   parameter Modelica.Units.SI.Temperature startT(displayUnit="K") = 24 + 273.15
     "Start temperature";
 
-
     Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port
     annotation (Placement(transformation(
           origin={0,-100},

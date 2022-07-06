@@ -241,7 +241,6 @@ protected
       1];
   constant Modelica.Units.SI.Temperature losch2=PCM.propData.rangeTmelting[2];
 
-
   initial algorithm
     if  (der(indVar.T) >= 0) then
       modelInd := 1;
@@ -250,7 +249,6 @@ protected
       modelInd := -1;
       (xi,)  := PCM.phaseFrac_complSolidification(indVar.T);
     end if;
-
 
     assert(PCM.propData.rangeTmelting[1] >= PCM.propData.rangeTsolidification[1],
            "PCM.propData.rangeTmelting[1] < PCM.propData.rangeTsolidification[1]. 
@@ -340,7 +338,6 @@ protected
       der(xi) = 0.0;
       dxi = 0.0;
     end if;
-
 
     annotation (Icon(coordinateSystem(preserveAspectRatio=false),
                 graphics={Text(lineColor={108,88,49},

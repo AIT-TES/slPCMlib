@@ -5,7 +5,7 @@ model heatConduction1D
 
   Components.PCMlayer_1D_1port_1symmetry pCMlayer_1D_1port_1symmetry(
     width=0.003,
-    redeclare package PCM = Media.generic_uniform,
+    redeclare package PCM = Media_generic.generic_uniform,
     densitySLPCM=800,
     initT=297.15,
     n_FD=21) annotation (Placement(transformation(extent={{30,16},{66,52}})));
@@ -20,7 +20,6 @@ equation
           {31.8,34}},                            color={191,0,0}));
 
    //  Advanced.Define.DAEsolver = true;
-
 
 //annotation (experiment(__Dymola_Algorithm="Radau"));
 

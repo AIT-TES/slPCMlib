@@ -3,37 +3,33 @@ model exampleHeatCapacitorPCM_1 "Example using PCM heat capacitor"
   extends Modelica.Icons.Example;
 
   Components.SineT sineT(
-    ampl=6.5,
+    ampl=4.5,
     rateT=1/2000,
     startT=273.15 + 17)
     annotation (Placement(transformation(extent={{-22,-20},{-2,0}})));
-
-
 
     // redeclare package PCM = Media.RT64HC,
     // redeclare package PCM = Media.RT60,
   Components.HeatCapacitorPCM heatCapacitorPCM1(
     T(start=273.15 + 50),
-    redeclare package PCM = slPCMlib.Media.SP21EK,
-    redeclare slPCMlib.Interfaces.phTransModCurveTrackHysteresis phTrModel(redeclare
-        package PCM = Media.SP21EK))
+    redeclare package PCM = slPCMlib.Media_Rubitherm_SP.SP21EK,
+    redeclare slPCMlib.Interfaces.phTransModMeltingCurve phTrModel(
+        redeclare package PCM = Media_Rubitherm_SP.SP29Eu))
     annotation (Placement(transformation(extent={{12,14},{32,34}})));
 
-  Components.HeatCapacitorPCM heatCapacitorPCM2(
-    T(start=273.15 + 50),
-    redeclare slPCMlib.Interfaces.phTransModCurveTrackHysteresis phTrModel(redeclare
-        package  PCM = Media.SP21EK))
+  Components.HeatCapacitorPCM heatCapacitorPCM2(T(start=273.15 + 50),
+      redeclare slPCMlib.Interfaces.phTransModCurveTrackHysteresis phTrModel(
+        redeclare package PCM = Media_Rubitherm_SP.SP29Eu))
     annotation (Placement(transformation(extent={{12,-10},{32,10}})));
-  Components.HeatCapacitorPCM heatCapacitorPCM3(
-    T(start=273.15 + 50),
-    redeclare slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated phTrModel(redeclare
-        package PCM =  Media.SP21EK))
+  Components.HeatCapacitorPCM heatCapacitorPCM3(T(start=273.15 + 50),
+      redeclare
+      slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated
+      phTrModel(redeclare package PCM = Media_Rubitherm_SP.SP29Eu))
     annotation (Placement(transformation(extent={{12,-34},{32,-14}})));
-  Components.HeatCapacitorPCM heatCapacitorPCM4(
-    T(start=273.15 + 50),
-    redeclare slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated phTrModel(redeclare
-        package  PCM =
-          Media.SP21EK))
+  Components.HeatCapacitorPCM heatCapacitorPCM4(T(start=273.15 + 50),
+      redeclare
+      slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
+      phTrModel(redeclare package PCM = Media_Rubitherm_SP.SP29Eu))
     annotation (Placement(transformation(extent={{12,-58},{32,-38}})));
 equation
   connect(sineT.port, heatCapacitorPCM1.port) annotation (Line(points={{-1,-10},
@@ -69,10 +65,7 @@ model"),Text(
 model")}),
     experiment(
       StopTime=5000,
-      __Dymola_NumberOfIntervals=1000000,
+      __Dymola_NumberOfIntervals=100000,
       Tolerance=1e-08,
-      __Dymola_Algorithm="Dassl"),
-    __Dymola_Commands(file="doSimulationHeatCapacitorPCM1.mos"
-        "doSimulationHeatCapacitorPCM1", file=
-          "doSimulationHeatCapacitorPCM1.mos" "doSimulationHeatCapacitorPCM1"));
+      __Dymola_Algorithm="Dassl"));
 end exampleHeatCapacitorPCM_1;

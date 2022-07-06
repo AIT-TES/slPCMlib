@@ -2,9 +2,8 @@ within slPCMlib.BasicUtilities;
 package enthalpyHelpers
   "Functions for evaluation of heat capacities and enthalpies"
 
-
   replaceable package PCM =
-      slPCMlib.Media.generic_7thOrderSmoothStep;
+      slPCMlib.Media_generic.generic_7thOrderSmoothStep;
 //           constrainedby slPCMlib.Interfaces.partialPCM     "PCM"
 //           annotation (choicesAllMatching=true);
 

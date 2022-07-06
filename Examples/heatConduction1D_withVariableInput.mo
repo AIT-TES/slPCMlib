@@ -3,7 +3,6 @@ model heatConduction1D_withVariableInput
   "Example considering 1D heat conduction problem"
   extends Modelica.Icons.Example;
 
-
   Modelica.Blocks.Tables.CombiTable1Dv combiTable1D(
     tableOnFile=true,
     tableName="tab1",
@@ -20,8 +19,8 @@ model heatConduction1D_withVariableInput
   Modelica.Blocks.Sources.ContinuousClock clock
     annotation (Placement(transformation(extent={{-126,-44},{-106,-24}})));
   Components.PCMlayer_1D_1port_1symmetry_2PCM pCMlayer_1D_1port_1symmetry_2PCM(
-      redeclare package PCM1 = MediaMyFits.RT35HC_myData_comp1, redeclare
-      package PCM2 = MediaMyFits.RT35HC_myData_comp2)
+      redeclare package PCM1 = Media_Rubitherm_RT.RT35, redeclare package
+              PCM2 = Media_Rubitherm_RT.RT35HC)
     annotation (Placement(transformation(extent={{30,18},{56,78}})));
 equation
   connect(combiTable1D.y[1], prescribedTemperature.T) annotation (Line(points={{

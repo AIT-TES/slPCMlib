@@ -13,11 +13,8 @@ model HeatCapacitorPCM "Lumped thermal PCM element storing heat"
           extent={{-10,-10},{10,10}},
           rotation=90)));
 
-
-
-
-
-    replaceable package PCM = slPCMlib.Media.generic_7thOrderSmoothStep
+    replaceable package PCM =
+      slPCMlib.Media_generic.generic_7thOrderSmoothStep
       constrainedby slPCMlib.Interfaces.partialPCM
       annotation (Dialog(group="PCM and phase transition model"),
                choicesAllMatching=true);
@@ -26,7 +23,6 @@ model HeatCapacitorPCM "Lumped thermal PCM element storing heat"
       phTrModel(redeclare package PCM = PCM)
       constrainedby slPCMlib.Interfaces.basicPhTransModel
       annotation(Dialog(group="PCM and phase transition model"));
-
 
 //    replaceable slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated phTrModel(PCM = PCM)
 //       constrainedby slPCMlib.Interfaces.basicPhTransModel;
@@ -47,7 +43,6 @@ model HeatCapacitorPCM "Lumped thermal PCM element storing heat"
 //           phTrModel(PCM=PCM) "Curve Switch Hysteresis (Algebraic)"),
 //            choice( redeclare slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated
 //                    phTrModel(redeclare package PCM = PCM) "Curve Switch Hysteresis (Differentiated)")));
-
 
   // replaceable slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
   //   phTrModel(redeclare package PCM = PCM) annotation (Dialog(group="PCM and phase transition model"),

@@ -23,14 +23,11 @@ model PCMlayer_1D_1port_1symmetry
   parameter Modelica.Units.SI.Area htrfArea=height*length "Heat transfer area"
     annotation (Dialog(group="Parameters", enable=false));
 
-
-
    replaceable package PCM =
-     slPCMlib.Media.generic_7thOrderSmoothStep
+     slPCMlib.Media_generic.generic_7thOrderSmoothStep
      constrainedby slPCMlib.Interfaces.partialPCM
      annotation (Dialog(group="PCM and phase transition model"),
               choicesAllMatching=true);
-
 
     replaceable slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
        phTrModel_j[n_FD + 1](redeclare package PCM = PCM)
@@ -48,8 +45,6 @@ model PCMlayer_1D_1port_1symmetry
                    phTrModel_j[n_FD + 1](redeclare package PCM=PCM) "Curve Switch Hysteresis (Algebraic)"),
            choice( redeclare slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated
                    phTrModel_j[n_FD + 1](redeclare package PCM = PCM) "Curve Switch Hysteresis (Differentiated)")));
-
-
 
   parameter Modelica.Units.SI.Density densitySLPCM=800.0
     "Average (constant) solid/liquid PCM density"
@@ -79,9 +74,6 @@ model PCMlayer_1D_1port_1symmetry
     // % Thickness of a discrete cell in radial direction
     // dz = 2*(zEnd-z0) / (2*n_FD +1);
 
-
-
-
 // ---------------------------------------------------------------------------
 
 protected
@@ -97,12 +89,10 @@ protected
 // ---------------------------------------------------------------------------
 equation
 
-
   // input temperature signal to the model
   // (now all properties are automatically updated)
   phTrModel_j[1:n_FD].indVar.T     = T_j[1:n_FD];
   phTrModel_j[1:n_FD].indVar.der_T = der(T_j[1:n_FD]);
-
 
   // in addition for BC
   phTrModel_j[n_FD+1].indVar.T =  port.T; // BC
@@ -157,15 +147,12 @@ equation
     // "Heat flow rate (positive if flowing from outside into the component)"
     port.Q_flow = lambda_jp12_BC * (port.T - T_j[1]) / width_i * htrfArea;
 
-
-
 //     Modelica.Utilities.Streams.writeRealMatrix(
 //     fileName="C:/temp/test.mat",
 //     matrixName="testMatrix",
 //     matrix=[T_j],
 //     append=false,
 //     format="7");    //"modelica://slPCMlib/out.mat",
-
 
       annotation(Icon(
       coordinateSystem(preserveAspectRatio=true),

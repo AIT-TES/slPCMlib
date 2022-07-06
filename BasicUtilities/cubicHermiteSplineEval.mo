@@ -9,7 +9,7 @@ function cubicHermiteSplineEval
   input Real m_k[len_x];
   input Real iy_start[len_x];
   input Real iy_scaler;
-  output Real Xi, dXi;
+  output Real xi, dxi;
 
 protected
   Integer intNum "interval number";
@@ -25,54 +25,58 @@ algorithm
 
 //  Modelica.Utilities.Streams.print(" ---> enter splineEval => " + " T = " + String(T));
 
-
   // find the interval
-  intNum := 0;
   if T < data_x[1] then
-    Xi  :=0.0;
-    dXi :=0.0;
-  elseif T > data_x[len_x] then
-    Xi  :=1.0;
-    dXi :=0.0;
-  else
-//     Xi  :=1.0;
-//     dXi :=0.0;
-    while T > data_x[intNum+1] loop
-      intNum := intNum + 1;
-  assert(  intNum < len_x,
-       ("intNum outside range! Problem with T/°C = " + String(T)),
-       AssertionLevel.error);                          // if not true then
-//    Modelica.Utilities.Streams.print(" - loop = " + String[intNum] + " | T = " + String(T)
-//                                        + " | breaks = " + String(breaks[intNum]));
-    end while;
-//   Modelica.Utilities.Streams.print(" - int found: breaks[" + String[intNum] + "]=" + String(breaks[intNum]) + " <= " + String(T));
+    xi  :=0.0;
+    dxi :=0.0;
 
-    // eval spline in element
-    delta := data_x[intNum + 1] - data_x[intNum];
-    t     := (T - data_x[intNum])/delta;
+  elseif data_x[1] <= T then    // and T <= data_x[len_x])
 
-    ih00 := 2.0/4.0*t*t*t*t - 3.0/3.0*t*t*t + 1.0*t;
-    ih10 := 1.0/4.0*t*t*t*t - 2.0/3.0*t*t*t + 1.0/2.0*t*t;
-    ih01 := -2.0/4.0*t*t*t*t + 3.0/3.0*t*t*t;
-    ih11 := 1.0/4.0*t*t*t*t - 1.0/3.0*t*t*t;
+    for i in 1:len_x loop
+    if data_x[intNum+1] <= T then
+      intNum := i;
+    end if;
+    end for;
+    //   Modelica.Utilities.Streams.print(" - int found: breaks[" + String[intNum] + "]=" + String(breaks[intNum]) + " <= " + String(T));
 
-    h00 := 2.0*t*t*t - 3.0*t*t + 1.0;
-    h10 := t*t*t - 2.0*t*t + t;
-    h01 := -2.0*t*t*t + 3.0*t*t;
-    h11 := t*t*t - t*t;
+    if intNum < len_x then
+
+//     assert(  intNum<len_x,
+//            ("T/°C = " + String(T) + " ||| data_x[intNum=" + String(intNum) + "] = " + String(data_x[intNum])),
+//          AssertionLevel.error);
 
 
-    Xi  :=(  ih00*data_y[intNum]
-           + ih10*delta*m_k[intNum]
-           + ih01*data_y[intNum+1]
-           + ih11*delta*m_k[intNum+1])
-              * delta * iy_scaler + iy_start[intNum];
+      // eval spline in element
+      delta := data_x[intNum + 1] - data_x[intNum];
+      t     := (T - data_x[intNum])/delta;
 
-    dXi :=(  h00*data_y[intNum]
-          + h10*delta*m_k[intNum]
-          + h01*data_y[intNum+1]
-          + h11*delta*m_k[intNum+1])  * iy_scaler;
+      ih00 := 2.0/4.0*t*t*t*t - 3.0/3.0*t*t*t + 1.0*t;
+      ih10 := 1.0/4.0*t*t*t*t - 2.0/3.0*t*t*t + 1.0/2.0*t*t;
+      ih01 := -2.0/4.0*t*t*t*t + 3.0/3.0*t*t*t;
+      ih11 := 1.0/4.0*t*t*t*t - 1.0/3.0*t*t*t;
 
+      h00 := 2.0*t*t*t - 3.0*t*t + 1.0;
+      h10 := t*t*t - 2.0*t*t + t;
+      h01 := -2.0*t*t*t + 3.0*t*t;
+      h11 := t*t*t - t*t;
+
+      xi  :=(  ih00*data_y[intNum]
+             + ih10*delta*m_k[intNum]
+             + ih01*data_y[intNum+1]
+             + ih11*delta*m_k[intNum+1])
+                * delta * iy_scaler + iy_start[intNum];
+
+      dxi :=(  h00*data_y[intNum]
+            + h10*delta*m_k[intNum]
+            + h01*data_y[intNum+1]
+            + h11*delta*m_k[intNum+1])  * iy_scaler;
+
+    else
+
+      xi  :=1.0;
+      dxi :=0.0;
+
+    end if;
   end if;
 
   annotation (Icon(graphics,

@@ -26,7 +26,6 @@ partial package partialPCM "Partial PCM model"
     constant Modelica.Units.SI.SpecificEnthalpy href=0.0
       "reference enthalpy at Tref";
 
-
   end propData;
   // -------------------------------------------------------
 //protected
@@ -73,7 +72,6 @@ partial package partialPCM "Partial PCM model"
     output Modelica.Units.SI.ThermalConductivity lambda;
   end conductivity_liquid;
 // ------------------------------------------------------------
-
 
   annotation (Icon(graphics,
       coordinateSystem(preserveAspectRatio=false)), Diagram(graphics,
