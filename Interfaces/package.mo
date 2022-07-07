@@ -50,6 +50,22 @@ protected
       2], PCM.propData.rangeTsolidification[2]);
 
   initial algorithm
+    assert((PCM.propData.modelForMelting == true)
+       and (PCM.propData.modelForSolidification == true),
+           "For this PCM it is not possible to simulate HYSTERESIS! 
+          This PCM does not have a valid model for melting AND solidification!",
+           AssertionLevel.error);
+    assert(PCM.propData.rangeTmelting[1] >= PCM.propData.rangeTsolidification[1],
+           "PCM.propData.rangeTmelting[1] < PCM.propData.rangeTsolidification[1]. 
+          Phase transition function for complete melting should give always smaller values 
+          compared with the function for solidification!",
+           AssertionLevel.error);
+     assert(PCM.propData.rangeTmelting[2] >= PCM.propData.rangeTsolidification[2],
+            "PCM.propData.rangeTmelting[2] < PCM.propData.rangeTsolidification[2]. 
+           Phase transition function for complete melting should give always smaller values 
+           compared with the function for solidification!",
+            AssertionLevel.error);
+
     if  (indVar.der_T >= 0) then
       heatingOn := true;
     else
@@ -122,11 +138,26 @@ protected
     Real xiC_at_T, xiH_at_T;
 
   initial algorithm
+    assert((PCM.propData.modelForMelting == true)
+       and (PCM.propData.modelForSolidification == true),
+           "For this PCM it is not possible to simulate HYSTERESIS! 
+          This PCM does not have a valid model for melting AND solidification!",
+           AssertionLevel.error);
+    assert(PCM.propData.rangeTmelting[1] >= PCM.propData.rangeTsolidification[1],
+           "PCM.propData.rangeTmelting[1] < PCM.propData.rangeTsolidification[1]. 
+          Phase transition function for complete melting should give always smaller values 
+          compared with the function for solidification!",
+           AssertionLevel.error);
+     assert(PCM.propData.rangeTmelting[2] >= PCM.propData.rangeTsolidification[2],
+            "PCM.propData.rangeTmelting[2] < PCM.propData.rangeTsolidification[2]. 
+           Phase transition function for complete melting should give always smaller values 
+           compared with the function for solidification!",
+            AssertionLevel.error);
+
     if  (der(indVar.T) >= 0) then
       modelInd := 1;
       (xi,)  := PCM.phaseFrac_complMelting(indVar.T);
       xi0 := pre(xi);
-
     else
       modelInd := -1;
       (xi,)  := PCM.phaseFrac_complSolidification(indVar.T);
@@ -231,25 +262,22 @@ protected
 
     extends basicPhTransModel;
 
-  //protected
-    discrete Integer modelInd(start=1);
+protected
+  discrete Integer modelInd(start=1);
   Modelica.Units.SI.MassFraction xiC_at_T(start=0.5);
   Modelica.Units.SI.MassFraction xiH_at_T(start=0.5);
-    Real dxiC_at_T(start=0.), dxiH_at_T(start=0.);
+  Real dxiC_at_T(start=0.), dxiH_at_T(start=0.);
 
-  constant Modelica.Units.SI.Temperature losch1=PCM.propData.rangeTsolidification[
-      1];
-  constant Modelica.Units.SI.Temperature losch2=PCM.propData.rangeTmelting[2];
+  // constant Modelica.Units.SI.Temperature losch1=PCM.propData.rangeTsolidification[
+  //     1];
+  // constant Modelica.Units.SI.Temperature losch2=PCM.propData.rangeTmelting[2];
 
   initial algorithm
-    if  (der(indVar.T) >= 0) then
-      modelInd := 1;
-      (xi,)  := PCM.phaseFrac_complMelting(indVar.T);
-    else
-      modelInd := -1;
-      (xi,)  := PCM.phaseFrac_complSolidification(indVar.T);
-    end if;
-
+    assert((PCM.propData.modelForMelting == true)
+       and (PCM.propData.modelForSolidification == true),
+           "For this PCM it is not possible to simulate HYSTERESIS! 
+          This PCM does not have a valid model for melting AND solidification!",
+           AssertionLevel.error);
     assert(PCM.propData.rangeTmelting[1] >= PCM.propData.rangeTsolidification[1],
            "PCM.propData.rangeTmelting[1] < PCM.propData.rangeTsolidification[1]. 
           Phase transition function for complete melting should give always smaller values 
@@ -260,6 +288,15 @@ protected
            Phase transition function for complete melting should give always smaller values 
            compared with the function for solidification!",
             AssertionLevel.error);
+
+    if  (der(indVar.T) >= 0) then
+      modelInd := 1;
+      (xi,)  := PCM.phaseFrac_complMelting(indVar.T);
+    else
+      modelInd := -1;
+      (xi,)  := PCM.phaseFrac_complSolidification(indVar.T);
+    end if;
+
 
   equation
     (xiC_at_T, dxiC_at_T)   = PCM.phaseFrac_complSolidification(indVar.T);
@@ -387,6 +424,21 @@ protected
     Real xi_at_T(start=1.0), dxi_at_T(start=1.0);
 
   initial algorithm
+    assert((PCM.propData.modelForMelting == true)
+       and (PCM.propData.modelForSolidification == true),
+           "For this PCM it is not possible to simulate HYSTERESIS! 
+          This PCM does not have a valid model for melting AND solidification!",
+           AssertionLevel.error);
+    assert(PCM.propData.rangeTmelting[1] >= PCM.propData.rangeTsolidification[1],
+           "PCM.propData.rangeTmelting[1] < PCM.propData.rangeTsolidification[1]. 
+          Phase transition function for complete melting should give always smaller values 
+          compared with the function for solidification!",
+           AssertionLevel.error);
+     assert(PCM.propData.rangeTmelting[2] >= PCM.propData.rangeTsolidification[2],
+            "PCM.propData.rangeTmelting[2] < PCM.propData.rangeTsolidification[2]. 
+           Phase transition function for complete melting should give always smaller values 
+           compared with the function for solidification!",
+            AssertionLevel.error);
 
     if  (indVar.der_T >= 0) then
       (xi,)  := PCM.phaseFrac_complMelting(indVar.T);
@@ -486,6 +538,22 @@ protected
     discrete Boolean heatingOn(start=true);
 
   initial algorithm
+    assert((PCM.propData.modelForMelting == true)
+       and (PCM.propData.modelForSolidification == true),
+           "For this PCM it is not possible to simulate HYSTERESIS! 
+          This PCM does not have a valid model for melting AND solidification!",
+           AssertionLevel.error);
+    assert(PCM.propData.rangeTmelting[1] >= PCM.propData.rangeTsolidification[1],
+           "PCM.propData.rangeTmelting[1] < PCM.propData.rangeTsolidification[1]. 
+          Phase transition function for complete melting should give always smaller values 
+          compared with the function for solidification!",
+           AssertionLevel.error);
+     assert(PCM.propData.rangeTmelting[2] >= PCM.propData.rangeTsolidification[2],
+            "PCM.propData.rangeTmelting[2] < PCM.propData.rangeTsolidification[2]. 
+           Phase transition function for complete melting should give always smaller values 
+           compared with the function for solidification!",
+            AssertionLevel.error);
+
     if  (indVar.der_T >= 0) then
       (xi,)  := PCM.phaseFrac_complMelting(indVar.T);
       heatingOn := true;

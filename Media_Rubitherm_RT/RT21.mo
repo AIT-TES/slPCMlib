@@ -1,6 +1,6 @@
 ﻿within slPCMlib.Media_Rubitherm_RT;
-package RT21 "Rubitherm RT21, data taken from data_sheet"
-   extends slPCMlib.Interfaces.partialPCM;
+package RT21 "Rubitherm RT21; data taken from: data_sheet; last access: 01.12.2019."
+   extends  slPCMlib.Interfaces.partialPCM;
 
   // ----------------------------------
   redeclare replaceable record propData "PCM record"
@@ -9,29 +9,25 @@ package RT21 "Rubitherm RT21, data taken from data_sheet"
 
     // --- parameters for phase transition functions ---
     constant Boolean modelForMelting =        true;
-    constant Boolean modelForSolidification = true;
-    constant Modelica.Units.SI.Temperature rangeTmelting[2]={
-        2.871500000000000e+02,2.981500000000000e+02}
-      "temperature range melting {startT, endT}";
-    constant Modelica.Units.SI.Temperature rangeTsolidification[2]={
-        2.861500000000000e+02,2.961500000000000e+02}
-      "temperature range solidification {startT, endT}";
+    constant Boolean modelForSolidification = false;
+    constant Modelica.Units.SI.Temperature rangeTmelting[2] =  {2.871500000000000e+02, 2.981500000000000e+02}
+             "temperature range melting {startT, endT}";
+    constant Modelica.Units.SI.Temperature rangeTsolidification[2] = {2.861500000000000e+02, 2.961500000000000e+02}
+             "temperature range solidification {startT, endT}";
 
     // --- parameters for heat capacity and enthalpy ---
-    constant Modelica.Units.SI.SpecificHeatCapacity[2] cpS_linCoef={
-        2.000000000000000e+03,0.0}
-      "solid specific heat capacity, linear coefficients a + b*T";
-    constant Modelica.Units.SI.SpecificHeatCapacity[2] cpL_linCoef={
-        2.000000000000000e+03,0.0}
-      "liquid specific heat capacity, linear coefficients a + b*T";
-    constant Modelica.Units.SI.SpecificEnthalpy phTrEnth=9.876933991753223e+04
-      "scalar phase transition enthalpy";
+    constant Modelica.Units.SI.SpecificHeatCapacity[2] cpS_linCoef = {2.000000000000000e+03, 0.0}
+             "solid specific heat capacity, linear coefficients a + b*T";
+    constant Modelica.Units.SI.SpecificHeatCapacity[2] cpL_linCoef = {2.000000000000000e+03, 0.0}
+             "liquid specific heat capacity, linear coefficients a + b*T";
+    constant Modelica.Units.SI.SpecificEnthalpy   phTrEnth = 9.876933991753223e+04
+             "scalar phase transition enthalpy";
 
     // --- reference values ---
-    constant Modelica.Units.SI.Temperature Tref=273.15 + 25
-      "reference temperature";
-    constant Modelica.Units.SI.SpecificEnthalpy href=0.0
-      "reference enthalpy at Tref";
+    constant Modelica.Units.SI.Temperature            Tref = 273.15+25
+             "reference temperature";
+    constant Modelica.Units.SI.SpecificEnthalpy  href = 0.0
+             "reference enthalpy at Tref";
 
   end propData;
   // ----------------------------------
@@ -43,12 +39,8 @@ package RT21 "Rubitherm RT21, data taken from data_sheet"
     constant Real breaks[:] =   data_H.breaks;
     constant Real coefs[:,:] =  data_H.coefs;
   algorithm
-    (xi, dxi) :=BasicUtilities.quartQuintSplineEval(
-        T - 273.15,
-        pieces,
-        order,
-        breaks,
-        coefs[:, :]);
+    (xi, dxi) := BasicUtilities.quartQuintSplineEval(T-273.15,
+                 pieces, order, breaks, coefs[:,:]);
   end phaseFrac_complMelting;
   // ----------------------------------
   redeclare function extends phaseFrac_complSolidification
@@ -59,13 +51,10 @@ package RT21 "Rubitherm RT21, data taken from data_sheet"
     constant Real breaks[:] =   data_C.breaks;
     constant Real coefs[:,:] =  data_C.coefs;
   algorithm
-    (xi, dxi) :=BasicUtilities.quartQuintSplineEval(
-        T - 273.15,
-        pieces,
-        order,
-        breaks,
-        coefs[:, :]);
+    (xi, dxi) := BasicUtilities.quartQuintSplineEval(T-273.15,
+                     pieces, order, breaks, coefs[:,:]);
   end phaseFrac_complSolidification;
+
   // ----------------------------------
   package data_H "spline interpolation data for heating"
     extends Modelica.Icons.Package;
@@ -107,10 +96,15 @@ package RT21 "Rubitherm RT21, data taken from data_sheet"
 annotation(Documentation(
   info="<html>
   <p>
-  This package contains solid and liquid properties for the PCM:  <strong>RT21</strong>.
-  It also contains the phase transition functions for complete melting
-  (and solidification), which are modelled by piece-wise splines,
-  see
+  This package contains solid and liquid properties for the PCM:  <strong>Rubitherm RT21</strong>.<br><br>
+  Information taken from: data_sheet - last access 01.12.2019.<br><br>
+  It also contains the phase transition functions for
+  <ul>
+  <li>complete melting       :  true</li>
+  <li>complete solidification:  false</li>
+  </ul></p><p>
+  These functions are modelled by piece-wise splines using <strong>variable order quartic and quintic</strong> method,
+  see also 
   <blockquote>
   <p>
   Barz, T., Krämer, J., & Emhofer, J. (2020). Identification of Phase
@@ -120,10 +114,9 @@ annotation(Documentation(
   <a href>doi.org/10.3390/en13195149</a>.
   </p>
   </blockquote>
-  <p>
   </p></html>",
   revisions="<html>
   <ul>
-  <li>01-Jun-2022  </ul>
+  <li>file creation date: 07-Jul-2022  </ul>
   </html>"));
 end RT21;

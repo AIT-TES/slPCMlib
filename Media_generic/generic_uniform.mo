@@ -6,20 +6,22 @@ package generic_uniform "Generic, uniform distribution, linear"
   // ----------------------------------
   redeclare replaceable record propData "PCM record"
 
-    constant String mediumName = "generic_GaussianHysteresis";
+  constant String mediumName = "generic_GaussianHysteresis";
 
     // --- parameters for phase transition functions ---
-    constant Real UniformMelt_min = 273.15 + 26
-             "lower limit";                     //62
-    constant Real UniformMelt_max = 273.15 + 30
-             "upper limit";                     //65
+  constant Boolean modelForMelting =        true;
+  constant Boolean modelForSolidification = true;
+  constant Real UniformMelt_min = 273.15 + 26
+           "lower limit";                     //62
+  constant Real UniformMelt_max = 273.15 + 30
+           "upper limit";                     //65
   constant Modelica.Units.SI.Temperature rangeTmelting[2]={UniformMelt_min,
       UniformMelt_max} "temperature range melting {startT, endT}";
-    // ---
-    constant Real UniformSoli_min = 273.15 + 24
-             "lower limit";                     //60.5
-    constant Real UniformSoli_max = 273.15 + 29
-             "upper limit";                     //62
+  // ---
+  constant Real UniformSoli_min = 273.15 + 24
+           "lower limit";                     //60.5
+  constant Real UniformSoli_max = 273.15 + 29
+           "upper limit";                     //62
   constant Modelica.Units.SI.Temperature rangeTsolidification[2]={
       UniformSoli_min,UniformSoli_max}
     "temperature range solidification {startT, endT}";

@@ -6,13 +6,15 @@ package generic_GumbelMinimum "Generic, Gumbel Minimum distribution, asymmetric 
   // ----------------------------------
   redeclare replaceable record propData "PCM record"
 
-    constant String mediumName = "generic_GumbelMinimumHysteresis";
+  constant String mediumName = "generic_GumbelMinimumHysteresis";
 
-    // --- parameters for phase transition function ---
-    constant Real GumbelMinSoli_mu =   273.15 + 28
-             "Location parameter";
-    constant Real GumbelMinSoli_beta = 0.2
-             "Shape parameter, smaller is sharper, beta>0";
+  // --- parameters for phase transition function ---
+  constant Boolean modelForMelting =        true;
+  constant Boolean modelForSolidification = true;
+  constant Real GumbelMinSoli_mu =   273.15 + 28
+           "Location parameter";
+  constant Real GumbelMinSoli_beta = 0.2
+           "Shape parameter, smaller is sharper, beta>0";
   constant Modelica.Units.SI.Temperature rangeTsolidification[2]={
       slPCMlib.BasicUtilities.GumbelMinimum.quantile(
         mu=propData.GumbelMinSoli_mu,
@@ -21,11 +23,11 @@ package generic_GumbelMinimum "Generic, Gumbel Minimum distribution, asymmetric 
         mu=propData.GumbelMinSoli_mu,
         beta=propData.GumbelMinSoli_beta,
         u=0.999)} "temperature range solidification {startT, endT}";
-    // ---
-    constant Real GumbelMinMelt_mu =   273.15 + 30
-             "Location parameter";
-    constant Real GumbelMinMelt_beta = 0.4
-             "Shape parameter, smaller is sharper, beta>0";
+  // ---
+  constant Real GumbelMinMelt_mu =   273.15 + 30
+           "Location parameter";
+  constant Real GumbelMinMelt_beta = 0.4
+           "Shape parameter, smaller is sharper, beta>0";
   constant Modelica.Units.SI.Temperature rangeTmelting[2]={
       slPCMlib.BasicUtilities.GumbelMinimum.quantile(
         mu=propData.GumbelMinMelt_mu,

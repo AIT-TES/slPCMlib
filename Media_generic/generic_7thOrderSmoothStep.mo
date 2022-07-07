@@ -6,9 +6,11 @@ package generic_7thOrderSmoothStep "Generic, 7th-order smoothstep, symmetric pea
   // ----------------------------------
   redeclare replaceable record propData "PCM record"
 
-    constant String mediumName = "generic_7thOrderSmoothStepHysteresis";
+  constant String mediumName = "generic_7thOrderSmoothStepHysteresis";
 
     // --- parameters for phase transition functions ---
+  constant Boolean modelForMelting =        true;
+  constant Boolean modelForSolidification = true;
   constant Modelica.Units.SI.Temperature rangeTmelting[2]={273.15 + 26,
                                                            273.15 + 30}
                               "temperature range melting {startT, endT}";

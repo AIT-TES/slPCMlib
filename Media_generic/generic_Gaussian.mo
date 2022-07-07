@@ -6,13 +6,15 @@ package generic_Gaussian "Generic, Gaussian distribution, symmetric peak"
   // ----------------------------------
   redeclare replaceable record propData "PCM record"
 
-    constant String mediumName = "generic_GaussianHysteresis";
+  constant String mediumName = "generic_GaussianHysteresis";
 
     // --- parameters for phase transition functions ---
-    constant Real GaussMelt_mu = 273.15 + 29
-             "location parameter";
-    constant Real GaussMelt_sigma = 1.0
-             "standard deviation of the normal distribution";
+  constant Boolean modelForMelting =        true;
+  constant Boolean modelForSolidification = true;
+  constant Real GaussMelt_mu = 273.15 + 29
+           "location parameter";
+  constant Real GaussMelt_sigma = 1.0
+           "standard deviation of the normal distribution";
   constant Modelica.Units.SI.Temperature rangeTmelting[2]={
       Modelica.Math.Distributions.Normal.quantile(
         mu=propData.GaussMelt_mu,
@@ -21,11 +23,11 @@ package generic_Gaussian "Generic, Gaussian distribution, symmetric peak"
         mu=propData.GaussMelt_mu,
         sigma=propData.GaussMelt_sigma,
         u=0.999)} "temperature range melting {startT, endT}";
-    // ---
-    constant Real GaussSoli_mu = 273.15 + 27
-             "location parameter";
-    constant Real GaussSoli_sigma = 0.5
-             "standard deviation of the normal distribution";
+  // ---
+  constant Real GaussSoli_mu = 273.15 + 27
+           "location parameter";
+  constant Real GaussSoli_sigma = 0.5
+           "standard deviation of the normal distribution";
   constant Modelica.Units.SI.Temperature rangeTsolidification[2]={
       Modelica.Math.Distributions.Normal.quantile(
         mu=propData.GaussSoli_mu,
