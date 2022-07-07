@@ -9,7 +9,7 @@ package RT_minus_4 "Rubitherm RT_minus_4; data taken from: data_sheet; last acce
 
     // --- parameters for phase transition functions ---
     constant Boolean modelForMelting =        true;
-    constant Boolean modelForSolidification = false;
+    constant Boolean modelForSolidification = true;
     constant Modelica.Units.SI.Temperature rangeTmelting[2] =  {2.631500000000000e+02, 2.711500000000000e+02}
              "temperature range melting {startT, endT}";
     constant Modelica.Units.SI.Temperature rangeTsolidification[2] = {2.631500000000000e+02, 2.711500000000000e+02}
@@ -101,7 +101,7 @@ annotation(Documentation(
   It also contains the phase transition functions for
   <ul>
   <li>complete melting       :  true</li>
-  <li>complete solidification:  false</li>
+  <li>complete solidification:  true</li>
   </ul></p><p>
   These functions are modelled by piece-wise splines using <strong>variable order quartic and quintic</strong> method,
   see also 

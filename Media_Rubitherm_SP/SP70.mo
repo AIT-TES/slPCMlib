@@ -1,18 +1,18 @@
 within slPCMlib.Media_Rubitherm_SP;
-package SP24E "Rubitherm SP24E; data taken from: data sheet; last access: 02.12.2019."
+package SP70 "Rubitherm SP70; data taken from: data sheet; last access: 02.12.2019."
    extends  slPCMlib.Interfaces.partialPCM;
       
   // ----------------------------------
   redeclare replaceable record propData "PCM record"
       
-    constant String mediumName = "SP24E";
+    constant String mediumName = "SP70";
       
     // --- parameters for phase transition functions ---
     constant Boolean modelForMelting        = true;
     constant Boolean modelForSolidification = true;
-    constant Modelica.Units.SI.Temperature rangeTmelting[2] =  {2.951500000000000e+02, 3.001500000000000e+02}
+    constant Modelica.Units.SI.Temperature rangeTmelting[2] =  {3.371500000000000e+02, 3.501500000000000e+02}
              "temperature range melting {startT, endT}";
-    constant Modelica.Units.SI.Temperature rangeTsolidification[2] = {2.911500000000000e+02, 2.971500000000000e+02}
+    constant Modelica.Units.SI.Temperature rangeTsolidification[2] = {3.361500000000000e+02, 3.481500000000000e+02}
              "temperature range solidification {startT, endT}";
       
     // --- parameters for heat capacity and enthalpy ---
@@ -20,7 +20,7 @@ package SP24E "Rubitherm SP24E; data taken from: data sheet; last access: 02.12.
              "solid specific heat capacity, linear coefficients a + b*T";
     constant Modelica.Units.SI.SpecificHeatCapacity[2] cpL_linCoef = {2.000000000000000e+03, 0.0}
              "liquid specific heat capacity, linear coefficients a + b*T";
-    constant Modelica.Units.SI.SpecificEnthalpy   phTrEnth = 1.851715326369335e+05
+    constant Modelica.Units.SI.SpecificEnthalpy   phTrEnth = 1.110928740276218e+05
              "scalar phase transition enthalpy";
       
     // --- reference values ---
@@ -61,22 +61,22 @@ package SP24E "Rubitherm SP24E; data taken from: data sheet; last access: 02.12.
   // ----------------------------------
   package data_H "spline interpolation data for heating"
     extends Modelica.Icons.Package;    
-    constant Integer  len_x    = 6; 
-    constant Real[6] data_x   = {2.200000000000000e+01, 2.300000000000000e+01, 2.400000000000000e+01, 2.500000000000000e+01, 2.600000000000000e+01, 2.700000000000000e+01}; 
-    constant Real[6] data_y   = {0.000000000000000e+00, 1.071400642480339e-02, 7.819502841101409e-01, 1.801132001942055e-01, 2.722250927084918e-02, 0.000000000000000e+00}; 
-    constant Real[6] m_k      = {8.804666490282255e-04, 3.212995769552932e-02, 0.000000000000000e+00, -3.773638874196459e-01, -7.817402971541597e-02, -2.363061948122573e-02}; 
-    constant Real[6] iy_start = {0.000000000000000e+00, 2.747267416171556e-03, 4.009435571953112e-01, 9.123776395622185e-01, 9.909525098682480e-01, 9.999999999999999e-01}; 
-    constant Real    iy_scaler = 9.979615731604661e-01; 
+    constant Integer  len_x    = 14; 
+    constant Real[14] data_x   = {6.400000000000000e+01, 6.500000000000000e+01, 6.600000000000000e+01, 6.700000000000000e+01, 6.800000000000000e+01, 6.900000000000000e+01, 7.000000000000000e+01, 7.100000000000000e+01, 7.200000000000000e+01, 7.300000000000000e+01, 7.400000000000000e+01, 7.500000000000000e+01, 7.600000000000000e+01, 7.700000000000000e+01}; 
+    constant Real[14] data_y   = {0.000000000000000e+00, 9.042173908512759e-03, 1.816610872601731e-02, 2.737254374887167e-02, 3.666222495828009e-02, 7.316242680627691e-02, 1.371191915526174e-01, 2.649494818480094e-01, 1.859656359632346e-01, 7.009890877395542e-02, 4.360623357234820e-02, 7.112705044534286e-02, 6.272801969655643e-02, 0.000000000000000e+00}; 
+    constant Real[14] m_k      = {9.042173908512759e-03, 9.083054363008655e-03, 9.165184920179455e-03, 9.248058116131389e-03, 2.289494152870262e-02, 5.022848329716864e-02, 9.589352752086623e-02, 0.000000000000000e+00, -9.742528653702698e-02, -7.117970119544320e-02, 0.000000000000000e+00, 0.000000000000000e+00, -2.519709224635927e-02, -6.272801969655643e-02}; 
+    constant Real[14] iy_start = {0.000000000000000e+00, 4.490821323396127e-03, 1.800727853167224e-02, 4.063436944482385e-02, 7.133092205370578e-02, 1.236525251565759e-01, 2.243854455507878e-01, 4.321681922148459e-01, 6.643558455955614e-01, 7.894527998004640e-01, 8.400709894348281e-01, 8.970965700303570e-01, 9.657134754065492e-01, 1.000000000000000e+00}; 
+    constant Real    iy_scaler = 9.940547084268252e-01; 
   end data_H;
   // ----------------------------------
   package data_C "spline interpolation data for cooling"
     extends Modelica.Icons.Package;    
-    constant Integer  len_x    = 7; 
-    constant Real[7] data_x   = {1.800000000000000e+01, 1.900000000000000e+01, 2.000000000000000e+01, 2.100000000000000e+01, 2.200000000000000e+01, 2.300000000000000e+01, 2.400000000000000e+01}; 
-    constant Real[7] data_y   = {0.000000000000000e+00, 1.092660552259379e-02, 2.737620916060767e-02, 1.149386178604590e-01, 6.837500495036730e-01, 1.630085179526612e-01, 0.000000000000000e+00}; 
-    constant Real[7] m_k      = {1.092660552259379e-02, 1.256092717013408e-02, 3.780121197874500e-02, 2.599531633368138e-01, 0.000000000000000e+00, -3.418750247518365e-01, -1.630085179526612e-01}; 
-    constant Real[7] iy_start = {0.000000000000000e+00, 5.250998205564139e-03, 2.205547442592033e-02, 7.394806333500224e-02, 4.889400208475399e-01, 9.343528125613458e-01, 1.000000000000000e+00}; 
-    constant Real    iy_scaler = 9.857124979136952e-01; 
+    constant Integer  len_x    = 13; 
+    constant Real[13] data_x   = {6.300000000000000e+01, 6.400000000000000e+01, 6.500000000000000e+01, 6.600000000000000e+01, 6.700000000000000e+01, 6.800000000000000e+01, 6.900000000000000e+01, 7.000000000000000e+01, 7.100000000000000e+01, 7.200000000000000e+01, 7.300000000000000e+01, 7.400000000000000e+01, 7.500000000000000e+01}; 
+    constant Real[13] data_y   = {0.000000000000000e+00, 2.639392868018648e-02, 2.534896947342418e-02, 1.695119888758530e-01, 2.683765725793594e-01, 3.237361261056857e-01, 4.697983696837036e-02, 5.528970248567900e-03, 5.310073378948366e-03, 3.149377151206269e-02, 6.983779799360550e-02, 2.748196418418981e-02, 0.000000000000000e+00}; 
+    constant Real[13] m_k      = {2.639392868018648e-02, 0.000000000000000e+00, 0.000000000000000e+00, 1.215138015529676e-01, 7.711206861491635e-02, 0.000000000000000e+00, -1.232998994432190e-01, -6.566906088586022e-04, 0.000000000000000e+00, 3.226386230732857e-02, 0.000000000000000e+00, -3.491889899680275e-02, -2.748196418418981e-02}; 
+    constant Real[13] iy_start = {0.000000000000000e+00, 1.532764252788027e-02, 4.108345681375403e-02, 1.279975712325542e-01, 3.496468668960558e-01, 6.507772496033328e-01, 8.455358234224549e-01, 8.614982936002940e-01, 8.668391127466345e-01, 8.824821481250154e-01, 9.355981155558889e-01, 9.869374090382248e-01, 9.999999999999997e-01}; 
+    constant Real    iy_scaler = 9.955304091940006e-01; 
   end data_C;
   // ----------------------------------
   redeclare function extends density_solid "Returns solid density"
@@ -86,24 +86,24 @@ package SP24E "Rubitherm SP24E; data taken from: data sheet; last access: 02.12.
   // ----------------------------------
   redeclare function extends density_liquid "Returns liquid density"
   algorithm 
-    rho := 1.400000000000000e+03;
+    rho := 1.300000000000000e+03;
   end density_liquid;
   // ----------------------------------
   redeclare function extends conductivity_solid "Returns solid thermal conductivity"
   algorithm 
-    lambda := 5.000000000000000e-01;
+    lambda := 6.000000000000000e-01;
   end conductivity_solid;
   // ----------------------------------
   redeclare function extends conductivity_liquid "Returns liquid thermal conductivity"
   algorithm 
-    lambda := 5.000000000000000e-01;
+    lambda := 6.000000000000000e-01;
   end conductivity_liquid;
   // ----------------------------------
       
 annotation(Documentation(
   info="<html>
   <p>
-  This package contains solid and liquid properties for the PCM:  <strong>Rubitherm SP24E</strong>.<br><br>
+  This package contains solid and liquid properties for the PCM:  <strong>Rubitherm SP70</strong>.<br><br>
   Information taken from: data sheet - last access 02.12.2019.<br><br>
   It also contains the phase transition functions for
   <ul>
@@ -126,4 +126,4 @@ annotation(Documentation(
   <ul>
   <li>file creation date: 07-Jul-2022  </ul>
   </html>"));
-  end SP24E;
+  end SP70;

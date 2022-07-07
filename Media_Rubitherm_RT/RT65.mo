@@ -9,7 +9,7 @@ package RT65 "Rubitherm RT65; data taken from: data_sheet; last access: 01.12.20
 
     // --- parameters for phase transition functions ---
     constant Boolean modelForMelting =        true;
-    constant Boolean modelForSolidification = false;
+    constant Boolean modelForSolidification = true;
     constant Modelica.Units.SI.Temperature rangeTmelting[2] =  {3.281500000000000e+02, 3.401500000000000e+02}
              "temperature range melting {startT, endT}";
     constant Modelica.Units.SI.Temperature rangeTsolidification[2] = {3.281500000000000e+02, 3.401500000000000e+02}
@@ -101,7 +101,7 @@ annotation(Documentation(
   It also contains the phase transition functions for
   <ul>
   <li>complete melting       :  true</li>
-  <li>complete solidification:  false</li>
+  <li>complete solidification:  true</li>
   </ul></p><p>
   These functions are modelled by piece-wise splines using <strong>variable order quartic and quintic</strong> method,
   see also 

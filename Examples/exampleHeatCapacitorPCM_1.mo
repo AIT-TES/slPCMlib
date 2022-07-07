@@ -29,7 +29,7 @@ model exampleHeatCapacitorPCM_1 "Example using PCM heat capacitor"
   Components.HeatCapacitorPCM heatCapacitorPCM4(T(start=273.15 + 50),
       redeclare
       slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
-      phTrModel(redeclare package PCM = Media_Rubitherm_RT.RT25HC))
+      phTrModel(redeclare package PCM = Media_Rubitherm_SP.SP29Eu))
     annotation (Placement(transformation(extent={{12,-58},{32,-38}})));
 equation
   connect(sineT.port, heatCapacitorPCM1.port) annotation (Line(points={{-1,-10},

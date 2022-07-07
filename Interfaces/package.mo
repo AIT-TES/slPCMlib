@@ -52,9 +52,8 @@ protected
   initial algorithm
     assert((PCM.propData.modelForMelting == true)
        and (PCM.propData.modelForSolidification == true),
-           "For this PCM it is not possible to simulate HYSTERESIS! 
-          This PCM does not have a valid model for melting AND solidification!",
-           AssertionLevel.error);
+           "There should be a model for melting AND solidification 
+           to simulate hysteresis!",   AssertionLevel.error);
     assert(PCM.propData.rangeTmelting[1] >= PCM.propData.rangeTsolidification[1],
            "PCM.propData.rangeTmelting[1] < PCM.propData.rangeTsolidification[1]. 
           Phase transition function for complete melting should give always smaller values 
@@ -140,9 +139,8 @@ protected
   initial algorithm
     assert((PCM.propData.modelForMelting == true)
        and (PCM.propData.modelForSolidification == true),
-           "For this PCM it is not possible to simulate HYSTERESIS! 
-          This PCM does not have a valid model for melting AND solidification!",
-           AssertionLevel.error);
+           "There should be a model for melting AND solidification 
+           to simulate hysteresis!",   AssertionLevel.error);
     assert(PCM.propData.rangeTmelting[1] >= PCM.propData.rangeTsolidification[1],
            "PCM.propData.rangeTmelting[1] < PCM.propData.rangeTsolidification[1]. 
           Phase transition function for complete melting should give always smaller values 
@@ -275,9 +273,8 @@ protected
   initial algorithm
     assert((PCM.propData.modelForMelting == true)
        and (PCM.propData.modelForSolidification == true),
-           "For this PCM it is not possible to simulate HYSTERESIS! 
-          This PCM does not have a valid model for melting AND solidification!",
-           AssertionLevel.error);
+           "There should be a model for melting AND solidification 
+           to simulate hysteresis!",   AssertionLevel.error);
     assert(PCM.propData.rangeTmelting[1] >= PCM.propData.rangeTsolidification[1],
            "PCM.propData.rangeTmelting[1] < PCM.propData.rangeTsolidification[1]. 
           Phase transition function for complete melting should give always smaller values 
@@ -426,9 +423,8 @@ protected
   initial algorithm
     assert((PCM.propData.modelForMelting == true)
        and (PCM.propData.modelForSolidification == true),
-           "For this PCM it is not possible to simulate HYSTERESIS! 
-          This PCM does not have a valid model for melting AND solidification!",
-           AssertionLevel.error);
+           "There should be a model for melting AND solidification 
+           to simulate hysteresis!",   AssertionLevel.error);
     assert(PCM.propData.rangeTmelting[1] >= PCM.propData.rangeTsolidification[1],
            "PCM.propData.rangeTmelting[1] < PCM.propData.rangeTsolidification[1]. 
           Phase transition function for complete melting should give always smaller values 
@@ -540,9 +536,8 @@ protected
   initial algorithm
     assert((PCM.propData.modelForMelting == true)
        and (PCM.propData.modelForSolidification == true),
-           "For this PCM it is not possible to simulate HYSTERESIS! 
-          This PCM does not have a valid model for melting AND solidification!",
-           AssertionLevel.error);
+           "There should be a model for melting AND solidification 
+           to simulate hysteresis!",   AssertionLevel.error);
     assert(PCM.propData.rangeTmelting[1] >= PCM.propData.rangeTsolidification[1],
            "PCM.propData.rangeTmelting[1] < PCM.propData.rangeTsolidification[1]. 
           Phase transition function for complete melting should give always smaller values 
