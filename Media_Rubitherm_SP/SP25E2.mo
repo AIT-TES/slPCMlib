@@ -20,7 +20,7 @@ package SP25E2 "Rubitherm SP25E2; data taken from: data sheet; last access: 02.1
              "solid specific heat capacity, linear coefficients a + b*T";
     constant Modelica.Units.SI.SpecificHeatCapacity[2] cpL_linCoef = {2.000000000000000e+03, 0.0}
              "liquid specific heat capacity, linear coefficients a + b*T";
-    constant Modelica.Units.SI.SpecificEnthalpy   phTrEnth = 1.278063769193438e+05
+    constant Modelica.Units.SI.SpecificEnthalpy   phTrEnth = 1.800000000000000e+05
              "scalar phase transition enthalpy";
       
     // --- reference values ---
