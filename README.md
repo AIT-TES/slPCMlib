@@ -18,12 +18,14 @@ numerically.
 
 ![Alt text](./Resources/Images/slPCMlib.png?raw=true "Title")
 
-Model assumptions: 
-* Phase transitions are induced by temperature. 
-* Phase transitions are pressure independent. 
-* Only two phases exist (two-phase model), a solid and a liquid phase. 
-* Solid and liquid phases co-exist as homogenous mixture (macroscopic view) over an extended phase transition temperature range (non-isothermal phase transitions). 
-* Effective (also apparent) mixture properties are used within the phase transition temperature range. They result from a linear weighting of contributions of solid and liquid phases. The weighting factor is the mass (or volume) liquid phase fraction. 
+Assumptions for modeling effective PCM properties:
+* There are only two phases (two-phase model): a solid and a liquid phase.
+* Phase transitions are induced by temperature and are independent of pressure.
+* Phase transitions extend over a temperature range (non-isothermal phase transitions) and are continuous.
+* Within the phase transition temperature range the solid and liquid phases coexist as a homogenous mixture (macroscopic view). 
+  The material is then in a semi-solid or semi-liquid state which produces a mushy zone in the PCM domain.
+* Properties of the mushy state are local effective (also apparent) mixture properties, which are defined by a weighting of contributions from
+solid and liquid phases. The weighting is based on the phase change progress, i.e. the mass (or volume) phase fraction.  
 
 Temperature is the input to the model using the < inductionAtNode > connector. For a given temperature input *T* the liquid mass phase fraction *xi* is computed, and the following variables are derived: 
 
@@ -41,7 +43,7 @@ _slPCMlib_ contains <ins>material data</ins> for:
 Material data means solid and liquid properties mentioned above (which can be functions of temperature), 
 and liquid mass phase transition curves for complete melting and solidification. 
 
-_slPCMlib_ also contains the following <ins>phase transition models</ins>: 
+_slPCMlib_ also contains the following <ins>phase transition models</ins> which compute the liquid mass phase fraction *xi* : 
 * melting curve model - rate-independent, no hysteresis 
 * curve track hysteresis model - rate-independent, hysteresis 
 * curve switch hysteresis model - rate-independent, hysteresis 
