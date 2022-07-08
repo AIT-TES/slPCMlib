@@ -1,13 +1,22 @@
 # _slPCMlib_ - solid/liquid PCM Modelica library 
 
-The library _slPCMlib_ contains <ins>material data</ins>, <ins>phase transition models</ins> 
-and exemplarily <ins>heat transfer models</ins> 
-for solid/liqid phase change materials (PCM). 
+The library _slPCMlib_ contains property models for solid/liqid phase change materials (PCM)
+showing a non-isothermal phase transition behavior. 
 
-![Alt text](./Resources/Images/slPCMlib.png?raw=true "Title")
-
+The library contains generic PCM and 
+specific commercial PCM (media) 
+for which the phase transition behavior was identified from caloric 
+measurements. Different phenomenological phase transition models are implemented 
+to account for temperature shifts in latent transition changes, 
+e.g. due to multi-step transitions and thermal hysteresis. 
+The models predict effective properties which are valid over the
+PCM functional temperature range where latent heat is absorbed and released. 
+Based on the properties and adopting the apparent heat capacity method, heat transfer problems can be solved 
+numerically.  
 
 ## Description
+
+![Alt text](./Resources/Images/slPCMlib.png?raw=true "Title")
 
 Model assumptions: 
 * Phase transitions are induced by temperature. 
@@ -16,10 +25,10 @@ Model assumptions:
 * Solid and liquid phases co-exist as homogenous mixture (macroscopic view) over an extended phase transition temperature range (non-isothermal phase transitions). 
 * Effective (also apparent) mixture properties are used within the phase transition temperature range. They result from a linear weighting of contributions of solid and liquid phases. The weighting factor is the mass (or volume) liquid phase fraction. 
 
-For a given temperature input signal, liquid phase fractions are computed. The following variables are then determined, which are functions of temperature *T* and liquid mass phase fraction *xi_m*: 
+Temperature is the input to the model using the < inductionAtNode > connector. For a given temperature input *T* the liquid mass phase fraction *xi* is computed, and the following variables are derived: 
 
 * effective density *rho* 
-* liquid volume phase fraction *xi_v*
+* liquid volume phase fraction *phi*
 * effective thermal conductivity *lambda* 
 * effective specific heat capacity *cp* and specific enthalpy *h* 
 * baseline heat capacity *c_BL*, which describes the mixture heat capacity (without the effect of the phase transition enthalpy) 
