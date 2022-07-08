@@ -29,7 +29,7 @@ model PCMlayer_1D_1port_1symmetry
      annotation (Dialog(group="PCM and phase transition model"),
               choicesAllMatching=true);
 
-    replaceable slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
+    replaceable slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated
        phTrModel_j[n_FD + 1](redeclare package PCM = PCM)
        constrainedby slPCMlib.Interfaces.basicPhTransModel
        annotation(Dialog(group="PCM and phase transition model"),choices(
@@ -66,8 +66,15 @@ model PCMlayer_1D_1port_1symmetry
       "Number of internal nodes (into the PCM)"
       annotation(Dialog(tab = "General", group = "Discretization"));
 
-//   Modelica.SIunits.TemperatureSlope der_T_j[n_FD](start=zeros(n_FD))
-//     "Time derivative of temperature (= der(T))";
+  parameter Modelica.Units.SI.Mass mass=width*height*length*densitySLPCM
+    "Mass of the PCM element";
+
+  Modelica.Units.SI.MassFraction stateOfCharge(start=0.0)
+    "SoC defined by (liquid mass) fraction of stored/absorbed latent heat";
+
+  Modelica.Units.SI.Energy storedEnergy(start=0.0)
+    "Total stored/absorbed energy includes sensible and latent heat";
+
 
 //     % Calculation of position of discrete cells
 //     z_FD = [z0:dz:zEnd zEnd+dz/2]';
@@ -86,7 +93,10 @@ protected
   Real lambda_jm12[n_FD], lambda_jp12[n_FD];
   Real D_j[n_FD];
   final constant Real eps = Modelica.Constants.small;
-// ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+
+
+
 equation
 
   // input temperature signal to the model
@@ -127,13 +137,15 @@ equation
 
         end if;
 
-        // densitySLPCM =!= constant /-/ instead of modelPhaseTrans_j[j].rho
 
+        // use harmonic mean
         lambda_jm12[j] = 2 * lambda_j[j] * lambda_jm1[j] / max(lambda_j[j] + lambda_jm1[j],eps);
         lambda_jp12[j] = 2 * lambda_j[j] * lambda_jp1[j] / max(lambda_j[j] + lambda_jp1[j],eps);
 
         // --- Finite differences for planar geometry ---
         D_j[j] = (lambda_jp12[j] * (T_jp1[j]-T_j[j]) / width_i - lambda_jm12[j] * (T_j[j]-T_jm1[j]) / width_i) / width_i;
+
+        // densitySLPCM =!= constant /-/ instead of modelPhaseTrans_j[j].rho
 
         // discrete conduction equations
         der(T_j[j]) =  D_j[j] /  (densitySLPCM * phTrModel_j[j].cp);
@@ -142,10 +154,23 @@ equation
 
     // --- boundary condition at the port - connect T and Q bound ---
     // thermal conductivity coefficient is calculated using the harmonic mean:
+    // NOTE: [n_FD+1] position is used for BC
     lambda_jp12_BC = 2 * phTrModel_j[1].lambda * phTrModel_j[n_FD+1].lambda
                       / max((phTrModel_j[1].lambda + phTrModel_j[n_FD+1].lambda),eps);
     // "Heat flow rate (positive if flowing from outside into the component)"
     port.Q_flow = lambda_jp12_BC * (port.T - T_j[1]) / width_i * htrfArea;
+
+
+algorithm
+
+    stateOfCharge :=(phTrModel_j[n_FD + 1].xi +phTrModel_j[1].xi)/2.0;
+    storedEnergy  :=(phTrModel_j[n_FD + 1].h  +phTrModel_j[1].h)/2.0*mass;
+    for j in 1:n_FD-1 loop
+      stateOfCharge :=stateOfCharge +(phTrModel_j[j].xi+phTrModel_j[j+1].xi)/2.0;
+      storedEnergy  :=storedEnergy  +(phTrModel_j[j].h+phTrModel_j[j+1].h)/2.0*mass;
+    end for;
+    stateOfCharge :=(stateOfCharge +phTrModel_j[n_FD].xi/2.0)/(n_FD+1);
+    storedEnergy  :=(storedEnergy  +phTrModel_j[n_FD].h/2.0*mass)/(n_FD+1);
 
 //     Modelica.Utilities.Streams.writeRealMatrix(
 //     fileName="C:/temp/test.mat",
@@ -153,6 +178,9 @@ equation
 //     matrix=[T_j],
 //     append=false,
 //     format="7");    //"modelica://slPCMlib/out.mat",
+
+
+
 
       annotation(Icon(
       coordinateSystem(preserveAspectRatio=true),
