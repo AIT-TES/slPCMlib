@@ -5,50 +5,70 @@ extends Modelica.Icons.Information;
 annotation (
 Documentation(info="<html>
 <p>
-This library <u>slPCMlib</u> contains property models for 
-<strong>solid/liqid phase change materials (PCM)</strong>. 
+This library <strong><u>slPCMlib</u></strong> contains property models for 
+<strong>solid/liqid phase change materials (PCM)</strong> 
+showing a 
+<strong>non-isothermal phase transition behavior</strong>. 
+The effective properties are valid over the
+PCM functional temperature range where latent heat is absorbed and released. 
+Different phenomenological <strong>phase transition models</strong> 
+are implemented 
+to account for temperature shifts in latent transition changes, 
+e.g. due to multi-step transitions and thermal hysteresis. 
+<br>
+The library contains <strong>generic PCM</strong> and 
+<strong>specific commercial PCM</strong>
+(media) 
+for which the phase transition behavior was identified from caloric measurement 
+data. 
 </p>
 <blockquote> 
   <p>
   <img src=\"modelica://slPCMlib/Resources/Images/slPCMlib.png\"> 
   </p>
   </blockquote>
-<p>
-Assumptions:
-  <ul>
-  <li>Phase transitions are induced by temperature.</li> 
-  <li>Phase transitions are pressure independent.</li>  
-  <li>Only two phases exist (two-phase model), a solid and a liquid phase.</li> 
-  <li>These phases co-exist as homogenous mixture 
-  (macroscopic view) over an extended phase transition temperature 
-  range (non-isothermal phase transitions).</li> 
-  <li>Effective (also apparent) mixture properties can be computed by 
-  a simple linear weighting of contributions from solid and liquid phase. 
-  The weighting factor is the mass (or volume) liquid phase fraction.</li>   
+  <p>
+Assumptions for modeling effective PCM properties:
+<ul>
+
+  <li>There are only two phases (two-phase model): a
+solid and a liquid phase.</li> 
+  <li>Phase transitions are induced by temperature and are
+independent of pressure.</li> 
+  <li>Phase transitions extend over a temperature range
+(non-isothermal phase transitions) and are continuous.</li> 
+  <li>Within the phase transition temperature range the
+  solid and liquid phases coexist as a homogenous mixture (macroscopic view). 
+  The material is then in a semi-solid or semi-liquid state which produces a
+mushy zone in the PCM domain.</li> 
+  <li>Properties of the mushy state are local
+effective (also apparent) mixture properties, which
+are defined by a weighting of contributions from
+solid and liquid phases. The weighting is based on
+the phase change progress, i.e. the mass (or volume) phase fraction.  </li> 
         </ul>
         </p>
       <p>
       Temperature is the input to the model using the 
       &lt; inductionAtNode &gt; connector. 
-      For a given temperature input signal, liquid phase fractions are 
+      For a given temperature input <var> T </var>  
+      the liquid mass phase fraction <var> xi </var> is 
       computed, 
-      and the following variables are derived, which are functions of 
-      temperature <var> T </var> and liquid mass phase fraction <var> xi_m </var>. 
+      and the following variables are derived:
       </p>  
       <ul>
-          <li>liquid mass <var> xi_m </var> and volume<var> xi_v </var> 
-              phase fractions </li>         
-          <li>effective density <var> rho </var> </li>
-          <li>effective thermal conductivity <var> lambda </var> </li>  
-          <li>effective specific heat capacity <var> cp </var></li>   
-          <li>and specific enthalpy <var> h </var></li>
-          <li>baseline heat capacity <var> c_BL </var>, which 
-          describes the mixture heat capacity (without the effect of the 
-          phase transition enthalpy)</li>
-          <li>solid <var> h_S </var> and liquid <var> h_L </var> enthalpies, 
-          where the difference <var> h_L - h_S </var> 
-          is the temperature-dependent phase transition enthalpy. 
-          </ul>
+      <li>liquid volume phase fractions <var> phi </var> </li> 
+      <li>effective density <var> rho </var> </li>
+      <li>effective thermal conductivity <var> lambda </var> </li>  
+      <li>effective specific heat capacity <var> cp </var></li>   
+      <li>and specific enthalpy <var> h </var></li>
+      <li>baseline heat capacity <var> c_BL </var>, which 
+      describes the mixture heat capacity (without the effect of the 
+      phase transition enthalpy)</li>
+      <li>solid <var> h_S </var> and liquid <var> h_L </var> enthalpies, 
+      where the difference <var> h_L - h_S </var> 
+      is the temperature-dependent phase transition enthalpy. 
+      </ul>
       </p> 
       <p>
       The <a href>slPCMlib.Media</a> package contains 
@@ -64,7 +84,7 @@ Assumptions:
       a PCM media template <a href>slPCMlib.Interfaces.partialPCM</a>
       with partial PCM models, parameter, functions for the solid and liquid 
       properties (single phases) and the evolution of the liquid mass 
-      fraction <var> xi_m </var> 
+      fraction <var> xi </var> 
       for complete solid/liquid or liquid/solid transitions.
       </p>
       <p>
@@ -93,7 +113,7 @@ Assumptions:
       <p>
       These phase transition models predict a different behavior for 
       complete and incomplete (interrupted) transitions, depending on the 
-      temperature history. The behavior is predicted for <var> xi_m </var> 
+      temperature history. The behavior is predicted for <var> xi </var> 
       and affects all properties (variables above). 
       </p>
       <p>
@@ -113,7 +133,7 @@ Assumptions:
       The package <a href>slPCMlib.Components</a> contains  
       thermal storage models using PCM.  
       Examples for their use are contained in 
-      <a href>slPCMlib.Examples</a>
+      <a href>slPCMlib.Examples</a>.
       </p>
   </html>",
 revisions="<html>
