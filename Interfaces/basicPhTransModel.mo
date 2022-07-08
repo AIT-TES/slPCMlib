@@ -98,44 +98,56 @@ equation
               Diagram(graphics, coordinateSystem(preserveAspectRatio=false)),
           Documentation(info="<html>
           <p>
-          Two phases are considered, a solid and a liquid phase. 
-          It is assumed that these phases co-exist as homogenous mixture 
-          (macroscopic view) in an extended phase transition temperature range. 
-          Effective (also apparent) mixture properties are computed by a weighting of 
-          contributions from solid and liquid phase. 
-          The weighting factor is the mass (or volume) liquid phase fraction.  
-          </p>
-          <p>
-          It is assumed that phase transitions are pressure independent,  
-          and are induced by temperature. 
-          Temperature is input to the model using the 
-          <var> inductionAtNode </var> connector. 
-          </p>
-          <p>
-          For a given temperature input signal the following variables 
-          are computed: 
-          </p>  
+Assumptions for modeling effective PCM properties:
+<ul>
+
+  <li>There are only two phases (two-phase model): a
+solid and a liquid phase.</li> 
+  <li>Phase transitions are induced by temperature and are
+independent of pressure.</li> 
+  <li>Phase transitions extend over a temperature range
+(non-isothermal phase transitions) and are continuous.</li> 
+  <li>Within the phase transition temperature range the
+  solid and liquid phases coexist as a homogenous mixture (macroscopic view). 
+  The material is then in a semi-solid or semi-liquid state which produces a
+mushy zone in the PCM domain.</li> 
+  <li>Properties of the mushy state are local
+effective (also apparent) mixture properties, which
+are defined by a weighting of contributions from
+solid and liquid phases. The weighting is based on
+the phase change progress, i.e. the mass (or volume) phase fraction.  </li> 
+        </ul>
+        </p>
+      <p>
+      Temperature is the input to the model using the 
+      &lt; inductionAtNode &gt; connector. 
+      For a given temperature input <var> T </var>  
+      the liquid mass phase fraction <var> xi </var> is 
+      computed, 
+      and the following variables are derived:
+      </p>  
       <ul>
-          <li>liquid mass <var> xi </var> and volume <var> phi </var> 
-              phase fractions </li>         
-          <li>effective density <var> rho </var> </li>
-          <li>effective thermal conductivity <var> lambda </var> </li>  
-          <li>effective specific heat capacity <var> cp </var></li>   
-          <li>and specific enthalpy <var> h </var></li>
-          </ul>
-          </p>
-          <p>
-          Furthermore:
-      <ul>
-          <li>baseline heat capacity <var> c_BL </var>, which 
-          describes the mixture heat capacity (without the effect of the 
-          phase transition enthalpy)</li>
-          <li>solid <var> h_S </var> and liquid <var> h_L </var> enthalpies, 
-          where the difference <var> h_L - h_S </var> 
-          is the temperature-dependent phase transition enthalpy. 
-          </ul>
-          </p>      
-          </html>",
+      <li>liquid volume phase fractions <var> phi </var> </li> 
+      <li>effective density <var> rho </var> </li>
+      <li>effective thermal conductivity <var> lambda </var> </li>  
+      <li>effective specific heat capacity <var> cp </var></li>   
+      <li>and specific enthalpy <var> h </var></li>
+      <li>baseline heat capacity <var> c_BL </var>, which 
+      describes the mixture heat capacity (without the effect of the 
+      phase transition enthalpy)</li>
+      <li>solid <var> h_S </var> and liquid <var> h_L </var> enthalpies, 
+      where the difference <var> h_L - h_S </var> 
+      is the temperature-dependent phase transition enthalpy. 
+      </ul>
+      </p> 
+      <p>
+      The <a href>slPCMlib.Interfaces.basicPcTransModel</a>  is extended by 
+      specific phase transition models which compute <var> xi </var> 
+      as function of temperature <var> T </var> and are also 
+      contained in 
+      <a href>slPCMlib.Interfaces</a>.
+      </p>
+                </html>",
      revisions="<html>
        <ul>
        <li>2022-06-01; initial version; by Tilman Barz </li>

@@ -5,32 +5,40 @@ extends Modelica.Icons.Information;
 annotation (
 Documentation(info="<html>
 <p>
-This library <strong><u>slPCMlib</u></strong> contains property models for 
+The library <strong><u>slPCMlib</u> - 
+solid/liquid PCM Modelica library -</strong> contains property models for 
 <strong>solid/liqid phase change materials (PCM)</strong> 
 showing a 
 <strong>non-isothermal phase transition behavior</strong>. 
-The effective properties are valid over the
-PCM functional temperature range where latent heat is absorbed and released. 
+</p>
+<p>
+The library contains <strong>generic PCM</strong> and 
+<strong>specific commercial PCM</strong>
+(media) 
+for which the phase transition behavior was identified from caloric 
+measurements. 
 Different phenomenological <strong>phase transition models</strong> 
 are implemented 
 to account for temperature shifts in latent transition changes, 
 e.g. due to multi-step transitions and thermal hysteresis. 
+The models predict <strong>effective properties</strong> 
+which are valid over the
+PCM functional temperature range where latent heat is absorbed and released. 
+Based on the properties and adopting the apparent heat capacity method, 
+heat transfer problems can be solved 
+numerically.  
 <br>
-The library contains <strong>generic PCM</strong> and 
-<strong>specific commercial PCM</strong>
-(media) 
-for which the phase transition behavior was identified from caloric measurement 
-data. 
 </p>
 <blockquote> 
   <p>
   <img src=\"modelica://slPCMlib/Resources/Images/slPCMlib.png\"> 
+  Selecting material data (either generic or specific PCM), 
+  and a phase transition model, heat transfer problems in PCM can be solved.
   </p>
   </blockquote>
   <p>
 Assumptions for modeling effective PCM properties:
 <ul>
-
   <li>There are only two phases (two-phase model): a
 solid and a liquid phase.</li> 
   <li>Phase transitions are induced by temperature and are

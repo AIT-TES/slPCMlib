@@ -21,8 +21,10 @@ package Interfaces "Interfaces for PCM properties and models"
       Diagram(graphics, coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>
         <p>
-        The model predicts the liquid mass phase fraction as function of 
-        temperature, see the following example.
+        This specific phase transition model computes the 
+        liquid mass phase fraction
+        <var> xi </var> as a function of temperature <var> T </var>, 
+        see the following example.
         </p>          
         </blockquote>          
         <p> 
@@ -97,8 +99,11 @@ protected
                 Diagram(graphics, coordinateSystem(preserveAspectRatio=false)),
       Documentation(info="<html>
           <p>
-          The model predicts the liquid mass phase fraction. 
-          It is a static (so-called curve track) hysteresis model, see e.g. 
+          This specific phase transition model computes the 
+          liquid mass phase fraction
+          <var> xi </var> as a function of temperature <var> T </var>. <br>
+          It is a static (so-called <strong>curve track</strong>) 
+          hysteresis model, see e.g. 
           </p>
           <blockquote>          
           <p>
@@ -228,7 +233,9 @@ protected
                 Diagram(graphics, coordinateSystem(preserveAspectRatio=false)),
       Documentation(info="<html>
           <p>
-          The model predicts the liquid mass phase fraction. 
+          This specific phase transition model computes the 
+          liquid mass phase fraction
+          <var> xi </var> as a function of temperature <var> T </var>. <br>
           It is a static (so-called <strong>curve switch</strong>) 
           hysteresis model, see e.g. 
           </p>
@@ -380,8 +387,10 @@ protected
                 Diagram(graphics, coordinateSystem(preserveAspectRatio=false)),
       Documentation(info="<html>
         <p>
-        The model predicts the liquid mass phase fraction. 
-        It is a static (so-called curve switch) 
+          This specific phase transition model computes the 
+          liquid mass phase fraction
+          <var> xi </var> as a function of temperature <var> T </var>. <br>
+        It is a static (so-called <strong>curve switch</strong>) 
         hysteresis model, see e.g. 
         </p>
         <blockquote>          
@@ -497,8 +506,11 @@ protected
                 Diagram(graphics, coordinateSystem(preserveAspectRatio=false)),
       Documentation(info="<html>
           <p>
-          The model predicts the liquid mass phase fraction. 
-          It is a static (so-called curve scale) hysteresis model as described in  
+          This specific phase transition model computes the 
+          liquid mass phase fraction
+          <var> xi </var> as a function of temperature <var> T </var>. <br>
+          It is a static (so-called <strong>curve scale</strong>) 
+          hysteresis model, e.g. described in  
           </p>
           <blockquote>          
           <p>
@@ -618,8 +630,11 @@ protected
                 Diagram(graphics, coordinateSystem(preserveAspectRatio=false)),
       Documentation(info="<html>
           <p>
-          The model predicts the liquid mass phase fraction 
-          as described in  
+          This specific phase transition model computes the 
+          liquid mass phase fraction
+          <var> xi </var> as a function of temperature <var> T </var>. <br>
+          It is a static (so-called <strong>curve scale</strong>) 
+          hysteresis model, e.g. described in  
           </p>
           <blockquote>          
           <p>
