@@ -3,10 +3,8 @@
 The library _slPCMlib_ contains property models for solid/liqid phase change materials (PCM)
 showing a non-isothermal phase transition behavior. 
 
-The library contains generic PCM and 
-specific commercial PCM (media) 
-for which the phase transition behavior was identified from caloric 
-measurements. Different phenomenological phase transition models are implemented 
+The library contains generic PCM and specific commercial PCM (media).  
+Different phenomenological phase transition models are implemented 
 to account for temperature shifts in latent transition changes, 
 e.g. due to multi-step transitions and thermal hysteresis. 
 The models predict effective properties which are valid over the
