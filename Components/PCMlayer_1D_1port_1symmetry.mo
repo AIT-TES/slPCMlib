@@ -23,39 +23,24 @@ model PCMlayer_1D_1port_1symmetry
   parameter Modelica.Units.SI.Area htrfArea=height*length "Heat transfer area"
     annotation (Dialog(group="Parameters", enable=false));
 
-   replaceable package PCM =
-     slPCMlib.Media_generic.generic_7thOrderSmoothStep
-     constrainedby slPCMlib.Interfaces.partialPCM
-     annotation (Dialog(group="PCM and phase transition model"),
-              choicesAllMatching=true);
+  replaceable package PCM =
+    slPCMlib.Media_generic.generic_7thOrderSmoothStep
+    constrainedby slPCMlib.Interfaces.partialPCM
+    annotation (Dialog(group="PCM and phase transition model"),
+                choicesAllMatching=true);
 
-    replaceable slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated
-       phTrModel_j[n_FD + 1](redeclare package PCM = PCM)
-       constrainedby slPCMlib.Interfaces.basicPhTransModel
-       annotation(Dialog(group="PCM and phase transition model"),choices(
-           choice( redeclare slPCMlib.Interfaces.phTransModMeltingCurve
-                   phTrModel_j[n_FD + 1](redeclare package PCM = PCM) "Melting Curve"),
-           choice( redeclare slPCMlib.Interfaces.phTransModCurveTrackHysteresis
-                   phTrModel_j[n_FD + 1](redeclare package PCM = PCM) "Curve Track Hysteresis"),
-           choice( redeclare slPCMlib.Interfaces.phTransModCurveScaleHysteresisAlgebraic
-                   phTrModel_j[n_FD + 1](redeclare package PCM = PCM) "Curve Scale Hysteresis (Algebraic)"),
-           choice( redeclare slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
-                   phTrModel_j[n_FD + 1](redeclare package PCM = PCM) "Curve Scale Hysteresis (Differentiated)"),
-           choice(redeclare  slPCMlib.Interfaces.phTransModCurveSwitchHysteresisAlgebraic
-                   phTrModel_j[n_FD + 1](redeclare package PCM=PCM) "Curve Switch Hysteresis (Algebraic)"),
-           choice( redeclare slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated
-                   phTrModel_j[n_FD + 1](redeclare package PCM = PCM) "Curve Switch Hysteresis (Differentiated)")));
+  replaceable slPCMlib.Interfaces.phTransModMeltingCurve
+    phTrModel_j[n_FD + 1](redeclare package PCM = PCM)
+    constrainedby slPCMlib.Interfaces.basicPhTransModel(redeclare package PCM = PCM)
+    annotation(Dialog(group="PCM and phase transition model"),
+               choicesAllMatching=true);
 
-  parameter Modelica.Units.SI.Density densitySLPCM=800.0
+  parameter Modelica.Units.SI.Density
+    densitySLPCM = ( PCM.density_solid(PCM.propData.rangeTsolidification[1])
+                   + PCM.density_liquid(PCM.propData.rangeTmelting[2]))  / 2.0
     "Average (constant) solid/liquid PCM density"
     annotation (Dialog(group="PCM and phase transition model"));
-     // (PCM.rho_liquid+PCM.rho_solid)/2.0
 
-  // --- port and internal temperatures ---
-//   Modelica.SIunits.Temp_K  T_j[n_FD](start=ones(n_FD)
-//             *(   PCM.rangeTsolidification[1]
-//                - (PCM.rangeTmelting[2] - PCM.rangeTsolidification[1])/2))
-//     "PCM temperatures inside the layer";
   parameter Modelica.Units.SI.Temperature initT(start=273.15 + 20, fixed=true)
     "initial temperatures inside the PCM layer (homogenous T field assumed)"
     annotation (Dialog(group="Initial PCM state"), choicesAllMatching=true);
@@ -63,8 +48,8 @@ model PCMlayer_1D_1port_1symmetry
   Modelica.Units.SI.Temperature T_j[n_FD](start=ones(n_FD)*(initT), fixed=true);
 
   parameter Integer n_FD(min=1)=6
-      "Number of internal nodes (into the PCM)"
-      annotation(Dialog(tab = "General", group = "Discretization"));
+    "Number of internal nodes (into the PCM)"
+    annotation(Dialog(tab = "General", group = "Discretization"));
 
   parameter Modelica.Units.SI.Mass mass=width*height*length*densitySLPCM
     "Mass of the PCM element";
@@ -94,7 +79,6 @@ protected
   Real D_j[n_FD];
   final constant Real eps = Modelica.Constants.small;
   // ---------------------------------------------------------------------------
-
 
 
 equation

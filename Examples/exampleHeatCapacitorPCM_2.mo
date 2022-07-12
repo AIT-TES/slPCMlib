@@ -20,7 +20,10 @@ model exampleHeatCapacitorPCM_2 "Example using PCM heat capacitor"
     annotation (Placement(transformation(extent={{-16,-46},{6,-24}})));
   Modelica.Blocks.Sources.ContinuousClock clock
     annotation (Placement(transformation(extent={{-80,-44},{-62,-26}})));
-  Components.HeatCapacitorPCM heatCapacitorPCM
+  Components.HeatCapacitorPCM heatCapacitorPCM(redeclare package PCM =
+        slPCMlib.Media_Rubitherm_RT.RT2HC, redeclare
+      slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated
+      phTrModel)
     annotation (Placement(transformation(extent={{60,8},{80,28}})));
 equation
   connect(combiTable1D.y[1], prescribedTemperature.T) annotation (Line(points={{-26.9,

@@ -42,44 +42,45 @@ extends Modelica.Icons.ObsoleteModel;
 
   // --- PCM and phase transition model ---
   replaceable package PCM1 =
-      slPCMlib.Media_generic.generic_7thOrderSmoothStep
-            constrainedby slPCMlib.Interfaces.partialPCM
-            annotation (Dialog(tab = "General", group="PCM"),
-                        choicesAllMatching=true);
+    slPCMlib.Media_generic.generic_7thOrderSmoothStep
+    constrainedby slPCMlib.Interfaces.partialPCM
+    annotation (Dialog(group="PCM and phase transition model"),
+                choicesAllMatching=true);
 
   replaceable package PCM2 =
-      slPCMlib.Media_generic.generic_GumbelMinimum
-            constrainedby slPCMlib.Interfaces.partialPCM
-            annotation (Dialog(tab = "General", group="PCM"),
-                        choicesAllMatching=true);
+    slPCMlib.Media_generic.generic_7thOrderSmoothStep
+    constrainedby slPCMlib.Interfaces.partialPCM
+    annotation (Dialog(group="PCM and phase transition model"),
+                choicesAllMatching=true);
+
 
   // (n_FD+1 is for evaluating the properties at the left boundary/ port)
-  PCM1.ModelPhaseTrans model1PhaseTrans_j[n_FD+1]
-       "vector of phase transition models for each discrete node"
-                    annotation (Dialog(tab = "General", group="PCM"),
-                          choicesAllMatching=true);
-  PCM2.ModelPhaseTrans model2PhaseTrans_j[n_FD+1]
-       "vector of phase transition models for each discrete node"
-                    annotation (Dialog(tab = "General", group="PCM"),
-                          choicesAllMatching=true);
+  replaceable slPCMlib.Interfaces.phTransModMeltingCurve
+    model1PhaseTrans_j[n_FD + 1](redeclare package PCM = PCM1)
+    constrainedby slPCMlib.Interfaces.basicPhTransModel(redeclare package PCM = PCM)
+    annotation(Dialog(group="PCM and phase transition model"),
+               choicesAllMatching=true);
+
+  replaceable slPCMlib.Interfaces.phTransModMeltingCurve
+    model2PhaseTrans_j[n_FD + 1](redeclare package PCM = PCM2)
+    constrainedby slPCMlib.Interfaces.basicPhTransModel(redeclare package PCM = PCM)
+    annotation(Dialog(group="PCM and phase transition model"),
+               choicesAllMatching=true);
 
 
+  parameter Modelica.Units.SI.Density
+    densitySLPCM = ( PCM1.density_solid(PCM1.propData.rangeTsolidification[1])
+                   + PCM1.density_liquid(PCM1.propData.rangeTmelting[2]))  / 2.0
+    "Average (constant) solid/liquid PCM density"
+    annotation (Dialog(group="PCM and phase transition model"));
 
-  parameter Modelica.Units.SI.Density densitySLPCM=(PCM1.rho_liquid + PCM1.rho_solid)
-      /2.0 "Average (constant) solid/liquid PCM density"
-    annotation (Dialog(tab="General", group="PCM"));
 
-  // --- port and internal temperatures ---
-  Modelica.Units.SI.Temperature T_j[n_FD](start=ones(n_FD)*(PCM1.rangeTsolidification[
-        1] - (PCM1.rangeTmelting[2] - PCM1.rangeTsolidification[1])/2),
-      displayUnit="degC") "PCM temperatures inside the layer";
-                                                       //*(47.5+273.15),
-//             *(   PCM1.rangeTsolidification[1]
-//                - (PCM1.rangeTmelting[2] - PCM1.rangeTsolidification[1])/2),
-//      annotation(Dialog(tab = "General", group = "PCM"));
+  parameter Modelica.Units.SI.Temperature initT(start=273.15 + 20, fixed=true)
+    "initial temperatures inside the PCM layer (homogenous T field assumed)"
+    annotation (Dialog(group="Initial PCM state"), choicesAllMatching=true);
 
-//   Modelica.SIunits.TemperatureSlope der_T_j[n_FD](start=zeros(n_FD))
-//     "Time derivative of temperature (= der(T))";
+  Modelica.Units.SI.Temperature T_j[n_FD](start=ones(n_FD)*(initT), fixed=true);
+
 
 //     % Calculation of position of discrete cells
 //     z_FD = [z0:dz:zEnd zEnd+dz/2]';

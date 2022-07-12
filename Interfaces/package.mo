@@ -2,7 +2,7 @@
 package Interfaces "Interfaces for PCM properties and models"
     extends Modelica.Icons.InterfacesPackage;
 
-  replaceable model phTransModMeltingCurve
+  model phTransModMeltingCurve
     "Melting curve model, static (default model, no hysteresis)"
 
     extends basicPhTransModel;
@@ -39,7 +39,7 @@ package Interfaces "Interfaces for PCM properties and models"
 </html>"));
   end phTransModMeltingCurve;
 
-  replaceable model phTransModCurveTrackHysteresis
+  model phTransModCurveTrackHysteresis
     "Curve track hysteresis model, static"
 
     extends basicPhTransModel;
@@ -130,8 +130,8 @@ protected
 
 
 
-  replaceable model phTransModCurveSwitchHysteresisAlgebraic
-    "Curve switch hysteresis model, static"
+  model phTransModCurveSwitchHysteresisAlgebraic
+    "Curve switch hysteresis model, static (algebraic equations)"
 
     //extends Modelica.Icons.ObsoleteModel;
     extends basicPhTransModel;
@@ -262,8 +262,8 @@ protected
 
 
 
-  replaceable model phTransModCurveSwitchHysteresisDifferentiated
-    "Curve switch hysteresis model, static"
+  model phTransModCurveSwitchHysteresisDifferentiated
+    "Curve switch hysteresis model, static (differentiated equations)"
 
     extends basicPhTransModel;
 
@@ -414,7 +414,7 @@ protected
         </html>"));
   end phTransModCurveSwitchHysteresisDifferentiated;
 
-  replaceable model phTransModCurveScaleHysteresisAlgebraic
+  model phTransModCurveScaleHysteresisAlgebraic
     "Curve scale hysteresis model, static (algebraic equations)"
 
   //  extends Modelica.Icons.ObsoleteModel;
@@ -533,7 +533,7 @@ protected
           </html>"));
   end phTransModCurveScaleHysteresisAlgebraic;
 
-  replaceable model phTransModCurveScaleHysteresisDifferentiated
+  model phTransModCurveScaleHysteresisDifferentiated
     "Curve scale hysteresis model, static (differentiated equations)"
 
     extends basicPhTransModel;

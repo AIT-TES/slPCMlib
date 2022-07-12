@@ -12,24 +12,26 @@ model exampleHeatCapacitorPCM_1 "Example using PCM heat capacitor"
     // redeclare package PCM = Media.RT60,
   Components.HeatCapacitorPCM heatCapacitorPCM1(
     T(start=273.15 + 50),
-    redeclare package PCM = slPCMlib.Media_Rubitherm_SP.SP21EK,
-    redeclare slPCMlib.Interfaces.phTransModMeltingCurve phTrModel(
-        redeclare package PCM = Media_Rubitherm_SP.SP29Eu))
+    redeclare package PCM = slPCMlib.Media_Rubitherm_SP.SP29Eu,
+    redeclare slPCMlib.Interfaces.phTransModMeltingCurve phTrModel)
     annotation (Placement(transformation(extent={{12,14},{32,34}})));
 
-  Components.HeatCapacitorPCM heatCapacitorPCM2(T(start=273.15 + 50),
-      redeclare slPCMlib.Interfaces.phTransModCurveTrackHysteresis phTrModel(
-        redeclare package PCM = Media_Rubitherm_SP.SP29Eu))
+  Components.HeatCapacitorPCM heatCapacitorPCM2(
+    T(start=273.15 + 50),
+    redeclare package PCM = slPCMlib.Media_Rubitherm_SP.SP25E2,
+    redeclare slPCMlib.Interfaces.phTransModCurveTrackHysteresis phTrModel)
     annotation (Placement(transformation(extent={{12,-10},{32,10}})));
-  Components.HeatCapacitorPCM heatCapacitorPCM3(T(start=273.15 + 50),
-      redeclare
-      slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated
-      phTrModel(redeclare package PCM = Media_Rubitherm_SP.SP29Eu))
+  Components.HeatCapacitorPCM heatCapacitorPCM3(
+    T(start=273.15 + 50),
+    redeclare package PCM = slPCMlib.Media_Rubitherm_SP.SP24E,
+    redeclare slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated
+      phTrModel)
     annotation (Placement(transformation(extent={{12,-34},{32,-14}})));
-  Components.HeatCapacitorPCM heatCapacitorPCM4(T(start=273.15 + 50),
-      redeclare
-      slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
-      phTrModel(redeclare package PCM = Media_Rubitherm_SP.SP29Eu))
+  Components.HeatCapacitorPCM heatCapacitorPCM4(
+    T(start=273.15 + 50),
+    redeclare package PCM = slPCMlib.Media_Rubitherm_SP.SP26E,
+    redeclare slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated
+      phTrModel)
     annotation (Placement(transformation(extent={{12,-58},{32,-38}})));
 equation
   connect(sineT.port, heatCapacitorPCM1.port) annotation (Line(points={{-1,-10},

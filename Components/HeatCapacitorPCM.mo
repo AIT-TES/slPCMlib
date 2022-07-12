@@ -13,42 +13,16 @@ model HeatCapacitorPCM "Lumped thermal PCM element storing heat"
           extent={{-10,-10},{10,10}},
           rotation=90)));
 
-    replaceable package PCM =
-      slPCMlib.Media_generic.generic_7thOrderSmoothStep
-      constrainedby slPCMlib.Interfaces.partialPCM
-      annotation (Dialog(group="PCM and phase transition model"),
-               choicesAllMatching=true);
+  replaceable package PCM =
+    slPCMlib.Media_generic.generic_7thOrderSmoothStep
+    constrainedby slPCMlib.Interfaces.partialPCM
+    annotation (Dialog(group="PCM and phase transition model"),
+             choicesAllMatching=true);
 
-    replaceable slPCMlib.Interfaces.phTransModCurveTrackHysteresis
-      phTrModel(redeclare package PCM = PCM)
-      constrainedby slPCMlib.Interfaces.basicPhTransModel
-      annotation(Dialog(group="PCM and phase transition model"));
-
-//    replaceable slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated phTrModel(PCM = PCM)
-//       constrainedby slPCMlib.Interfaces.basicPhTransModel;
-
-//     replaceable slPCMlib.Interfaces.phTransModCurveTrackHysteresis
-//                    phTrModel(redeclare package PCM = PCM)
-//        constrainedby slPCMlib.Interfaces.basicPhTransModel
-//        annotation(Dialog(group="PCM and phase transition model"),choices(
-//            choice( redeclare slPCMlib.Interfaces.phTransModMeltingCurve
-//                    phTrModel(redeclare package PCM = PCM) "Melting Curve"),
-//            choice( redeclare slPCMlib.Interfaces.phTransModCurveTrackHysteresis
-//                    phTrModel(redeclare package PCM = PCM) "Curve Track Hysteresis"),
-//            choice( redeclare slPCMlib.Interfaces.phTransModCurveScaleHysteresisAlgebraic
-//                    phTrModel(redeclare package PCM = PCM) "Curve Scale Hysteresis (Algebraic)"),
-//            choice( redeclare slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
-//                    phTrModel(redeclare package PCM = PCM) "Curve Scale Hysteresis (Differentiated)"),
-//            choice(redeclare  slPCMlib.Interfaces.phTransModCurveSwitchHysteresisAlgebraic
-//           phTrModel(PCM=PCM) "Curve Switch Hysteresis (Algebraic)"),
-//            choice( redeclare slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated
-//                    phTrModel(redeclare package PCM = PCM) "Curve Switch Hysteresis (Differentiated)")));
-
-  // replaceable slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
-  //   phTrModel(redeclare package PCM = PCM) annotation (Dialog(group="PCM and phase transition model"),
-  //     choices(choice(redeclare slPCMlib.Interfaces.phTransModMeltingCurve
-  //         phTrModel(redeclare package PCM = PCM)
-  //         "phTransModMeltingCurve (default)")));
+  replaceable slPCMlib.Interfaces.phTransModMeltingCurve
+    phTrModel(redeclare package PCM = PCM)
+    constrainedby slPCMlib.Interfaces.basicPhTransModel(redeclare package PCM = PCM)
+    annotation(Dialog(group="PCM and phase transition model"), choicesAllMatching=true);
 
 equation
   // assign temperatures to HeatCapacitor
