@@ -14,9 +14,7 @@ showing a
 <p>
 The library contains <strong>generic PCM</strong> and 
 <strong>specific commercial PCM</strong>
-(media) 
-for which the phase transition behavior was identified from caloric 
-measurements. 
+(media). 
 Different phenomenological <strong>phase transition models</strong> 
 are implemented 
 to account for temperature shifts in latent transition changes, 
