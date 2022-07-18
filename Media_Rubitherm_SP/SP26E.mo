@@ -10,9 +10,9 @@ package SP26E "Rubitherm SP26E; data taken from: data sheet; last access: 02.12.
     // --- parameters for phase transition functions ---
     constant Boolean modelForMelting =        true;
     constant Boolean modelForSolidification = true;
-    constant Modelica.Units.SI.Temperature rangeTmelting[2] =  {2.731500000000000e+02+2.100000000000000e+01, 2.731500000000000e+02+2.800000000000000e+01}
+    constant Modelica.Units.SI.Temperature rangeTmelting[2] =  {2.941500000000000e+02, 3.011500000000000e+02}
              "temperature range melting {startT, endT}";
-    constant Modelica.Units.SI.Temperature rangeTsolidification[2] = {2.731500000000000e+02+2.000000000000000e+01, 2.731500000000000e+02+2.600000000000000e+01}
+    constant Modelica.Units.SI.Temperature rangeTsolidification[2] = {2.931500000000000e+02, 2.991500000000000e+02}
              "temperature range solidification {startT, endT}";
 
     // --- parameters for heat capacity and enthalpy ---
@@ -24,7 +24,7 @@ package SP26E "Rubitherm SP26E; data taken from: data sheet; last access: 02.12.
              "scalar phase transition enthalpy";
 
     // --- reference values ---
-    constant Modelica.Units.SI.Temperature            Tref = 273.15+2.100000000000000e+01
+    constant Modelica.Units.SI.Temperature            Tref = 2.941500000000000e+02
              "reference temperature";
     constant Modelica.Units.SI.SpecificEnthalpy  href = 0.0
              "reference enthalpy at Tref";

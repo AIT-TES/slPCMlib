@@ -1,6 +1,6 @@
 within slPCMlib.Examples;
-model Case600FF_PCM_slPCMlib_SingleLayerPCM
-  "Basic test with light-weight construction and free floating temperature + PCM from slPCMlib"
+model Case600FF_PCM_BL
+  "Basic test with light-weight construction and free floating temperature + PCM capacitor"
   extends Modelica.Icons.Example;
 
   package MediumA = Buildings.Media.Air "Medium model";
@@ -17,7 +17,7 @@ model Case600FF_PCM_slPCMlib_SingleLayerPCM
   parameter Modelica.Units.SI.Angle F_=Buildings.Types.Tilt.Floor
     "Tilt for floor";
   parameter Modelica.Units.SI.Area pcmWallArea = 6*2.7 "Surface area of PCM wall";
-  parameter Modelica.Units.SI.Area pcmWallThickness = 0.03 "Thickness of PCM wall";
+  parameter Modelica.Units.SI.Length pcmWallThickness = 0.03 "Thickness of PCM wall";
   parameter Modelica.Units.SI.Angle Z_=Buildings.Types.Tilt.Wall
     "Tilt for wall";
   parameter Integer nConExtWin = 1 "Number of constructions with a window";
@@ -228,16 +228,15 @@ model Case600FF_PCM_slPCMlib_SingleLayerPCM
        pcmWallArea,
       each til=Modelica.Constants.pi/2)
     "Record for data of surfaces whose heat conduction is modeled outside of this room"
-    annotation (Placement(transformation(extent={{32,-102},{20,-90}})),
+    annotation (Placement(transformation(extent={{34,-102},{22,-90}})),
       HideResult=true);
-  slPCMlib.Components.SingleLayerSlPCMlib lay(
-    A=pcmWallArea,
-    thickness=0.10,
-    redeclare package PCM = slPCMlib.Media_Knauf_SmartBoard.SmartBoard_26,
-    redeclare slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
-      phTrModel,
+  Buildings.HeatTransfer.Conduction.SingleLayer lay(A=pcmWallArea,
+                                                         material=datSolPCM,
     steadyStateInitial=true)
-    annotation (Placement(transformation(extent={{48,-84},{76,-64}})));
+    annotation (Placement(transformation(extent={{48,-102},{68,-82}})));
+  parameter Buildings.HeatTransfer.Data.SolidsPCM.MicronalSmartBoard26
+    datSolPCM(x=0.10)
+    annotation (Placement(transformation(extent={{-24,-112},{-4,-92}})));
 equation
   connect(qRadGai_flow.y,multiplex3_1. u1[1])  annotation (Line(
       points={{-35.6,76},{-34,76},{-34,70.8},{-18.8,70.8}},
@@ -331,11 +330,10 @@ equation
       smooth=Smooth.None));
   connect(souInf.ports[1], roo.ports[3]) annotation (Line(points={{-12,-28},{28,
           -28},{28,-21.5},{39.75,-21.5}}, color={0,127,255}));
-  connect(roo.surf_surBou[1], lay.port_a) annotation (Line(points={{48.15,
-          -25.6875},{48.15,-60},{48,-60},{48,-74}},color={191,0,0}));
-  connect(roo.surf_surBou[2], lay.port_b) annotation (Line(points={{48.15,
-          -25.3125},{48.15,-58},{72,-58},{72,-74},{76,-74}},
-                                                   color={191,0,0}));
+  connect(roo.surf_surBou[1], lay.port_a) annotation (Line(points={{48.15,-25.6875},
+          {48.15,-84},{44,-84},{44,-92},{48,-92}}, color={191,0,0}));
+  connect(roo.surf_surBou[2], lay.port_b) annotation (Line(points={{48.15,-25.3125},
+          {48.15,-72},{72,-72},{72,-92},{68,-92}}, color={191,0,0}));
   annotation (
 experiment(
       StopTime=31536000,
@@ -396,4 +394,4 @@ First implementation.
 </li>
 </ul>
 </html>"));
-end Case600FF_PCM_slPCMlib_SingleLayerPCM;
+end Case600FF_PCM_BL;

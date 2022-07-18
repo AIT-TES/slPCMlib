@@ -26,9 +26,9 @@ package SmartBoard_26 "Knauf Gips KG Knauf SmartBoard 26; data taken from: DBU-A
              "scalar phase transition enthalpy";
 
     // --- reference values ---
-    constant Modelica.Units.SI.Temperature            Tref = 273.15+2.200000000000000e+01
+    constant Modelica.Units.SI.Temperature Tref = 273.15 + 22.0
              "reference temperature";
-    constant Modelica.Units.SI.SpecificEnthalpy  href = 1.0E5
+    constant Modelica.Units.SI.SpecificEnthalpy  href = 0.0
              "reference enthalpy at Tref";
 
   end propData;

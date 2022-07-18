@@ -1,6 +1,6 @@
 within slPCMlib.Examples;
-model Case600FF_PCM_slPCMlib_SingleLayerPCM
-  "Basic test with light-weight construction and free floating temperature + PCM from slPCMlib"
+model Case600FF
+  "Basic test with light-weight construction and free floating temperature"
   extends Modelica.Icons.Example;
 
   package MediumA = Buildings.Media.Air "Medium model";
@@ -16,8 +16,6 @@ model Case600FF_PCM_slPCMlib_SingleLayerPCM
     "Tilt for ceiling";
   parameter Modelica.Units.SI.Angle F_=Buildings.Types.Tilt.Floor
     "Tilt for floor";
-  parameter Modelica.Units.SI.Area pcmWallArea = 6*2.7 "Surface area of PCM wall";
-  parameter Modelica.Units.SI.Area pcmWallThickness = 0.03 "Thickness of PCM wall";
   parameter Modelica.Units.SI.Angle Z_=Buildings.Types.Tilt.Wall
     "Tilt for wall";
   parameter Integer nConExtWin = 1 "Number of constructions with a window";
@@ -78,7 +76,6 @@ model Case600FF_PCM_slPCMlib_SingleLayerPCM
     annotation (Placement(transformation(extent={{40,40},{60,60}})));
 
   Buildings.ThermalZones.Detailed.MixedAir roo(
-    surBou=surBou,
     redeclare package Medium = MediumA,
     hRoo=2.7,
     nConExtWin=nConExtWin,
@@ -97,7 +94,7 @@ model Case600FF_PCM_slPCMlib_SingleLayerPCM
       azi={S_,W_,E_,N_}),
     nConExt=4,
     nConPar=0,
-    nSurBou=2,
+    nSurBou=0,
     datConExtWin(
       layers={matExtWal},
       A={8*2.7},
@@ -224,20 +221,6 @@ model Case600FF_PCM_slPCMlib_SingleLayerPCM
     "Annual averaged room air temperature"
     annotation (Placement(transformation(extent={{-68,-40},{-60,-32}})));
 
-  parameter Buildings.ThermalZones.Detailed.BaseClasses.OpaqueSurface surBou[2](each A=
-       pcmWallArea,
-      each til=Modelica.Constants.pi/2)
-    "Record for data of surfaces whose heat conduction is modeled outside of this room"
-    annotation (Placement(transformation(extent={{32,-102},{20,-90}})),
-      HideResult=true);
-  slPCMlib.Components.SingleLayerSlPCMlib lay(
-    A=pcmWallArea,
-    thickness=0.10,
-    redeclare package PCM = slPCMlib.Media_Knauf_SmartBoard.SmartBoard_26,
-    redeclare slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
-      phTrModel,
-    steadyStateInitial=true)
-    annotation (Placement(transformation(extent={{48,-84},{76,-64}})));
 equation
   connect(qRadGai_flow.y,multiplex3_1. u1[1])  annotation (Line(
       points={{-35.6,76},{-34,76},{-34,70.8},{-18.8,70.8}},
@@ -329,13 +312,10 @@ equation
       points={{1.5,-15},{-80,-15},{-80,-36},{-68.8,-36}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(souInf.ports[1], roo.ports[3]) annotation (Line(points={{-12,-28},{28,
-          -28},{28,-21.5},{39.75,-21.5}}, color={0,127,255}));
-  connect(roo.surf_surBou[1], lay.port_a) annotation (Line(points={{48.15,
-          -25.6875},{48.15,-60},{48,-60},{48,-74}},color={191,0,0}));
-  connect(roo.surf_surBou[2], lay.port_b) annotation (Line(points={{48.15,
-          -25.3125},{48.15,-58},{72,-58},{72,-74},{76,-74}},
-                                                   color={191,0,0}));
+  connect(souInf.ports[1], roo.ports[3]) annotation (Line(points={{-12,-28},{
+          28,-28},{28,-21.5},{39.75,-21.5}},
+                                          color={0,127,255}));
+
   annotation (
 experiment(
       StopTime=31536000,
@@ -396,4 +376,4 @@ First implementation.
 </li>
 </ul>
 </html>"));
-end Case600FF_PCM_slPCMlib_SingleLayerPCM;
+end Case600FF;

@@ -10,13 +10,9 @@ package SP_minus_11UK "Rubitherm SP-11UK; data taken from: data sheet; last acce
     // --- parameters for phase transition functions ---
     constant Boolean modelForMelting =        true;
     constant Boolean modelForSolidification = true;
-    constant Modelica.Units.SI.Temperature rangeTmelting[2] =  {2.731500000000000e+02+ERROR
-                                                                                      -1.600000000000000e+01, 2.731500000000000e+02+ERROR
-                                                                                                                                    -7.000000000000000e+00}
+    constant Modelica.Units.SI.Temperature rangeTmelting[2] =  {2.571500000000000e+02, 2.661500000000000e+02}
              "temperature range melting {startT, endT}";
-    constant Modelica.Units.SI.Temperature rangeTsolidification[2] = {2.731500000000000e+02+ERROR
-                                                                                            -1.800000000000000e+01, 2.731500000000000e+02+ERROR
-                                                                                                                                          -1.000000000000000e+01}
+    constant Modelica.Units.SI.Temperature rangeTsolidification[2] = {2.551500000000000e+02, 2.631500000000000e+02}
              "temperature range solidification {startT, endT}";
 
     // --- parameters for heat capacity and enthalpy ---
@@ -28,8 +24,7 @@ package SP_minus_11UK "Rubitherm SP-11UK; data taken from: data sheet; last acce
              "scalar phase transition enthalpy";
 
     // --- reference values ---
-    constant Modelica.Units.SI.Temperature            Tref = 273.15+ERROR
-                                                                    -1.600000000000000e+01
+    constant Modelica.Units.SI.Temperature            Tref = 2.571500000000000e+02
              "reference temperature";
     constant Modelica.Units.SI.SpecificEnthalpy  href = 0.0
              "reference enthalpy at Tref";

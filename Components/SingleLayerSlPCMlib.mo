@@ -18,7 +18,7 @@ model SingleLayerSlPCMlib
     "Average (constant) solid/liquid PCM density";
 
   // -> new
-  parameter Modelica.Units.SI.Length thickness=0.01 "Thickness of layer";
+  parameter Modelica.Units.SI.Length thickness=0.03 "Thickness of layer";
 
   // -> new
   // BuildingsLib assumes a constant k

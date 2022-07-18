@@ -3,8 +3,8 @@ package enthalpyHelpers
   "Functions for evaluation of heat capacities and enthalpies"
 
   replaceable package PCM =
-      slPCMlib.Media_generic.generic_7thOrderSmoothStep;
-//    slPCMlib.Media_Knauf_SmartBoard.SmartBoard_26;
+      slPCMlib.Media_Knauf_SmartBoard.SmartBoard_26;
+//      slPCMlib.Media_generic.generic_7thOrderSmoothStep;
 
 // ------------------------------------------------------------
   function spHeatCap_solid "Returns solid specific heat capacity"
@@ -45,9 +45,8 @@ package enthalpyHelpers
 
   Modelica.Utilities.Streams.print("enthalpyHelpers --->>> "
                                    + PCM.propData.mediumName);
-  Modelica.Utilities.Streams.print(" . spHeatCap_solid = " + String(spHeatCap_solid(T)));
+    //   Modelica.Utilities.Streams.print(" . spHeatCap_solid = " + String(spHeatCap_solid(T)));
     //  Modelica.Utilities.Streams.print(" . spHeatCap_liquid = " + String(spHeatCap_liquid(T)));
-
   end spHeatCap_baselineMelting;
 // ------------------------------------------------------------
   function enthalpy_solid "Returns solid enthalpy"

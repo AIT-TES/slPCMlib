@@ -3,4 +3,6 @@ heatConduction1D
 heatConduction1D_withVariableInput
 exampleHeatCapacitorPCM_2
 exampleHeatCapacitorPCM_3
+Case600FF
+Case600FF_PCM_BL
 Case600FF_PCM_slPCMlib_SingleLayerPCM
