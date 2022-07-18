@@ -1,5 +1,5 @@
 within slPCMlib.Components;
-model HeatCapacitorPCM "Lumped thermal PCM element storing heat"
+model HeatCapacitorSlPCMlib "Lumped thermal PCM element storing heat"
 
   parameter Modelica.Units.SI.Mass m(displayUnit="kg") = 0.100
     "Mass of PCM element";
@@ -17,12 +17,13 @@ model HeatCapacitorPCM "Lumped thermal PCM element storing heat"
     slPCMlib.Media_generic.generic_7thOrderSmoothStep
     constrainedby slPCMlib.Interfaces.partialPCM
     annotation (Dialog(group="PCM and phase transition model"),
-             choicesAllMatching=true);
+    choicesAllMatching=true);
 
   replaceable slPCMlib.Interfaces.phTransModMeltingCurve
     phTrModel(redeclare package PCM = PCM)
     constrainedby slPCMlib.Interfaces.basicPhTransModel(redeclare package PCM = PCM)
-    annotation(Dialog(group="PCM and phase transition model"), choicesAllMatching=true);
+    annotation(Dialog(group="PCM and phase transition model"),
+    choicesAllMatching=true);
 
 equation
   // assign temperatures to HeatCapacitor
@@ -103,12 +104,17 @@ equation
           Line(points={{0,-12},{0,-96}}, color={255,0,0})}),
     Documentation(info="<html>
         <p>
-        This is a generic model for the heat capacity of a PCM.     
+        This is a generic model for the heat capacity of a PCM. 
+        </p><p>    
+        It is a modification of 
+        <a href=\"modelica://Modelica.Thermal.HeatTransfer.Components.HeatCapacitor\">
+        Modelica.Thermal.HeatTransfer.Components.HeatCapacitor</a>        
+        and can be used with materials and 
+        phase transition models contained in <strong>slPCMlib</strong> . 
         </p>
         <p>
         The model and assumptions (lumped-element model with uniform temperature, etc.) 
-        are the same as for the HeatCapacitor in 
-        <a href>Modelica.Thermal.HeatTransfer.Components.HeatCapacitor</a>. 
+        are the same as for the <a href>HeatCapacitor</a>. 
         <br>
         The difference is, that the specific heat capacity is <strong>NOT</strong> 
         constant. 
@@ -116,7 +122,10 @@ equation
         <strong>cp</strong> is used, which is a function of temperature. 
         </p>
         <p>
-        Select a &lt;PCM&gt; from <a href>slPCMlib.Media</a>, and a phase transition model 
+        Select a &lt;PCM&gt; from  
+        <a href=\"modelica://slPCMlib.Media\">
+        slPCMlib.Media</a>, 
+        and a phase transition model 
         &lt;phTrModel&gt; from <a href>slPCMlib.Interfaces</a>. 
         Changes in cp are induced by temperature, use: 
         &lt; phTrModel.indVar.T = T; &gt;. 
@@ -126,4 +135,4 @@ equation
        <li>2022-06-01; initial version; by Tilman Barz </li>
        </ul>
        </html>"));
-end HeatCapacitorPCM;
+end HeatCapacitorSlPCMlib;

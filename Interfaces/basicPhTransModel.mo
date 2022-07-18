@@ -2,11 +2,8 @@
 partial model basicPhTransModel
   "Basic phase transition model, computes properties for given T and xi"
 
-    replaceable package PCM =
-      slPCMlib.Media_generic.generic_7thOrderSmoothStep;
-//             constrainedby slPCMlib.Interfaces.partialPCM     "PCM"
-//             annotation (Dialog(group="PCM"),
-//                         choicesAllMatching=true);
+  replaceable package PCM =
+    slPCMlib.Media_generic.generic_7thOrderSmoothStep;
 
   Modelica.Units.SI.MassFraction xi(
     min=0,
@@ -29,18 +26,14 @@ partial model basicPhTransModel
   Modelica.Units.SI.ThermalConductivity lambda(start=0.2)
     "effective thermal conductivity";
 
-    // "Connector for temperature (input signal)"
-    inductionAtNode indVar;
+  // "Connector for temperature (input signal)"
+  inductionAtNode indVar;
 
-//     Modelica.SIunits.Temp_K T(start=273.15+20) = indVar.T
-//       "Temperature";
-//     Modelica.SIunits.TemperatureSlope der_T(start=0) = indVar.der_T
-//       "Time derivative of temperature (= der(T))";
+  package enthFcts =
+    slPCMlib.BasicUtilities.enthalpyHelpers(redeclare package PCM = PCM);
 
-     package enthFcts =
-        slPCMlib.BasicUtilities.enthalpyHelpers(redeclare package PCM = PCM);
+   Real dxi(unit="1/K");
 
-    Real dxi(unit="1/K");
 protected
   parameter Modelica.Units.SI.SpecificEnthalpy h_L_at_Tmax(start=1e3, fixed=
         false) "phase transition enthalpy at T_max, where melting is finished";
@@ -60,6 +53,12 @@ initial equation
 //            Phase transition function for complete melting should give always smaller values
 //            compared with the function for solidification!",
 //           AssertionLevel.error);
+   assert(PCM.propData.rangeTmelting[1] >= PCM.propData.Tref,
+          "PCM.propData.rangeTmelting[1] < PCM.propData.Tref.
+          Reference temperature should not be greater than Tmin for melting 
+          (Tmin is temperature where melting process starts).",
+          AssertionLevel.error);
+
 
   h_BL_at_Tmax =Modelica.Math.Nonlinear.quadratureLobatto(
   function BasicUtilities.enthalpyHelpers.spHeatCap_baselineMelting(),
@@ -67,9 +66,25 @@ initial equation
   PCM.propData.rangeTmelting[2],
   tolerance=100*Modelica.Constants.eps);
 
-  h_L_at_Tmax = h_BL_at_Tmax + PCM.propData.phTrEnth; // pcmData.phTrEnth;
-  h_offset    = - enthFcts.enthalpy_liquid(PCM.propData.rangeTmelting[2])
-              + h_L_at_Tmax;
+  h_L_at_Tmax = h_BL_at_Tmax + PCM.propData.phTrEnth + PCM.propData.href;
+//   h_offset    = - enthFcts.enthalpy_liquid(PCM.propData.rangeTmelting[2])
+//               + h_L_at_Tmax;
+  h_offset    = h_L_at_Tmax;
+
+  Modelica.Utilities.Streams.print("-----------Print here!---------------------------");
+  Modelica.Utilities.Streams.print("basicPhTransModel --->>> "
+                                   + PCM.propData.mediumName);
+  Modelica.Utilities.Streams.print(" . PCM.propData.href = " + String(PCM.propData.href));
+  Modelica.Utilities.Streams.print(" . PCM.propData.Tref = " + String(PCM.propData.Tref));
+  Modelica.Utilities.Streams.print(" . PCM.propData.rangeTmelting12] = " + String(PCM.propData.rangeTmelting[1]));
+  Modelica.Utilities.Streams.print(" . PCM.propData.rangeTmelting[2] = " + String(PCM.propData.rangeTmelting[2]));
+  Modelica.Utilities.Streams.print(" . PCM.propData.cpS_linCoef[1] = " + String(PCM.propData.cpS_linCoef[1]));
+  Modelica.Utilities.Streams.print(" . PCM.propData.cpL_linCoef[1] = " + String(PCM.propData.cpL_linCoef[1]));
+  Modelica.Utilities.Streams.print(" . PCM.propData.phTrEnth = " + String(PCM.propData.phTrEnth));
+  Modelica.Utilities.Streams.print(" . h_BL_at_Tmax = " + String(h_BL_at_Tmax));
+  Modelica.Utilities.Streams.print("-----------Stop here!---------------------------");
+
+
 equation
 
     h       = xi*(enthFcts.enthalpy_liquid(indVar.T) + h_offset)
@@ -141,7 +156,7 @@ the phase change progress, i.e. the mass (or volume) phase fraction.  </li>
       </ul>
       </p> 
       <p>
-      The <a href>slPCMlib.Interfaces.basicPcTransModel</a>  is extended by 
+      The <a href>slPCMlib.Interfaces.basicPhTransModel</a>  is extended by 
       specific phase transition models which compute <var> xi </var> 
       as function of temperature <var> T </var> and are also 
       contained in 

@@ -2,7 +2,8 @@ within ;
 package slPCMlib "Solid/liquid PCM thermophysical property 
   and phase transition models library"
 
-  annotation (uses(Modelica(version="4.0.0"), ModelicaServices(version="4.0.0")),
+  annotation (uses(Modelica(version="4.0.0"), ModelicaServices(version="4.0.0"),
+    Buildings(version="9.0.0")),
       Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
       graphics={              Rectangle(
               extent={{-100,80},{100,-80}},

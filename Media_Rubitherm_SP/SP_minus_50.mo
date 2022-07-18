@@ -10,9 +10,13 @@ package SP_minus_50 "Rubitherm SP-50; data taken from: data sheet; last access: 
     // --- parameters for phase transition functions ---
     constant Boolean modelForMelting =        true;
     constant Boolean modelForSolidification = true;
-    constant Modelica.Units.SI.Temperature rangeTmelting[2] =  {2.161500000000000e+02, 2.251500000000000e+02}
+    constant Modelica.Units.SI.Temperature rangeTmelting[2] =  {2.731500000000000e+02+ERROR
+                                                                                      -5.700000000000000e+01, 2.731500000000000e+02+ERROR
+                                                                                                                                    -4.800000000000000e+01}
              "temperature range melting {startT, endT}";
-    constant Modelica.Units.SI.Temperature rangeTsolidification[2] = {2.141500000000000e+02, 2.231500000000000e+02}
+    constant Modelica.Units.SI.Temperature rangeTsolidification[2] = {2.731500000000000e+02+ERROR
+                                                                                            -5.900000000000000e+01, 2.731500000000000e+02+ERROR
+                                                                                                                                          -5.000000000000000e+01}
              "temperature range solidification {startT, endT}";
 
     // --- parameters for heat capacity and enthalpy ---
@@ -24,7 +28,8 @@ package SP_minus_50 "Rubitherm SP-50; data taken from: data sheet; last access: 
              "scalar phase transition enthalpy";
 
     // --- reference values ---
-    constant Modelica.Units.SI.Temperature            Tref = 273.15+2.500000000000000e+01
+    constant Modelica.Units.SI.Temperature            Tref = 273.15+ERROR
+                                                                    -5.700000000000000e+01
              "reference temperature";
     constant Modelica.Units.SI.SpecificEnthalpy  href = 0.0
              "reference enthalpy at Tref";
@@ -124,6 +129,6 @@ annotation(Documentation(
   </p></html>",
   revisions="<html>
   <ul>
-  <li>file creation date: 07-Jul-2022  </ul>
+  <li>file creation date: 18-Jul-2022  </ul>
   </html>"));
 end SP_minus_50;

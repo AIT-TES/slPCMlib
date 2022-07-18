@@ -10,9 +10,9 @@ package SP29Eu "Rubitherm SP29Eu; data taken from: data sheet; last access: 02.1
     // --- parameters for phase transition functions ---
     constant Boolean modelForMelting =        true;
     constant Boolean modelForSolidification = true;
-    constant Modelica.Units.SI.Temperature rangeTmelting[2] =  {2.991500000000000e+02, 3.081500000000000e+02}
+    constant Modelica.Units.SI.Temperature rangeTmelting[2] =  {2.731500000000000e+02+2.600000000000000e+01, 2.731500000000000e+02+3.500000000000000e+01}
              "temperature range melting {startT, endT}";
-    constant Modelica.Units.SI.Temperature rangeTsolidification[2] = {2.961500000000000e+02, 3.031500000000000e+02}
+    constant Modelica.Units.SI.Temperature rangeTsolidification[2] = {2.731500000000000e+02+2.300000000000000e+01, 2.731500000000000e+02+3.000000000000000e+01}
              "temperature range solidification {startT, endT}";
 
     // --- parameters for heat capacity and enthalpy ---
@@ -24,7 +24,7 @@ package SP29Eu "Rubitherm SP29Eu; data taken from: data sheet; last access: 02.1
              "scalar phase transition enthalpy";
 
     // --- reference values ---
-    constant Modelica.Units.SI.Temperature            Tref = 273.15+2.500000000000000e+01
+    constant Modelica.Units.SI.Temperature            Tref = 273.15+2.600000000000000e+01
              "reference temperature";
     constant Modelica.Units.SI.SpecificEnthalpy  href = 0.0
              "reference enthalpy at Tref";
@@ -124,6 +124,6 @@ annotation(Documentation(
   </p></html>",
   revisions="<html>
   <ul>
-  <li>file creation date: 07-Jul-2022  </ul>
+  <li>file creation date: 18-Jul-2022  </ul>
   </html>"));
 end SP29Eu;

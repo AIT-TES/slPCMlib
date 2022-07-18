@@ -35,7 +35,7 @@ package generic_uniform "Generic, uniform distribution, linear"
     "scalar phase transition enthalpy";
 
     // --- reference values ---
-  constant Modelica.Units.SI.Temperature Tref=273.15 + 26
+  constant Modelica.Units.SI.Temperature Tref= UniformMelt_min
     "reference Temperature";
   constant Modelica.Units.SI.SpecificEnthalpy href=0.0
     "reference enthalpy at Tref";

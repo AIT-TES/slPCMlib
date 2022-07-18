@@ -29,4 +29,4 @@ package Media_Knauf_SmartBoard "Contains different PCM with thermophysical prope
         <li>2022-07-13; initial version; by Tilman Barz </li>
         </ul>
         </html>"));
-end Media_generic;
+end Media_Knauf_SmartBoard;

@@ -46,7 +46,7 @@ package generic_Gaussian "Generic, Gaussian distribution, symmetric peak"
     "scalar phase transition enthalpy";
 
     // --- reference values ---
-  constant Modelica.Units.SI.Temperature Tref=273.15 + 26
+  constant Modelica.Units.SI.Temperature Tref = rangeTmelting[1]
     "reference Temperature";
   constant Modelica.Units.SI.SpecificEnthalpy href=0.0
     "reference enthalpy at Tref";

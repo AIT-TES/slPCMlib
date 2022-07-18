@@ -4,8 +4,7 @@ package enthalpyHelpers
 
   replaceable package PCM =
       slPCMlib.Media_generic.generic_7thOrderSmoothStep;
-//           constrainedby slPCMlib.Interfaces.partialPCM     "PCM"
-//           annotation (choicesAllMatching=true);
+//    slPCMlib.Media_Knauf_SmartBoard.SmartBoard_26;
 
 // ------------------------------------------------------------
   function spHeatCap_solid "Returns solid specific heat capacity"
@@ -43,6 +42,12 @@ package enthalpyHelpers
     (xi_M,) := PCM.phaseFrac_complMelting(T);
     cp  := xi_M*spHeatCap_liquid(T)
          + (1.0 - xi_M)*spHeatCap_solid(T);
+
+  Modelica.Utilities.Streams.print("enthalpyHelpers --->>> "
+                                   + PCM.propData.mediumName);
+  Modelica.Utilities.Streams.print(" . spHeatCap_solid = " + String(spHeatCap_solid(T)));
+    //  Modelica.Utilities.Streams.print(" . spHeatCap_liquid = " + String(spHeatCap_liquid(T)));
+
   end spHeatCap_baselineMelting;
 // ------------------------------------------------------------
   function enthalpy_solid "Returns solid enthalpy"
@@ -65,10 +70,13 @@ package enthalpyHelpers
   protected
     Modelica.Units.SI.Temperature TT;
   algorithm
-    TT := T-PCM.propData.Tref;
+    //    TT := T-PCM.propData.Tref;
+    TT := T-PCM.propData.rangeTmelting[2];
+    //      h := PCM.propData.cpL_linCoef[1]*TT
+    //         + PCM.propData.cpL_linCoef[2]*TT*TT/2
+    //         + PCM.propData.href;
      h := PCM.propData.cpL_linCoef[1]*TT
-        + PCM.propData.cpL_linCoef[2]*TT*TT/2
-        + PCM.propData.href;
+        + PCM.propData.cpL_linCoef[2]*TT*TT/2;
   end enthalpy_liquid;
 // ------------------------------------------------------------
 

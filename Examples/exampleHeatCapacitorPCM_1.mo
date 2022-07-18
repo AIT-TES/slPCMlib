@@ -10,24 +10,24 @@ model exampleHeatCapacitorPCM_1 "Example using PCM heat capacitor"
 
     // redeclare package PCM = Media.RT64HC,
     // redeclare package PCM = Media.RT60,
-  Components.HeatCapacitorPCM heatCapacitorPCM1(
+  Components.HeatCapacitorSlPCMlib heatCapacitorPCM1(
     T(start=273.15 + 50),
     redeclare package PCM = slPCMlib.Media_Rubitherm_SP.SP29Eu,
     redeclare slPCMlib.Interfaces.phTransModMeltingCurve phTrModel)
     annotation (Placement(transformation(extent={{12,14},{32,34}})));
 
-  Components.HeatCapacitorPCM heatCapacitorPCM2(
+  Components.HeatCapacitorSlPCMlib heatCapacitorPCM2(
     T(start=273.15 + 50),
     redeclare package PCM = slPCMlib.Media_Rubitherm_SP.SP25E2,
     redeclare slPCMlib.Interfaces.phTransModCurveTrackHysteresis phTrModel)
     annotation (Placement(transformation(extent={{12,-10},{32,10}})));
-  Components.HeatCapacitorPCM heatCapacitorPCM3(
+  Components.HeatCapacitorSlPCMlib heatCapacitorPCM3(
     T(start=273.15 + 50),
     redeclare package PCM = slPCMlib.Media_Rubitherm_SP.SP24E,
     redeclare slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated
       phTrModel)
     annotation (Placement(transformation(extent={{12,-34},{32,-14}})));
-  Components.HeatCapacitorPCM heatCapacitorPCM4(
+  Components.HeatCapacitorSlPCMlib heatCapacitorPCM4(
     T(start=273.15 + 50),
     redeclare package PCM = slPCMlib.Media_Rubitherm_SP.SP26E,
     redeclare slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated

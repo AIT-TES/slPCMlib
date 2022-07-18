@@ -10,9 +10,10 @@ package SP5 "Rubitherm SP5; data taken from: data sheet; last access: 02.12.2019
     // --- parameters for phase transition functions ---
     constant Boolean modelForMelting =        true;
     constant Boolean modelForSolidification = true;
-    constant Modelica.Units.SI.Temperature rangeTmelting[2] =  {2.731500000000000e+02, 2.841500000000000e+02}
+    constant Modelica.Units.SI.Temperature rangeTmelting[2] =  {2.731500000000000e+02+0.000000000000000e+00, 2.731500000000000e+02+1.100000000000000e+01}
              "temperature range melting {startT, endT}";
-    constant Modelica.Units.SI.Temperature rangeTsolidification[2] = {2.721500000000000e+02, 2.811500000000000e+02}
+    constant Modelica.Units.SI.Temperature rangeTsolidification[2] = {2.731500000000000e+02+ERROR
+                                                                                            -1.000000000000000e+00, 2.731500000000000e+02+8.000000000000000e+00}
              "temperature range solidification {startT, endT}";
 
     // --- parameters for heat capacity and enthalpy ---
@@ -24,7 +25,7 @@ package SP5 "Rubitherm SP5; data taken from: data sheet; last access: 02.12.2019
              "scalar phase transition enthalpy";
 
     // --- reference values ---
-    constant Modelica.Units.SI.Temperature            Tref = 273.15+2.500000000000000e+01
+    constant Modelica.Units.SI.Temperature            Tref = 273.15+0.000000000000000e+00
              "reference temperature";
     constant Modelica.Units.SI.SpecificEnthalpy  href = 0.0
              "reference enthalpy at Tref";
@@ -124,6 +125,6 @@ annotation(Documentation(
   </p></html>",
   revisions="<html>
   <ul>
-  <li>file creation date: 07-Jul-2022  </ul>
+  <li>file creation date: 18-Jul-2022  </ul>
   </html>"));
 end SP5;

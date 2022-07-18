@@ -5,12 +5,12 @@ model exampleHeatCapacitorPCM_3 "Example using PCM heat capacitor"
     // redeclare package PCM = Media.RT64HC,
     // redeclare package PCM = Media.RT60,
 
-  Components.HeatCapacitorPCM heatCapacitorPCM2(T(start=273.15 + 50),
+  Components.HeatCapacitorSlPCMlib heatCapacitorPCM2(T(start=273.15 + 50),
       redeclare
       slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
       phTrModel(redeclare package PCM = Media_Rubitherm_RT.generic_uniform))
     annotation (Placement(transformation(extent={{12,-10},{32,10}})));
-  Components.HeatCapacitorPCM heatCapacitorPCM3(T(start=273.15 + 50),
+  Components.HeatCapacitorSlPCMlib heatCapacitorPCM3(T(start=273.15 + 50),
       redeclare
       slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
       phTrModel(redeclare package PCM = Media_Rubitherm_RT.RT64HC))
