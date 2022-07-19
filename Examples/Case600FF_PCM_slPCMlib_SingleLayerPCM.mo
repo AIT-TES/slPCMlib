@@ -231,13 +231,12 @@ model Case600FF_PCM_slPCMlib_SingleLayerPCM
     annotation (Placement(transformation(extent={{32,-102},{20,-90}})),
       HideResult=true);
   slPCMlib.Components.SingleLayerSlPCMlib lay(
-    A=pcmWallArea,
-    thickness=0.10,
+    A=2*(6 + 8)*2.7,
+    thickness=0.03,
     redeclare package PCM = slPCMlib.Media_Knauf_SmartBoard.SmartBoard_26,
-    redeclare slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
-      phTrModel,
-    steadyStateInitial=true)
-    annotation (Placement(transformation(extent={{48,-84},{76,-64}})));
+    redeclare slPCMlib.Interfaces.phTransModMeltingCurve phTrModel,
+    steadyStateInitial=false)
+    annotation (Placement(transformation(extent={{38,-86},{70,-62}})));
 equation
   connect(qRadGai_flow.y,multiplex3_1. u1[1])  annotation (Line(
       points={{-35.6,76},{-34,76},{-34,70.8},{-18.8,70.8}},
@@ -332,10 +331,10 @@ equation
   connect(souInf.ports[1], roo.ports[3]) annotation (Line(points={{-12,-28},{28,
           -28},{28,-21.5},{39.75,-21.5}}, color={0,127,255}));
   connect(roo.surf_surBou[1], lay.port_a) annotation (Line(points={{48.15,
-          -25.6875},{48.15,-60},{48,-60},{48,-74}},color={191,0,0}));
-  connect(roo.surf_surBou[2], lay.port_b) annotation (Line(points={{48.15,
-          -25.3125},{48.15,-58},{72,-58},{72,-74},{76,-74}},
+          -25.6875},{48.15,-52},{36,-52},{36,-74},{38,-74}},
                                                    color={191,0,0}));
+  connect(roo.heaPorAir, lay.port_b) annotation (Line(points={{50.25,-15},{76,
+          -15},{76,-74},{70,-74}}, color={191,0,0}));
   annotation (
 experiment(
       StopTime=31536000,

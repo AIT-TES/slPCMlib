@@ -60,20 +60,20 @@ initial equation
   h_L_at_Tmax = h_BL_at_Tmax + PCM.propData.phTrEnth + PCM.propData.href;
   h_S_at_Tmax = enthFcts.enthalpy_solid(PCM.propData.rangeTmelting[2]);
 
-  Modelica.Utilities.Streams.print("-----------Print here!---------------------------");
-  Modelica.Utilities.Streams.print("basicPhTransModel --->>> "
-                                   + PCM.propData.mediumName);
-  Modelica.Utilities.Streams.print(" . PCM.propData.href = " + String(PCM.propData.href));
-  Modelica.Utilities.Streams.print(" . PCM.propData.Tref = " + String(PCM.propData.Tref-273.15));
-  Modelica.Utilities.Streams.print(" . PCM.propData.rangeTmelting[1] = " + String(PCM.propData.rangeTmelting[1]-273.15));
-  Modelica.Utilities.Streams.print(" . PCM.propData.rangeTmelting[2] = " + String(PCM.propData.rangeTmelting[2]-273.15));
-  Modelica.Utilities.Streams.print(" . PCM.propData.cpS_linCoef[1] = " + String(PCM.propData.cpS_linCoef[1]));
-  Modelica.Utilities.Streams.print(" . PCM.propData.cpL_linCoef[1] = " + String(PCM.propData.cpL_linCoef[1]));
-  Modelica.Utilities.Streams.print(" . PCM.propData.phTrEnth = " + String(PCM.propData.phTrEnth));
-  Modelica.Utilities.Streams.print(" . h_L_at_Tmax = " + String(h_L_at_Tmax));
-  Modelica.Utilities.Streams.print(" . h_S_at_Tmax = " + String(h_S_at_Tmax));
-  Modelica.Utilities.Streams.print(" . (h_L-h_S)_at_Tmax = " + String(h_L_at_Tmax-h_S_at_Tmax));
-  Modelica.Utilities.Streams.print("-----------Stop here!---------------------------");
+//   Modelica.Utilities.Streams.print("-----------Print here!---------------------------");
+//   Modelica.Utilities.Streams.print("basicPhTransModel --->>> "
+//                                    + PCM.propData.mediumName);
+//   Modelica.Utilities.Streams.print(" . PCM.propData.href = " + String(PCM.propData.href));
+//   Modelica.Utilities.Streams.print(" . PCM.propData.Tref = " + String(PCM.propData.Tref-273.15));
+//   Modelica.Utilities.Streams.print(" . PCM.propData.rangeTmelting[1] = " + String(PCM.propData.rangeTmelting[1]-273.15));
+//   Modelica.Utilities.Streams.print(" . PCM.propData.rangeTmelting[2] = " + String(PCM.propData.rangeTmelting[2]-273.15));
+//   Modelica.Utilities.Streams.print(" . PCM.propData.cpS_linCoef[1] = " + String(PCM.propData.cpS_linCoef[1]));
+//   Modelica.Utilities.Streams.print(" . PCM.propData.cpL_linCoef[1] = " + String(PCM.propData.cpL_linCoef[1]));
+//   Modelica.Utilities.Streams.print(" . PCM.propData.phTrEnth = " + String(PCM.propData.phTrEnth));
+//   Modelica.Utilities.Streams.print(" . h_L_at_Tmax = " + String(h_L_at_Tmax));
+//   Modelica.Utilities.Streams.print(" . h_S_at_Tmax = " + String(h_S_at_Tmax));
+//   Modelica.Utilities.Streams.print(" . (h_L-h_S)_at_Tmax = " + String(h_L_at_Tmax-h_S_at_Tmax));
+//   Modelica.Utilities.Streams.print("-----------Stop here!---------------------------");
 
 equation
 

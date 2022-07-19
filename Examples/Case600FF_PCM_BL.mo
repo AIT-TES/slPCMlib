@@ -230,13 +230,13 @@ model Case600FF_PCM_BL
     "Record for data of surfaces whose heat conduction is modeled outside of this room"
     annotation (Placement(transformation(extent={{34,-102},{22,-90}})),
       HideResult=true);
-  Buildings.HeatTransfer.Conduction.SingleLayer lay(A=pcmWallArea,
-                                                         material=datSolPCM,
-    steadyStateInitial=true)
-    annotation (Placement(transformation(extent={{48,-102},{68,-82}})));
+  Buildings.HeatTransfer.Conduction.SingleLayer lay(
+    A=2*(6 + 8)*2.7,                                     material=datSolPCM,
+    steadyStateInitial=false)
+    annotation (Placement(transformation(extent={{40,-84},{76,-64}})));
   parameter Buildings.HeatTransfer.Data.SolidsPCM.MicronalSmartBoard26
-    datSolPCM(x=0.10)
-    annotation (Placement(transformation(extent={{-24,-112},{-4,-92}})));
+    datSolPCM(x=0.03)
+    annotation (Placement(transformation(extent={{48,-110},{68,-90}})));
 equation
   connect(qRadGai_flow.y,multiplex3_1. u1[1])  annotation (Line(
       points={{-35.6,76},{-34,76},{-34,70.8},{-18.8,70.8}},
@@ -330,10 +330,10 @@ equation
       smooth=Smooth.None));
   connect(souInf.ports[1], roo.ports[3]) annotation (Line(points={{-12,-28},{28,
           -28},{28,-21.5},{39.75,-21.5}}, color={0,127,255}));
-  connect(roo.surf_surBou[1], lay.port_a) annotation (Line(points={{48.15,-25.6875},
-          {48.15,-84},{44,-84},{44,-92},{48,-92}}, color={191,0,0}));
-  connect(roo.surf_surBou[2], lay.port_b) annotation (Line(points={{48.15,-25.3125},
-          {48.15,-72},{72,-72},{72,-92},{68,-92}}, color={191,0,0}));
+  connect(roo.surf_surBou[1], lay.port_a) annotation (Line(points={{48.15,
+          -25.6875},{48.15,-58},{40,-58},{40,-74}},color={191,0,0}));
+  connect(roo.heaPorAir, lay.port_b)
+    annotation (Line(points={{50.25,-15},{76,-15},{76,-74}}, color={191,0,0}));
   annotation (
 experiment(
       StopTime=31536000,

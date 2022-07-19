@@ -11,16 +11,16 @@ package generic_uniform "Generic, uniform distribution, linear"
     // --- parameters for phase transition functions ---
   constant Boolean modelForMelting =        true;
   constant Boolean modelForSolidification = true;
-  constant Real UniformMelt_min = 273.15 + 26
+  constant Real UniformMelt_min = 273.15 + 62
            "lower limit";                     //62
-  constant Real UniformMelt_max = 273.15 + 30
+  constant Real UniformMelt_max = 273.15 + 65
            "upper limit";                     //65
   constant Modelica.Units.SI.Temperature rangeTmelting[2]={UniformMelt_min,
       UniformMelt_max} "temperature range melting {startT, endT}";
   // ---
-  constant Real UniformSoli_min = 273.15 + 24
+  constant Real UniformSoli_min = 273.15 + 60.5
            "lower limit";                     //60.5
-  constant Real UniformSoli_max = 273.15 + 29
+  constant Real UniformSoli_max = 273.15 + 62
            "upper limit";                     //62
   constant Modelica.Units.SI.Temperature rangeTsolidification[2]={
       UniformSoli_min,UniformSoli_max}

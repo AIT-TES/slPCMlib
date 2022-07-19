@@ -320,7 +320,7 @@ equation
 experiment(
       StopTime=31536000,
       Interval=60,
-      Tolerance=1e-06,
+      Tolerance=1e-07,
       __Dymola_Algorithm="Dassl"),
 __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/BESTEST/Cases6xx/Case600FF.mos"
         "Simulate and plot"), Documentation(info="<html>

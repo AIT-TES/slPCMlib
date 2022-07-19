@@ -47,7 +47,7 @@ model PCMlayer_1D_1port_1symmetry
 
   Modelica.Units.SI.Temperature T_j[n_FD](start=ones(n_FD)*(initT), fixed=true);
 
-  parameter Integer n_FD(min=1)=6
+  parameter Integer n_FD(min=1,max=9)=6
     "Number of internal nodes (into the PCM)"
     annotation(Dialog(tab = "General", group = "Discretization"));
 

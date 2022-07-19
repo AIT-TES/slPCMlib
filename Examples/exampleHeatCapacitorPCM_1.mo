@@ -5,32 +5,29 @@ model exampleHeatCapacitorPCM_1 "Example using PCM heat capacitor"
   Components.SineT sineT(
     ampl=4.5,
     rateT=1/2000,
-    startT=273.15 + 17)
+    startT=273.15 + 28)
     annotation (Placement(transformation(extent={{-22,-20},{-2,0}})));
 
-    // redeclare package PCM = Media.RT64HC,
-    // redeclare package PCM = Media.RT60,
   Components.HeatCapacitorSlPCMlib heatCapacitorPCM1(
     T(start=273.15 + 50),
-    redeclare package PCM = slPCMlib.Media_Rubitherm_RT.RT_minus_9HC,
+    redeclare package PCM = slPCMlib.Media_generic.generic_7thOrderSmoothStep,
     redeclare slPCMlib.Interfaces.phTransModMeltingCurve phTrModel)
     annotation (Placement(transformation(extent={{12,14},{32,34}})));
-
   Components.HeatCapacitorSlPCMlib heatCapacitorPCM2(
     T(start=273.15 + 50),
-    redeclare package PCM = slPCMlib.Media_Rubitherm_RT.RT11HC,
+    redeclare package PCM = slPCMlib.Media_generic.generic_7thOrderSmoothStep,
     redeclare slPCMlib.Interfaces.phTransModCurveTrackHysteresis phTrModel)
     annotation (Placement(transformation(extent={{12,-10},{32,10}})));
   Components.HeatCapacitorSlPCMlib heatCapacitorPCM3(
     T(start=273.15 + 50),
-    redeclare package PCM = slPCMlib.Media_Rubitherm_SP.SP24E,
+    redeclare package PCM = slPCMlib.Media_generic.generic_7thOrderSmoothStep,
     redeclare slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated
       phTrModel)
     annotation (Placement(transformation(extent={{12,-34},{32,-14}})));
   Components.HeatCapacitorSlPCMlib heatCapacitorPCM4(
     T(start=273.15 + 50),
-    redeclare package PCM = slPCMlib.Media_Rubitherm_SP.SP26E,
-    redeclare slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated
+    redeclare package PCM = slPCMlib.Media_generic.generic_7thOrderSmoothStep,
+    redeclare slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
       phTrModel)
     annotation (Placement(transformation(extent={{12,-58},{32,-38}})));
 equation

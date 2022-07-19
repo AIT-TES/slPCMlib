@@ -9,7 +9,7 @@ model exampleHeatCapacitorPCM_2 "Example using PCM heat capacitor"
     tableOnFile=true,
     tableName="tab1",
     fileName=ModelicaServices.ExternalReferences.loadResource(
-        "modelica://slPCMlib/inputT.txt"),
+        "modelica://slPCMlib/Resources/inputT.tabOnFile"),
     columns={2},
     smoothness=Modelica.Blocks.Types.Smoothness.LinearSegments,
     extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint)
