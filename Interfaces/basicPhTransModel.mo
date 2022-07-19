@@ -1,4 +1,4 @@
-﻿within slPCMlib.Interfaces;
+within slPCMlib.Interfaces;
 partial model basicPhTransModel
   "Basic phase transition model, computes properties for given T and xi"
 
@@ -41,42 +41,24 @@ protected
         false) "phase transition enthalpy at T_max, where melting is finished";
   parameter Modelica.Units.SI.SpecificEnthalpy h_BL_at_Tmax(start=1e3, fixed=
         false) "baseline enthalpy at T_max, where melting is finished";
-  parameter Modelica.Units.SI.SpecificEnthalpy h_offset(start=1e3, fixed=false)
-    "offset für h_L";
-
   parameter Modelica.Units.SI.SpecificEnthalpy h_S_at_Tmax(start=1e3, fixed=
         false) "-";
 
-
 initial equation
-//   assert(PCM.propData.rangeTmelting[1] >= PCM.propData.rangeTsolidification[1],
-//          "PCM.propData.rangeTmelting[1] <= PCM.propData.rangeTsolidification[1].
-//           Phase transition function for complete melting should give always smaller values
-//           compared with the function for solidification!",
-//          AssertionLevel.error);
-//    assert(PCM.propData.rangeTmelting[2] >= PCM.propData.rangeTsolidification[2],
-//           "PCM.propData.rangeTmelting[2] <= PCM.propData.rangeTsolidification[2].
-//            Phase transition function for complete melting should give always smaller values
-//            compared with the function for solidification!",
-//           AssertionLevel.error);
    assert(PCM.propData.rangeTmelting[1] >= PCM.propData.Tref,
           "PCM.propData.rangeTmelting[1] < PCM.propData.Tref.
           Reference temperature should not be greater than Tmin for melting 
           (Tmin is temperature where melting process starts).",
           AssertionLevel.error);
 
-
   h_BL_at_Tmax =Modelica.Math.Nonlinear.quadratureLobatto(
-  function BasicUtilities.enthalpyHelpers.spHeatCap_baselineMelting(),
+  function enthFcts.spHeatCap_baselineMelting(),
   PCM.propData.Tref,
   PCM.propData.rangeTmelting[2],
   tolerance=100*Modelica.Constants.eps);
 
   h_L_at_Tmax = h_BL_at_Tmax + PCM.propData.phTrEnth + PCM.propData.href;
   h_S_at_Tmax = enthFcts.enthalpy_solid(PCM.propData.rangeTmelting[2]);
-//   h_offset    = - enthFcts.enthalpy_liquid(PCM.propData.rangeTmelting[2])
-//               + h_L_at_Tmax;
-  h_offset    = h_L_at_Tmax;
 
   Modelica.Utilities.Streams.print("-----------Print here!---------------------------");
   Modelica.Utilities.Streams.print("basicPhTransModel --->>> "
@@ -88,19 +70,17 @@ initial equation
   Modelica.Utilities.Streams.print(" . PCM.propData.cpS_linCoef[1] = " + String(PCM.propData.cpS_linCoef[1]));
   Modelica.Utilities.Streams.print(" . PCM.propData.cpL_linCoef[1] = " + String(PCM.propData.cpL_linCoef[1]));
   Modelica.Utilities.Streams.print(" . PCM.propData.phTrEnth = " + String(PCM.propData.phTrEnth));
-//  Modelica.Utilities.Streams.print(" . h_BL_at_Tmax = " + String(h_BL_at_Tmax));
   Modelica.Utilities.Streams.print(" . h_L_at_Tmax = " + String(h_L_at_Tmax));
   Modelica.Utilities.Streams.print(" . h_S_at_Tmax = " + String(h_S_at_Tmax));
   Modelica.Utilities.Streams.print(" . (h_L-h_S)_at_Tmax = " + String(h_L_at_Tmax-h_S_at_Tmax));
   Modelica.Utilities.Streams.print("-----------Stop here!---------------------------");
 
-
 equation
 
-    h       = xi*(enthFcts.enthalpy_liquid(indVar.T) + h_offset)
+    h       = xi*(enthFcts.enthalpy_liquid(indVar.T) + h_L_at_Tmax)
             + (1.0 - xi)*enthFcts.enthalpy_solid(indVar.T);
     h_S     = enthFcts.enthalpy_solid(indVar.T);
-    h_L     = enthFcts.enthalpy_liquid(indVar.T) + h_offset;
+    h_L     = enthFcts.enthalpy_liquid(indVar.T) + h_L_at_Tmax;
     cp_BL   =  xi*enthFcts.spHeatCap_liquid(indVar.T)
             + (1.0 - xi)*enthFcts.spHeatCap_solid(indVar.T);
     cp      = cp_BL + dxi*(h_L - h_S);
