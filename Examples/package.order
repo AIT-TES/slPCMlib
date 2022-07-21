@@ -2,6 +2,4 @@ exampleHeatCapacitorPCM_1
 exampleHeatCapacitorPCM_2
 exampleHeatCapacitorPCM_3
 heatConduction1D
-Case600FF
-Case600FF_PCM_BL
 Case600FF_PCM_slPCMlib_SingleLayerPCM
