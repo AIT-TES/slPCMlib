@@ -1,4 +1,4 @@
-﻿within slPCMlib.BasicUtilities;
+within slPCMlib.BasicUtilities;
 function cubicHermiteSplineEval
   "Evaluate piecewise cubic hermite splines"
   extends Modelica.Icons.Function;
@@ -19,32 +19,20 @@ protected
 
 algorithm
 
-//   assert(  (breaks[1] <= T and T <= breaks[pieces+1]),
-//        ("Medium model outside feasible range! Problem with T/°C = " + String(T)),
-//        AssertionLevel.error);                          // if not true then
-
-//  Modelica.Utilities.Streams.print(" ---> enter splineEval => " + " T = " + String(T));
-
   // find the interval
   if T < data_x[1] then
     xi  :=0.0;
     dxi :=0.0;
 
-  elseif data_x[1] <= T then    // and T <= data_x[len_x])
+  elseif data_x[1] <= T then
 
     for i in 1:len_x loop
     if data_x[intNum+1] <= T then
       intNum := i;
     end if;
     end for;
-    //   Modelica.Utilities.Streams.print(" - int found: breaks[" + String[intNum] + "]=" + String(breaks[intNum]) + " <= " + String(T));
 
     if intNum < len_x then
-
-//     assert(  intNum<len_x,
-//            ("T/°C = " + String(T) + " ||| data_x[intNum=" + String(intNum) + "] = " + String(data_x[intNum])),
-//          AssertionLevel.error);
-
 
       // eval spline in element
       delta := data_x[intNum + 1] - data_x[intNum];

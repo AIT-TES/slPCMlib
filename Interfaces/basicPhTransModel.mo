@@ -2,9 +2,6 @@ within slPCMlib.Interfaces;
 partial model basicPhTransModel
   "Basic phase transition model, computes properties for given T and xi"
 
-  replaceable package PCM =
-    slPCMlib.Media_generic.generic_7thOrderSmoothStep;
-
   Modelica.Units.SI.MassFraction xi(
     min=0,
     max=1,
@@ -29,12 +26,14 @@ partial model basicPhTransModel
   // "Connector for temperature (input signal)"
   inductionAtNode indVar;
 
+  replaceable package PCM =
+    slPCMlib.Media_generic.generic_7thOrderSmoothStep;
+
   package enthFcts =
     slPCMlib.BasicUtilities.enthalpyHelpers (
-    redeclare package PCM = slPCMlib.Media_Knauf_SmartBoard.SmartBoard_26);
-//    redeclare package PCM = PCM);
+    redeclare package PCM = PCM);
 
-   Real dxi(unit="1/K");
+  Real dxi(unit="1/K");
 
 protected
   parameter Modelica.Units.SI.SpecificEnthalpy h_L_at_Tmax(start=1e3, fixed=

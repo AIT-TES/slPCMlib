@@ -1,13 +1,14 @@
 ﻿within slPCMlib.BasicUtilities;
 function quartQuintSplineEval "Evaluate piecewise quartic/quintic splines"
   extends Modelica.Icons.Function;
+
   input Real T;
   input Integer pieces; // num intvals
   input Integer order[pieces];
   input Real breaks[pieces+1];
   input Real coefs[:,:];
   output Real Xi, dXi;
-  // Integer n=scalar(size(breaks)) - 1 "Max value";
+
 protected
   Integer intNum "interval number";
   Integer nO;
@@ -16,22 +17,21 @@ algorithm
 
   assert(  (breaks[1] <= T and T <= breaks[pieces+1]),
        ("Medium model outside feasible range! Problem with T/°C = " + String(T)),
-       AssertionLevel.error);                          // if not true then
-  //      Modelica.Utilities.Streams.print(" ---> enter splineEval => " + " T = " + String(T));
+       AssertionLevel.error); // if not true then
 
   // find the interval
   intNum := 0;
   while T >= breaks[intNum+1] loop
     intNum := intNum + 1;
-    //           Modelica.Utilities.Streams.print(" - loop = " + String(intNum) + " | T = " + String(T)
-    //                                             + " | breaks = " + String(breaks[intNum]));
+    // Modelica.Utilities.Streams.print(" - loop = " + String(intNum) + " | T = " + String(T)
+    //                                + " | breaks = " + String(breaks[intNum]));
   end while;
-  //          Modelica.Utilities.Streams.print(" - int found: breaks[" + String(intNum) + "]=" + String(breaks[intNum]) + " <= " + String(T));
+    // Modelica.Utilities.Streams.print(" - int found: breaks[" + String(intNum) + "]=" + String(breaks[intNum]) + " <= " + String(T));
 
   nO :=order[intNum]; // 0 order is integral
   dT :=T - breaks[intNum];
-  //           Modelica.Utilities.Streams.print(" - nO = " + String(nO));
-  //           Modelica.Utilities.Streams.print(" - dT = " + String(dT));
+    // Modelica.Utilities.Streams.print(" - nO = " + String(nO));
+    // Modelica.Utilities.Streams.print(" - dT = " + String(dT));
 
 //      iXi :=  coefs[intNum,1]
 //           +  coefs[intNum,2]*dT

@@ -61,16 +61,13 @@ model PCMlayer_1D_1port_1symmetry
     "Total stored/absorbed energy includes sensible and latent heat";
 
 
-//     % Calculation of position of discrete cells
-//     z_FD = [z0:dz:zEnd zEnd+dz/2]';
-    // % Thickness of a discrete cell in radial direction
-    // dz = 2*(zEnd-z0) / (2*n_FD +1);
 
 // ---------------------------------------------------------------------------
-
 protected
   parameter Modelica.Units.SI.Length width_i=2*width/(2*n_FD + 1)
     "Thickness of a discrete cell";
+//     % Calculation of position of discrete cells
+//     z_FD = [z0:dz:zEnd zEnd+dz/2]';
 
   Real lambda_jp12_BC;
   Real T_jm1[n_FD], T_jp1[n_FD];
@@ -78,9 +75,8 @@ protected
   Real lambda_jm12[n_FD], lambda_jp12[n_FD];
   Real D_j[n_FD];
   final constant Real eps = Modelica.Constants.small;
-  // ---------------------------------------------------------------------------
 
-
+// ---------------------------------------------------------------------------
 equation
 
   // input temperature signal to the model
@@ -120,7 +116,6 @@ equation
             lambda_jp1[j] = phTrModel_j[j+1].lambda;
 
         end if;
-
 
         // use harmonic mean
         lambda_jm12[j] = 2 * lambda_j[j] * lambda_jm1[j] / max(lambda_j[j] + lambda_jm1[j],eps);
