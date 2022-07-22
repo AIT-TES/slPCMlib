@@ -62,11 +62,9 @@ package enthalpyHelpers
   protected
     Modelica.Units.SI.Temperature TT;
   algorithm
-    //    TT := T-PCM.propData.Tref;
+    // do not use Tref, use Tmax !
     TT := T-PCM.propData.rangeTmelting[2];
-    //      h := PCM.propData.cpL_linCoef[1]*TT
-    //         + PCM.propData.cpL_linCoef[2]*TT*TT/2
-    //         + PCM.propData.href;
+    // do not use href !
      h := PCM.propData.cpL_linCoef[1]*TT
         + PCM.propData.cpL_linCoef[2]*TT*TT/2;
   end enthalpy_liquid;
