@@ -55,20 +55,15 @@ For more detailed information see the documentation layers of the Modelica packa
 
 ## References
 
-Barz, T., Bres, A., & Emhofer, J. (2022). slPCMlib: A Modelica Library for the Prediction of Effective Thermal Material Properties of Solid/Liquid Phase Change Materials (PCM). In Proceedings of Asian Modelica Conference 2022 (pp. 63-74). Linkoping University Electronic Press. 
-![DOI]: https://doi.org/10.3384/ecp19363
+Barz, T., Bres, A., & Emhofer, J. (2022). slPCMlib: A Modelica Library for the Prediction of Effective Thermal Material Properties of Solid/Liquid Phase Change Materials (PCM). In Proceedings of Asian Modelica Conference 2022 (pp. 63-74). Linkoping University Electronic Press. https://doi.org/10.3384/ecp19363
 
-Barz, T. (2021). Paraffins as phase change material in a compact plate-fin heat exchanger-Part II: Validation of the “curve scale” hysteresis model for incomplete phase transitions. Journal of Energy Storage, 34, 102164. 
-![DOI](https://doi.org/10.1016/j.est.2020.102164)
+Barz, T. (2021). Paraffins as phase change material in a compact plate-fin heat exchanger-Part II: Validation of the “curve scale” hysteresis model for incomplete phase transitions. Journal of Energy Storage, 34, 102164. https://doi.org/10.1016/j.est.2020.102164
 
-Barz, T., Krämer, J., & Emhofer, J. (2020). Identification of Phase Fraction–Temperature Curves from Heat Capacity Data for Numerical Modeling of Heat Transfer in Commercial Paraffin Waxes. Energies, 13(19), 5149.
-![DOI](https://doi.org/10.3390/en13195149)
+Barz, T., Krämer, J., & Emhofer, J. (2020). Identification of Phase Fraction–Temperature Curves from Heat Capacity Data for Numerical Modeling of Heat Transfer in Commercial Paraffin Waxes. Energies, 13(19), 5149. https://doi.org/10.3390/en13195149
 
-Barz, T., Emhofer, J., Marx, K., Zsembinszki, G., & Cabeza, L. F. (2019). Phenomenological modelling of phase transitions with hysteresis in solid/liquid PCM. Journal of Building Performance Simulation, 12(6), 770-788.
-![DOI](https://doi.org/10.1080/19401493.2019.1657953)
+Barz, T., Emhofer, J., Marx, K., Zsembinszki, G., & Cabeza, L. F. (2019). Phenomenological modelling of phase transitions with hysteresis in solid/liquid PCM. Journal of Building Performance Simulation, 12(6), 770-788. https://doi.org/10.1080/19401493.2019.1657953
 
-Barz, T., & Sommer, A. (2018). Modeling hysteresis in the phase transition of industrial-grade solid/liquid PCM for thermal energy storages. International Journal of Heat and Mass Transfer, 127, 701-713.
-![DOI](https://doi.org/10.1016/j.ijheatmasstransfer.2018.08.032)
+Barz, T., & Sommer, A. (2018). Modeling hysteresis in the phase transition of industrial-grade solid/liquid PCM for thermal energy storages. International Journal of Heat and Mass Transfer, 127, 701-713. https://doi.org/10.1016/j.ijheatmasstransfer.2018.08.032
 
 ## License
 
