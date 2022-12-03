@@ -56,7 +56,7 @@ For more detailed information see the documentation layers of the Modelica packa
 ## References
 
 Barz, T., Bres, A., & Emhofer, J. (2022). slPCMlib: A Modelica Library for the Prediction of Effective Thermal Material Properties of Solid/Liquid Phase Change Materials (PCM). In Proceedings of Asian Modelica Conference 2022 (pp. 63-74). Linkoping University Electronic Press. 
-![DOI](https://doi.org/10.3384/ecp19363) 
+![DOI]: https://doi.org/10.3384/ecp19363
 
 Barz, T. (2021). Paraffins as phase change material in a compact plate-fin heat exchanger-Part II: Validation of the “curve scale” hysteresis model for incomplete phase transitions. Journal of Energy Storage, 34, 102164. 
 ![DOI](https://doi.org/10.1016/j.est.2020.102164)
