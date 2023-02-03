@@ -12,6 +12,9 @@ PCM functional temperature range where latent heat is absorbed and released.
 Based on the properties and adopting the apparent heat capacity method, heat transfer problems can be solved 
 numerically.  
 
+See also https://slpcmlib.ait.ac.at/
+for updates and new Media! 
+
 ## Description
 
 ![Alt text](./Resources/Images/slPCMlib.png?raw=true "Title")
