@@ -56,6 +56,18 @@ _slPCMlib_ also contains exemplarily <ins>heat transfer models</ins> to provide 
 
 For more detailed information see the documentation layers of the Modelica packages. 
 
+
+## Installation advice
+
+If you have git installed on your machine use 
+```
+git clone https://github.com/AIT-TES/slPCMlib.git
+```
+to install the Dymola package. Then in Dymola click the menu *File/Open/Load/* then select the *package.mo* file in the project folder *slPCMlib* that is newly created by git.
+
+If you don't have git, then on the current github website of the project under the *<> Code* tab select *download ZIP* . In this case the package will be downloaded as a zip file to your hard disk. Copy the zip file to your preferred location, then unzip it. Then you have to **rename** the resulting directory from *slPCMlib-main* to *slPCMlib* , then you can load the *package.mo* file with Dymola, as described above.
+
+
 ## References
 
 Barz, T., Bres, A., & Emhofer, J. (2022). slPCMlib: A Modelica Library for the Prediction of Effective Thermal Material Properties of Solid/Liquid Phase Change Materials (PCM). In Proceedings of Asian Modelica Conference 2022 (pp. 63-74). Linkoping University Electronic Press. https://doi.org/10.3384/ecp19363
