@@ -1,0 +1,12 @@
+LibraryInfoMenuSeparator(
+  category="libraries",
+  pos=100000)
+
+LibraryInfoMenuCommand(
+  category="libraries",
+  text="slPCMlib",
+  reference="slPCMlib",
+  version="1.0.0",
+  isModel=true,
+  description="Solid/liquid PCM Modelica library",
+  pos=100001)
