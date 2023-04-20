@@ -1,26 +1,26 @@
 
-// within slPCMlib.Media_Knauf_Smartboard;
-package SmartBoard_21 "Knauf Gips KG, SmartBoard 21; data taken from: DBU-Abschlussbericht-AZ-23836.pdf; last access: 2010-10-01."
+// within slPCMlib.Rubitherm_RT;
+package Rubitherm_RT100HC "Rubitherm GmbH, RT100HC; data taken from: Rubitherm datasheet; last access: 2020-10-09."
   extends  slPCMlib.Interfaces.partialPCM;
 
   // ----------------------------------
   redeclare replaceable record propData "PCM record"
 
-    constant String mediumName = "SmartBoard 21";
+    constant String mediumName = "RT100HC";
     // --- parameters for phase transition functions ---
     constant Boolean modelForMelting =        true;
     constant Boolean modelForSolidification = true;
-    constant Modelica.Units.SI.Temperature rangeTmelting[2] = {2.9314999999999998E+02, 3.0139999999999998E+02}
+    constant Modelica.Units.SI.Temperature rangeTmelting[2] = {3.6914999999999998E+02, 3.7814999999999998E+02}
              "temperature range melting {startT, endT}";
-    constant Modelica.Units.SI.Temperature rangeTsolidification[2] = {2.9314999999999998E+02, 3.0039999999999998E+02}
+    constant Modelica.Units.SI.Temperature rangeTsolidification[2] = {3.6614999999999998E+02, 3.7414999999999998E+02}
              "temperature range solidification {startT, endT}";
 
     // --- parameters for heat capacity and enthalpy ---
-    constant Modelica.Units.SI.SpecificHeatCapacity[2] cpS_linCoef = {1.2000000000000000E+03, 0.0000000000000000E+00}
+    constant Modelica.Units.SI.SpecificHeatCapacity[2] cpS_linCoef = {2.0000000000000000E+03, 0.0000000000000000E+00}
              "solid specific heat capacity, linear coefficients a + b*T";
-    constant Modelica.Units.SI.SpecificHeatCapacity[2] cpL_linCoef = {1.2000000000000000E+03, 0.0000000000000000E+00}
+    constant Modelica.Units.SI.SpecificHeatCapacity[2] cpL_linCoef = {2.0000000000000000E+03, 0.0000000000000000E+00}
              "liquid specific heat capacity, linear coefficients a + b*T";
-    constant Modelica.Units.SI.SpecificEnthalpy   phTrEnth = 2.5905813368276304E+04
+    constant Modelica.Units.SI.SpecificEnthalpy   phTrEnth = 1.3328493594090350E+05
              "scalar phase transition enthalpy";
 
     // --- reference values ---
@@ -65,52 +65,52 @@ package SmartBoard_21 "Knauf Gips KG, SmartBoard 21; data taken from: DBU-Abschl
   // ----------------------------------
   package data_H "spline interpolation data for heating"
     extends Modelica.Icons.Package;
-    constant Integer  len_x =    9;
-    constant Real[9] data_x =   {2.0000000000000000E+01, 2.3875000000000000E+01, 2.4875000000000000E+01, 2.5375000000000000E+01, 2.6125000000000000E+01, 2.6375000000000000E+01, 2.6875000000000000E+01, 2.7625000000000000E+01, 2.8250000000000000E+01};
-    constant Real[9] data_y =   {0.0000000000000000E+00, 3.5495152774999997E-02, 9.7485655835000004E-02, 1.7815058052200000E-01, 5.3699678911600002E-01, 6.1530212280300001E-01, 4.4913942753000002E-01, 1.6062598016000001E-02, 0.0000000000000000E+00};
-    constant Real[9] m_k =      {0.0000000000000000E+00, 2.0900746365999999E-02, 1.3929809375100000E-01, 1.9692141481200001E-01, 5.5176984768399995E-01, 1.7377224372600000E-01, -7.2302176744299995E-01, -7.0878688539000007E-02, 0.0000000000000000E+00};
-    constant Real[9] iy_start = {0.0000000000000000E+00, 4.2794530236000002E-02, 9.9652085370999996E-02, 1.6763998351199999E-01, 4.2022445761900001E-01, 5.6683289261400005E-01, 8.5280137609399997E-01, 9.9727649772200000E-01, 1.0000000000000000E+00};
-    constant Real    iy_scaler = 1.0041253994008581E+00;
+    constant Integer  len_x =    10;
+    constant Real[10] data_x =   {9.6000000000000000E+01, 9.8125000000000000E+01, 9.9625000000000000E+01, 1.0037500000000000E+02, 1.0062500000000000E+02, 1.0137500000000000E+02, 1.0162500000000000E+02, 1.0237500000000000E+02, 1.0387500000000000E+02, 1.0500000000000000E+02};
+    constant Real[10] data_y =   {0.0000000000000000E+00, 3.4369432826000003E-02, 1.3894002259200000E-01, 3.6829759327900002E-01, 4.8481884301700001E-01, 3.9430149019600003E-01, 2.4919043215600001E-01, 5.8548806538999999E-02, 1.6111832406999999E-02, 0.0000000000000000E+00};
+    constant Real[10] m_k =      {0.0000000000000000E+00, 2.3094933229000001E-02, 2.1639964639299999E-01, 3.9558084416599998E-01, 4.0844190391899998E-01, -5.1475187616600004E-01, -4.6793513123899999E-01, -1.1708696410900001E-01, -9.0373770220000000E-03, 0.0000000000000000E+00};
+    constant Real[10] iy_start = {0.0000000000000000E+00, 2.7663869601000000E-02, 1.2085230910200000E-01, 3.0160240980199998E-01, 4.0755078632399999E-01, 7.7831128957499995E-01, 8.5803425595100002E-01, 9.5641087818000003E-01, 9.9193775373600002E-01, 1.0000000000000000E+00};
+    constant Real    iy_scaler = 9.9414302076202454E-01;
   end data_H;
 
   // ----------------------------------
   package data_C "spline interpolation data for cooling"
     extends Modelica.Icons.Package;
-    constant Integer  len_x =    10;
-    constant Real[10] data_x =   {2.0000000000000000E+01, 2.3125000000000000E+01, 2.3875000000000000E+01, 2.4625000000000000E+01, 2.5375000000000000E+01, 2.5625000000000000E+01, 2.6375000000000000E+01, 2.6625000000000000E+01, 2.6875000000000000E+01, 2.7250000000000000E+01};
-    constant Real[10] data_y =   {0.0000000000000000E+00, 3.1555221236999997E-02, 1.7871430272899999E-01, 4.2748980250800001E-01, 4.9089503724299999E-01, 4.3837743024900000E-01, 6.0417624481000000E-02, 6.4919349899999999E-03, 1.9710545100000000E-04, 0.0000000000000000E+00};
-    constant Real[10] m_k =      {0.0000000000000000E+00, 2.2872079550000000E-02, 3.8231510490400000E-01, 1.9029717288199999E-01, -4.8858455188999998E-02, -4.8166105008200000E-01, -4.1684469009100000E-01, -4.1592185629000002E-02, -8.8725551200000000E-04, 0.0000000000000000E+00};
-    constant Real[10] iy_start = {0.0000000000000000E+00, 3.0873562148000001E-02, 9.3243158689000002E-02, 3.3097098408800002E-01, 6.8868298655200000E-01, 8.0779792664899996E-01, 9.9289822395000005E-01, 9.9934545916799999E-01, 9.9997328286400000E-01, 1.0000000000000000E+00};
-    constant Real    iy_scaler = 1.0059258701712850E+00;
+    constant Integer  len_x =    13;
+    constant Real[13] data_x =   {9.3000000000000000E+01, 9.5625000000000000E+01, 9.6625000000000000E+01, 9.7375000000000000E+01, 9.7625000000000000E+01, 9.8125000000000000E+01, 9.8375000000000000E+01, 9.8625000000000000E+01, 9.8875000000000000E+01, 9.9375000000000000E+01, 9.9625000000000000E+01, 1.0037500000000000E+02, 1.0100000000000000E+02};
+    constant Real[13] data_y =   {0.0000000000000000E+00, 1.3970246095000000E-02, 4.7139006942000003E-02, 6.5886005634999995E-02, 5.5865675676000003E-02, 1.1164477668000000E-01, 2.2088882986500000E-01, 4.8084597878500002E-01, 6.8331271987300002E-01, 5.8171944635700001E-01, 3.3004907926600002E-01, 4.4555404670999998E-02, 0.0000000000000000E+00};
+    constant Real[13] m_k =      {0.0000000000000000E+00, -8.9645877000000006E-05, 6.1260417779000001E-02, -1.6528376402999999E-02, -2.1833841887000001E-02, 2.2008669149499999E-01, 7.5820603969800004E-01, 9.2894782427599998E-01, 6.5497116192399996E-01, -8.4849076393500000E-01, -7.4160606047300004E-01, -1.3686374243100000E-01, 0.0000000000000000E+00};
+    constant Real[13] iy_start = {0.0000000000000000E+00, 1.8441363031999999E-02, 4.3958117573999998E-02, 9.0123876108999995E-02, 1.0541519410500000E-01, 1.4236085754399999E-01, 1.8123856587600001E-01, 2.6832084163499997E-01, 4.1569870263000003E-01, 7.6429847855099997E-01, 8.7804554909800003E-01, 9.9050386096599996E-01, 1.0000000000000000E+00};
+    constant Real    iy_scaler = 1.0029334553878693E+00;
   end data_C;
 
   // ----------------------------------
   redeclare function extends density_solid "Returns solid density"
   algorithm 
-    rho := 7.6700000000000000E+02;
+    rho := 1.0000000000000000E+03;
   end density_solid;
   // ----------------------------------
   redeclare function extends density_liquid "Returns liquid density"
   algorithm 
-    rho := 7.6700000000000000E+02;
+    rho := 8.5000000000000000E+02;
   end density_liquid;
   // ----------------------------------
   redeclare function extends conductivity_solid "Returns solid thermal conductivity"
   algorithm 
-    lambda := 1.7999999999999999E-01;
+    lambda := 2.0000000000000001E-01;
   end conductivity_solid;
   // ----------------------------------
   redeclare function extends conductivity_liquid "Returns liquid thermal conductivity"
   algorithm 
-    lambda := 7.6700000000000000E+02;
+    lambda := 8.5000000000000000E+02;
   end conductivity_liquid;
 
 
 annotation(Documentation(
   info="<html>
   <p>
-  This package contains solid and liquid properties for the PCM:  <strong>SmartBoard 21</strong>  from manufacturer: <strong>Knauf Gips KG</strong>.<br>
-       material class: paraffin-based composite;  encapsulation:    microencapsulated<br>  Data taken from: DBU-Abschlussbericht-AZ-23836.pdf - last access 2010-10-01.<br><br>
+  This package contains solid and liquid properties for the PCM:  <strong>RT100HC</strong>  from manufacturer: <strong>Rubitherm GmbH</strong>.<br>
+       material class: unknown;  encapsulation:    multiple options available<br>  Data taken from: Rubitherm datasheet - last access 2020-10-09.<br><br>
   The package contains phase transition functions for
   <ul>
   <li>complete melting       :  true</li>
@@ -133,4 +133,4 @@ annotation(Documentation(
     <ul>
     <li>file creation date: 2023-04-20 </ul>
     </p></html>"));
-end SmartBoard_21;
+end Rubitherm_RT100HC;

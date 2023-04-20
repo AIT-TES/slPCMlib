@@ -1,5 +1,5 @@
 within slPCMlib; 
-package Media_Rubitherm_RT "Contains PCM properties for solid and liquid 
+package Media_Axiotherm_ATS "Contains PCM properties for solid and liquid 
    phases, and phase transition functions for complete melting/solidification processes" 
     extends Modelica.Icons.MaterialProperty; 
     
@@ -27,4 +27,4 @@ package Media_Rubitherm_RT "Contains PCM properties for solid and liquid
         <li>2022-06-01; initial version; by Tilman Barz </li> 
         </ul> 
         </html>")); 
-end Media_Rubitherm_RT;   
+end Media_Axiotherm_ATS;   
