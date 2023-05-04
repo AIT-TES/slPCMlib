@@ -51,10 +51,12 @@ initial equation
           AssertionLevel.error);
 
   h_BL_at_Tmax =Modelica.Math.Nonlinear.quadratureLobatto(
-  function enthFcts.spHeatCap_baselineMelting(),
+  function slPCMlib.BasicUtilities.enthalpyHelpers.Tcp2pscWrapper(cptFunction = 
+    function slPCMlib.BasicUtilities.enthalpyHelpers.spHeatCap_baselineMelting()),
   PCM.propData.Tref,
   PCM.propData.rangeTmelting[2],
   tolerance=100*Modelica.Constants.eps);
+  // function enthFcts.spHeatCap_baselineMelting(),
 
   h_L_at_Tmax = h_BL_at_Tmax + PCM.propData.phTrEnth + PCM.propData.href;
   h_S_at_Tmax = enthFcts.enthalpy_solid(PCM.propData.rangeTmelting[2]);
