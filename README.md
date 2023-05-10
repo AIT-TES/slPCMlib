@@ -12,6 +12,9 @@ PCM functional temperature range where latent heat is absorbed and released.
 Based on the properties and adopting the apparent heat capacity method, heat transfer problems can be solved 
 numerically.  
 
+See also https://slpcmlib.ait.ac.at/
+for updates and new Media! 
+
 ## Description
 
 ![Alt text](./Resources/Images/slPCMlib.png?raw=true "Title")
@@ -52,6 +55,18 @@ Phase transition models provide different behavior for temperature cycles with c
 _slPCMlib_ also contains exemplarily <ins>heat transfer models</ins> to provide small demonstration projects.  
 
 For more detailed information see the documentation layers of the Modelica packages. 
+
+
+## Installation advice
+
+If you have git installed on your machine use 
+```
+git clone https://github.com/AIT-TES/slPCMlib.git
+```
+to install the Dymola package. Then in Dymola click the menu *File/Open/Load/* then select the *package.mo* file in the project folder *slPCMlib* that is newly created by git.
+
+If you don't have git, then on the current github website of the project under the *<> Code* tab select *download ZIP* . In this case the package will be downloaded as a zip file to your hard disk. Copy the zip file to your preferred location, then unzip it. Then you have to **rename** the resulting directory from *slPCMlib-main* to *slPCMlib* , then you can load the *package.mo* file with Dymola, as described above.
+
 
 ## References
 
