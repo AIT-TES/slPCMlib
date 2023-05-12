@@ -1,4 +1,4 @@
-within slPCMlib;
+within slPCMlib.Media_generic;
 package Media_generic "Contains different PCM with thermophysical properties for solid and liquid 
    phase and phase transition functions for complete melting/solidification 
    processes"
