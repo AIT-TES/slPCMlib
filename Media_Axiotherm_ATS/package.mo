@@ -1,4 +1,4 @@
-//within slPCMlib.Media_Axiotherm_ATS ; 
+within slPCMlib; 
 package Media_Axiotherm_ATS "Contains PCM properties for solid and liquid 
    phases, and phase transition functions for complete melting/solidification processes" 
     extends Modelica.Icons.MaterialProperty; 
