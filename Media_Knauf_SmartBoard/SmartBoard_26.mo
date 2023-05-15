@@ -1,6 +1,6 @@
 
-// within slPCMlib.Media_Knauf_Smartboard;
-package SmartBoard_26 "Knauf Gips KG, SmartBoard 26; data taken from: DBU-Abschlussbericht-AZ-23836.pdf; last access: 2010-10-01."
+within slPCMlib.Media_Knauf_SmartBoard;
+package SmartBoard_26 "Knauf Gips KG, SmartBoard 26; data taken from: DBU-Abschlussbericht-AZ-23836.pdf."
   extends  slPCMlib.Interfaces.partialPCM;
 
   // ----------------------------------
@@ -110,14 +110,15 @@ annotation(Documentation(
   info="<html>
   <p>
   This package contains solid and liquid properties for the PCM:  <strong>SmartBoard 26</strong>  from manufacturer: <strong>Knauf Gips KG</strong>.<br>
-       material class: paraffin-based composite;  encapsulation:    microencapsulated<br>  Data taken from: DBU-Abschlussbericht-AZ-23836.pdf - last access 2010-10-01.<br><br>
+  Basic characteristics are the material class: paraffin-based composite, and encapsulation: microencapsulated<br>  The data is taken from: DBU-Abschlussbericht-AZ-23836.pdf - last access 2010-10-01.<br><br>
+  <br><br>
   The package contains phase transition functions for
   <ul>
   <li>complete melting       :  true</li>
   <li>complete solidification:  true</li>
   </ul></p><p>
   <p>
-   Code export from <strong><u>slPCMlib database</u></strong> on 2023-04-20.<br><br>
+   Code export from <strong><u>slPCMlib database</u></strong> on 2023-05-15.<br><br>
    See:<br>
     Barz, T., Bres, A., & Emhofer, J. (2022).
     slPCMlib: A Modelica Library for the Prediction of Effective 
@@ -131,6 +132,6 @@ annotation(Documentation(
     </p></html>",
     revisions="<html>
     <ul>
-    <li>file creation date: 2023-04-20 </ul>
+    <li>file creation date: 2023-05-15 </ul>
     </p></html>"));
 end SmartBoard_26;

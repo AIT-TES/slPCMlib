@@ -1,6 +1,6 @@
 
-// within slPCMlib.Rubitherm_SP;
-package Rubitherm_SP_minus_30 "Rubitherm GmbH, SP-30; data taken from: Rubitherm datasheet; last access: 2020-06-03."
+within slPCMlib.Media_Rubitherm_SP;
+package Rubitherm_SP_minus_30 "Rubitherm GmbH, SP-30; data taken from: Rubitherm datasheet."
   extends  slPCMlib.Interfaces.partialPCM;
 
   // ----------------------------------
@@ -110,14 +110,15 @@ annotation(Documentation(
   info="<html>
   <p>
   This package contains solid and liquid properties for the PCM:  <strong>SP-30</strong>  from manufacturer: <strong>Rubitherm GmbH</strong>.<br>
-       material class: salt hydrate-based;  encapsulation:    macroencapsulation<br>  Data taken from: Rubitherm datasheet - last access 2020-06-03.<br><br>
+  Basic characteristics are the material class: salt hydrate-based, and encapsulation: macroencapsulation<br>  The data is taken from: Rubitherm datasheet - last access 2020-06-03.<br><br>
+  <br><br>
   The package contains phase transition functions for
   <ul>
   <li>complete melting       :  true</li>
   <li>complete solidification:  true</li>
   </ul></p><p>
   <p>
-   Code export from <strong><u>slPCMlib database</u></strong> on 2023-04-20.<br><br>
+   Code export from <strong><u>slPCMlib database</u></strong> on 2023-05-15.<br><br>
    See:<br>
     Barz, T., Bres, A., & Emhofer, J. (2022).
     slPCMlib: A Modelica Library for the Prediction of Effective 
@@ -131,6 +132,6 @@ annotation(Documentation(
     </p></html>",
     revisions="<html>
     <ul>
-    <li>file creation date: 2023-04-20 </ul>
+    <li>file creation date: 2023-05-15 </ul>
     </p></html>"));
 end Rubitherm_SP_minus_30;
