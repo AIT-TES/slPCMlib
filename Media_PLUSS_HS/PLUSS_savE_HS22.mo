@@ -1,6 +1,6 @@
 
 within slPCMlib.Media_PLUSS_HS;
-package PLUSS_savE_HS22 "Pluss Advanced Technolgies Pvt Ltd, HS22; data taken from: PLUSS datasheet."
+package PLUSS_savE_HS22 "Pluss Advanced Technologies Pvt Ltd, HS22; data taken from: PLUSS datasheet."
   extends  slPCMlib.Interfaces.partialPCM;
 
   // ----------------------------------
@@ -102,14 +102,14 @@ package PLUSS_savE_HS22 "Pluss Advanced Technolgies Pvt Ltd, HS22; data taken fr
   // ----------------------------------
   redeclare function extends conductivity_liquid "Returns liquid thermal conductivity"
   algorithm 
-    lambda := 1.5400000000000000E+03;
+    lambda := 5.6000000000000005E-01;
   end conductivity_liquid;
 
 
 annotation(Documentation(
   info="<html>
   <p>
-  This package contains solid and liquid properties for the PCM:  <strong>HS22</strong>  from manufacturer: <strong>Pluss Advanced Technolgies Pvt Ltd</strong>.<br>
+  This package contains solid and liquid properties for the PCM:  <strong>HS22</strong>  from manufacturer: <strong>Pluss Advanced Technologies Pvt Ltd</strong>.<br>
   Basic characteristics are the material class: salt hydrate-based, and encapsulation: multiple options available<br>  The data is taken from: PLUSS datasheet - last access 2022-02-13.<br><br>
   <br><br>
   The package contains phase transition functions for
@@ -118,7 +118,7 @@ annotation(Documentation(
   <li>complete solidification:  true</li>
   </ul></p><p>
   <p>
-   Code export from <strong><u>slPCMlib database</u></strong> on 2023-05-15.<br><br>
+   Code export from <strong><u>slPCMlib database</u></strong> on 2023-05-18.<br><br>
    See:<br>
     Barz, T., Bres, A., & Emhofer, J. (2022).
     slPCMlib: A Modelica Library for the Prediction of Effective 
@@ -132,6 +132,6 @@ annotation(Documentation(
     </p></html>",
     revisions="<html>
     <ul>
-    <li>file creation date: 2023-05-15 </ul>
+    <li>file creation date: 2023-05-18 </ul>
     </p></html>"));
 end PLUSS_savE_HS22;

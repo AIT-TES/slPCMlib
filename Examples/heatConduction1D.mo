@@ -5,8 +5,8 @@ model heatConduction1D
 
   Components.PCMlayer_1D_1port_1symmetry pCMlayer_1D_1port_1symmetry(
     width=0.003,
-    redeclare package PCM = slPCMlib.Media_Rubitherm_SP.SP24E,
-    redeclare slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated
+    redeclare package PCM = slPCMlib.Media_Rubitherm_SP.Rubitherm_SP24E,
+    redeclare slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
       phTrModel_j,
     densitySLPCM=800,
     initT=297.15,

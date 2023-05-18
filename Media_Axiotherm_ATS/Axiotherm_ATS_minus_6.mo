@@ -102,7 +102,7 @@ package Axiotherm_ATS_minus_6 "Axiotherm GmbH, ATS -6; data taken from: Axiother
   // ----------------------------------
   redeclare function extends conductivity_liquid "Returns liquid thermal conductivity"
   algorithm 
-    lambda := 1.1000000000000000E+03;
+    lambda := 5.9999999999999998E-01;
   end conductivity_liquid;
 
 
@@ -118,7 +118,7 @@ annotation(Documentation(
   <li>complete solidification:  true</li>
   </ul></p><p>
   <p>
-   Code export from <strong><u>slPCMlib database</u></strong> on 2023-05-15.<br><br>
+   Code export from <strong><u>slPCMlib database</u></strong> on 2023-05-18.<br><br>
    See:<br>
     Barz, T., Bres, A., & Emhofer, J. (2022).
     slPCMlib: A Modelica Library for the Prediction of Effective 
@@ -132,6 +132,6 @@ annotation(Documentation(
     </p></html>",
     revisions="<html>
     <ul>
-    <li>file creation date: 2023-05-15 </ul>
+    <li>file creation date: 2023-05-18 </ul>
     </p></html>"));
 end Axiotherm_ATS_minus_6;

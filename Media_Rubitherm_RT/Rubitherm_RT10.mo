@@ -104,7 +104,7 @@ package Rubitherm_RT10 "Rubitherm GmbH, RT10; data taken from: Rubitherm datashe
   // ----------------------------------
   redeclare function extends conductivity_liquid "Returns liquid thermal conductivity"
   algorithm 
-    lambda := 7.7000000000000000E+02;
+    lambda := 2.0000000000000001E-01;
   end conductivity_liquid;
 
 
@@ -120,7 +120,7 @@ annotation(Documentation(
   <li>complete solidification:  false</li>
   </ul></p><p>
   <p>
-   Code export from <strong><u>slPCMlib database</u></strong> on 2023-05-15.<br><br>
+   Code export from <strong><u>slPCMlib database</u></strong> on 2023-05-18.<br><br>
    See:<br>
     Barz, T., Bres, A., & Emhofer, J. (2022).
     slPCMlib: A Modelica Library for the Prediction of Effective 
@@ -134,6 +134,6 @@ annotation(Documentation(
     </p></html>",
     revisions="<html>
     <ul>
-    <li>file creation date: 2023-05-15 </ul>
+    <li>file creation date: 2023-05-18 </ul>
     </p></html>"));
 end Rubitherm_RT10;
