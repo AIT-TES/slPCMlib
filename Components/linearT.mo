@@ -2,7 +2,7 @@ within slPCMlib.Components;
 model linearT "Generates temperature trajectory of linear segments"
 
   parameter Modelica.Units.SI.Time tValues[:]={0,2000,4000,6000};
-  parameter Modelica.Units.SI.Temperature TValues[:](displayUnit="degC") = {290,
+  parameter Modelica.Units.SI.Temperature TValues[:](each displayUnit="degC") = {290,
     312,307,310};
   Modelica.Units.SI.Temperature Tinterpol(displayUnit="degC")
     "Port temperature";

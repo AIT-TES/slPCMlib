@@ -16,7 +16,7 @@ package Media_Knauf_SmartBoard "Contains PCM properties for solid and liquid
       <ul> 
         <li>generic PCM for which the values can be adapted to match certain  
             behavior, or </li> 
-        <li>specific PCM, which are based on experimental data, e.g. data taken  
+        <li>specific PCM which are based on experimental data, e.g. data taken  
             from manufacturer's data sheets. </li> 
       </ul> 
       </p> 

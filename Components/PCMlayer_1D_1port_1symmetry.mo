@@ -45,7 +45,7 @@ model PCMlayer_1D_1port_1symmetry
     "initial temperatures inside the PCM layer (homogenous T field assumed)"
     annotation (Dialog(group="Initial PCM state"), choicesAllMatching=true);
 
-  Modelica.Units.SI.Temperature T_j[n_FD](start=ones(n_FD)*(initT), fixed=true);
+  Modelica.Units.SI.Temperature T_j[n_FD](start=ones(n_FD)*(initT), each fixed=true);
 
   parameter Integer n_FD(min=1,max=9)=6
     "Number of internal nodes (into the PCM)"

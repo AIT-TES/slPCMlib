@@ -1,6 +1,6 @@
 
-// within slPCMlib.PLUSS_HS;
-package PLUSS_savE_HS26N "Pluss Advanced Technolgies Pvt Ltd, HS26N; data taken from: PLUSS datasheet; last access: 2022-02-13."
+within slPCMlib.Media_PLUSS_HS;
+package PLUSS_savE_HS26N "Pluss Advanced Technologies Pvt Ltd, HS26N; data taken from: PLUSS datasheet."
   extends  slPCMlib.Interfaces.partialPCM;
 
   // ----------------------------------
@@ -102,22 +102,23 @@ package PLUSS_savE_HS26N "Pluss Advanced Technolgies Pvt Ltd, HS26N; data taken 
   // ----------------------------------
   redeclare function extends conductivity_liquid "Returns liquid thermal conductivity"
   algorithm 
-    lambda := 1.2000000000000000E+03;
+    lambda := 6.9999999999999996E-01;
   end conductivity_liquid;
 
 
 annotation(Documentation(
   info="<html>
   <p>
-  This package contains solid and liquid properties for the PCM:  <strong>HS26N</strong>  from manufacturer: <strong>Pluss Advanced Technolgies Pvt Ltd</strong>.<br>
-       material class: salt hydrate-based;  encapsulation:    multiple options available<br>  Data taken from: PLUSS datasheet - last access 2022-02-13.<br><br>
+  This package contains solid and liquid properties for the PCM:  <strong>HS26N</strong>  from manufacturer: <strong>Pluss Advanced Technologies Pvt Ltd</strong>.<br>
+  Basic characteristics are the material class: salt hydrate-based, and encapsulation: multiple options available<br>  The data is taken from: PLUSS datasheet - last access 2022-02-13.<br><br>
+  <br><br>
   The package contains phase transition functions for
   <ul>
   <li>complete melting       :  true</li>
   <li>complete solidification:  true</li>
   </ul></p><p>
   <p>
-   Code export from <strong><u>slPCMlib database</u></strong> on 2023-04-20.<br><br>
+   Code export from <strong><u>slPCMlib database</u></strong> on 2023-05-18.<br><br>
    See:<br>
     Barz, T., Bres, A., & Emhofer, J. (2022).
     slPCMlib: A Modelica Library for the Prediction of Effective 
@@ -131,6 +132,6 @@ annotation(Documentation(
     </p></html>",
     revisions="<html>
     <ul>
-    <li>file creation date: 2023-04-20 </ul>
+    <li>file creation date: 2023-05-18 </ul>
     </p></html>"));
 end PLUSS_savE_HS26N;

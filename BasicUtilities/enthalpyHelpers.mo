@@ -70,6 +70,33 @@ package enthalpyHelpers
   end enthalpy_liquid;
 // ------------------------------------------------------------
 
+  function Tcp2pscWrapper
+    "converts a function cp =f(T) to an instance of partialScalarFunction"
+      extends Modelica.Math.Nonlinear.Interfaces.partialScalarFunction;
+    input Real u;
+    output Real y;
+    input slPCMlib.BasicUtilities.enthalpyHelpers.cpTFunction cptFunction ;
+    //  replaceable function cptFunction = slPCMlib.BasicUtilities.enthalpyHelpers.temperatureFunction  "cp(T) function";
+  protected
+    Real  T;
+    Real cp;
+  algorithm
+    T := u;
+    cp := cptFunction(T);
+    y :=cp;
+  end Tcp2pscWrapper;
+
+  function temperatureFunction
+    extends Modelica.Icons.Function;
+    input Modelica.Units.SI.Temperature T;
+    output Real y;
+  end temperatureFunction;
+  
+  partial function cpTFunction
+    extends Modelica.Icons.Function;
+    input Modelica.Units.SI.Temperature T;
+    output Modelica.Units.SI.SpecificHeatCapacity cp;
+  end cpTFunction;
 annotation (Documentation(
  revisions="<html>
    <ul>

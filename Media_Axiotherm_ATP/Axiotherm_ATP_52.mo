@@ -1,6 +1,6 @@
 
-// within slPCMlib.Axiotherm_ATP;
-package Axiotherm_ATP_52 "Axiotherm GmbH, ATP 52; data taken from: Axiotherm datasheet; last access: 2023-03-28."
+within slPCMlib.Media_Axiotherm_ATP;
+package Axiotherm_ATP_52 "Axiotherm GmbH, ATP 52; data taken from: Axiotherm datasheet."
   extends  slPCMlib.Interfaces.partialPCM;
 
   // ----------------------------------
@@ -102,7 +102,7 @@ package Axiotherm_ATP_52 "Axiotherm GmbH, ATP 52; data taken from: Axiotherm dat
   // ----------------------------------
   redeclare function extends conductivity_liquid "Returns liquid thermal conductivity"
   algorithm 
-    lambda := 8.0000000000000000E+02;
+    lambda := 2.0000000000000001E-01;
   end conductivity_liquid;
 
 
@@ -110,14 +110,15 @@ annotation(Documentation(
   info="<html>
   <p>
   This package contains solid and liquid properties for the PCM:  <strong>ATP 52</strong>  from manufacturer: <strong>Axiotherm GmbH</strong>.<br>
-       material class: unknown;  encapsulation:    macroencapsulation<br>  Data taken from: Axiotherm datasheet - last access 2023-03-28.<br><br>
+  Basic characteristics are the material class: unknown, and encapsulation: macroencapsulation<br>  The data is taken from: Axiotherm datasheet - last access 2023-03-28.<br><br>
+  <br><br>
   The package contains phase transition functions for
   <ul>
   <li>complete melting       :  true</li>
   <li>complete solidification:  true</li>
   </ul></p><p>
   <p>
-   Code export from <strong><u>slPCMlib database</u></strong> on 2023-04-20.<br><br>
+   Code export from <strong><u>slPCMlib database</u></strong> on 2023-05-18.<br><br>
    See:<br>
     Barz, T., Bres, A., & Emhofer, J. (2022).
     slPCMlib: A Modelica Library for the Prediction of Effective 
@@ -131,6 +132,6 @@ annotation(Documentation(
     </p></html>",
     revisions="<html>
     <ul>
-    <li>file creation date: 2023-04-20 </ul>
+    <li>file creation date: 2023-05-18 </ul>
     </p></html>"));
 end Axiotherm_ATP_52;

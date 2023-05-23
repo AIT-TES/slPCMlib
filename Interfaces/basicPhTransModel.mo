@@ -34,6 +34,13 @@ partial model basicPhTransModel
     redeclare package PCM = PCM);
 
   Real dxi(unit="1/K");
+  
+  function integrand
+      input Real u;
+      output Real y;
+     algorithm
+       y := slPCMlib.BasicUtilities.enthalpyHelpers.spHeatCap_baselineMelting(u);
+  end integrand;
 
 protected
   parameter Modelica.Units.SI.SpecificEnthalpy h_L_at_Tmax(start=1e3, fixed=
@@ -51,10 +58,11 @@ initial equation
           AssertionLevel.error);
 
   h_BL_at_Tmax =Modelica.Math.Nonlinear.quadratureLobatto(
-  function enthFcts.spHeatCap_baselineMelting(),
+  function integrand(),
   PCM.propData.Tref,
   PCM.propData.rangeTmelting[2],
   tolerance=100*Modelica.Constants.eps);
+  // function enthFcts.spHeatCap_baselineMelting(),
 
   h_L_at_Tmax = h_BL_at_Tmax + PCM.propData.phTrEnth + PCM.propData.href;
   h_S_at_Tmax = enthFcts.enthalpy_solid(PCM.propData.rangeTmelting[2]);

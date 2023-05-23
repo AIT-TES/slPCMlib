@@ -1,6 +1,6 @@
 
-// within slPCMlib.Croda_Crodatherm;
-package Croda_Crodatherm_6_dot_5 "Croda International Plc, Crodatherm 6.5; data taken from: Croda datasheet; last access: 2023-02-28."
+within slPCMlib.Media_Croda_Crodatherm;
+package Croda_Crodatherm_6_dot_5 "Croda International Plc, Crodatherm 6.5; data taken from: Croda datasheet."
   extends  slPCMlib.Interfaces.partialPCM;
 
   // ----------------------------------
@@ -102,7 +102,7 @@ package Croda_Crodatherm_6_dot_5 "Croda International Plc, Crodatherm 6.5; data 
   // ----------------------------------
   redeclare function extends conductivity_liquid "Returns liquid thermal conductivity"
   algorithm 
-    lambda := 9.5700000000000000E+02;
+    lambda := 1.4999999999999999E-01;
   end conductivity_liquid;
 
 
@@ -110,14 +110,15 @@ annotation(Documentation(
   info="<html>
   <p>
   This package contains solid and liquid properties for the PCM:  <strong>Crodatherm 6.5</strong>  from manufacturer: <strong>Croda International Plc</strong>.<br>
-       material class: paraffin-based;  encapsulation:    none<br>  Data taken from: Croda datasheet - last access 2023-02-28.<br><br>
+  Basic characteristics are the material class: paraffin-based, and encapsulation: none<br>  The data is taken from: Croda datasheet - last access 2023-02-28.<br><br>
+  <br><br>
   The package contains phase transition functions for
   <ul>
   <li>complete melting       :  true</li>
   <li>complete solidification:  true</li>
   </ul></p><p>
   <p>
-   Code export from <strong><u>slPCMlib database</u></strong> on 2023-04-20.<br><br>
+   Code export from <strong><u>slPCMlib database</u></strong> on 2023-05-18.<br><br>
    See:<br>
     Barz, T., Bres, A., & Emhofer, J. (2022).
     slPCMlib: A Modelica Library for the Prediction of Effective 
@@ -131,6 +132,6 @@ annotation(Documentation(
     </p></html>",
     revisions="<html>
     <ul>
-    <li>file creation date: 2023-04-20 </ul>
+    <li>file creation date: 2023-05-18 </ul>
     </p></html>"));
 end Croda_Crodatherm_6_dot_5;
