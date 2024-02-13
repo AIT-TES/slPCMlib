@@ -12,13 +12,14 @@ function cubicHermiteSplineEval
   output Real xi, dxi;
 
 protected
-  Integer intNum "interval number";
+  Integer intNum  "interval number";
   Real delta, t;
   Real ih00, ih01, ih10, ih11;
   Real h00,   h01,  h10,  h11;
 
 algorithm
 
+  intNum := 0;
   // find the interval
   if T < data_x[1] then
     xi  :=0.0;
