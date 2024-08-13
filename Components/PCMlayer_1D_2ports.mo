@@ -1,14 +1,24 @@
 within slPCMlib.Components;
-model PCMlayer_1D_1port_1symmetry
-  "PCM layer, 1D model, planar geometry, symmetry boundary condition"
+model PCMlayer_1D_2ports
+  "PCM layer, 1D model, planar geometry, 2 boundary conditions/ Dirichlet"
 
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a portA
   annotation (Placement(transformation(
+        origin={0,-22},
         extent={{-10,-10},{10,10}},
         rotation=90), iconTransformation(
           extent={{-10,-10},{10,10}},
           rotation=90,
           origin={-90,0})));
+
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a portB
+  annotation (Placement(transformation(
+        origin={0,70},
+        extent={{-10,-10},{10,10}},
+        rotation=90), iconTransformation(
+          extent={{-10,-10},{10,10}},
+          rotation=90,
+          origin={90,0})));
 
   parameter Modelica.Units.SI.Length width=0.003
     "Width of the PCM layer (direction of heat transfer into the PCM layer)";
@@ -29,9 +39,8 @@ model PCMlayer_1D_1port_1symmetry
                 choicesAllMatching=true);
 
   replaceable slPCMlib.Interfaces.phTransModMeltingCurve
-    phTrModel_profile[n_FD + 1](redeclare package PCM = PCM)
-    constrainedby slPCMlib.Interfaces.basicPhTransModel(redeclare package PCM
-      =                                                                         PCM)
+    phTrModel_profile[n_FD+2](redeclare package PCM = PCM)
+    constrainedby slPCMlib.Interfaces.basicPhTransModel(redeclare package PCM=PCM)
     annotation(Dialog(group="PCM and phase transition model"),
                choicesAllMatching=true);
 
@@ -45,10 +54,10 @@ model PCMlayer_1D_1port_1symmetry
     "initial temperatures inside the PCM layer (homogenous T field assumed)"
     annotation (Dialog(group="Initial PCM state"), choicesAllMatching=true);
 
-  Modelica.Units.SI.Temperature T_profile[n_FD+1]
+  Modelica.Units.SI.Temperature T_profile[n_FD+2]
     "Temperature profile in z direction (includes boundary)";
 
-  parameter Integer n_FD(min=1,max=9)=6
+  parameter Integer n_FD(min=1,max=15)=9
     "Number of internal nodes (into the PCM)"
     annotation(Dialog(tab = "General", group = "Discretization"));
 
@@ -63,10 +72,12 @@ model PCMlayer_1D_1port_1symmetry
 
 // ---------------------------------------------------------------------------
 protected
-  parameter Modelica.Units.SI.Length width_i=2*width/(2*n_FD + 1)
-    "Thickness of a discrete cell";
+  parameter Modelica.Units.SI.Length width_i=width/(n_FD+1)
+    "Thickness of a discrete cell in z direction";
+//    % Calculation of position of discrete cells
+//    z_FD = [z0:dz:zEnd];
 
-  Real lambda_jp12_BC;
+  Real lambda_jp12_BC_A, lambda_jp12_BC_B;
   Real T_j[n_FD], T_jm1[n_FD], T_jp1[n_FD];
   Real lambda_j[n_FD], lambda_jm1[n_FD], lambda_jp1[n_FD];
   Real lambda_jm12[n_FD], lambda_jp12[n_FD];
@@ -81,34 +92,24 @@ initial equation
 // ---------------------------------------------------------------------------
 equation
 
-  T_profile[1]        = port.T;  // BC
+  T_profile[1]        = portA.T;  // BC
+  T_profile[n_FD+2]   = portB.T;  // BC
 
   // input temperature signal to the model
   // (now all properties are automatically updated)
-  phTrModel_profile[1:n_FD+1].indVar.T     =     T_profile[1:n_FD+1];
-  phTrModel_profile[1:n_FD+1].indVar.der_T = der(T_profile[1:n_FD+1]);
+  phTrModel_profile[1:n_FD+2].indVar.T     =     T_profile[1:n_FD+2];
+  phTrModel_profile[1:n_FD+2].indVar.der_T = der(T_profile[1:n_FD+2]);
 
   // --- compute ODE rhs for each node ---
   for j in 1:n_FD loop // now index for internal only
 
       // --- evaluate properties at node with index j ---
-      lambda_j[j] = phTrModel_profile[j+1].lambda;
-      T_j[j]      = T_profile[j+1];
-
-      // --- use temperatures with index j-1 & j+1 ---
-      if (j==n_FD) then
-          T_jm1[j]      = T_profile[n_FD];
-          T_jp1[j]      = T_profile[n_FD+1]; // sym BC
-          lambda_jm1[j] = phTrModel_profile[n_FD].lambda;
-          lambda_jp1[j] = phTrModel_profile[n_FD+1].lambda; // sym BC
-
-      else
-          T_jm1[j]      = T_profile[j];
-          T_jp1[j]      = T_profile[j+2];
-          lambda_jm1[j] = phTrModel_profile[j].lambda;
-          lambda_jp1[j] = phTrModel_profile[j+2].lambda;
-
-      end if;
+      lambda_jm1[j] = phTrModel_profile[j].lambda;
+      lambda_j[j]   = phTrModel_profile[j+1].lambda;
+      lambda_jp1[j] = phTrModel_profile[j+2].lambda;
+      T_jm1[j]      = T_profile[j];
+      T_j[j]        = T_profile[j+1];
+      T_jp1[j]      = T_profile[j+2];
 
       // use harmonic mean
       lambda_jm12[j] = 2 * lambda_j[j] * lambda_jm1[j] / max(lambda_j[j] + lambda_jm1[j],eps);
@@ -124,27 +125,28 @@ equation
 
   end for;
 
-  // --- boundary condition at the port - connect T and Q bound ---
+  // --- boundary condition at the portA - connect T and Q bound ---
   // thermal conductivity coefficient is calculated using the harmonic mean:
-  // NOTE: [n_FD+1] position is used for BC
-  lambda_jp12_BC = 2 * phTrModel_profile[1].lambda * phTrModel_profile[2].lambda
-                    / max((phTrModel_profile[1].lambda + phTrModel_profile[2].lambda),eps);
+  // NOTE: [n_FD+1] [n_FD+2] positions are used for BC
+  lambda_jp12_BC_A = 2 * phTrModel_profile[1].lambda * phTrModel_profile[n_FD+1].lambda
+                    / max((phTrModel_profile[1].lambda + phTrModel_profile[n_FD+1].lambda),eps);
+  lambda_jp12_BC_B = 2 * phTrModel_profile[n_FD].lambda * phTrModel_profile[n_FD+2].lambda
+                    / max((phTrModel_profile[n_FD].lambda + phTrModel_profile[n_FD+2].lambda),eps);
   // "Heat flow rate (positive if flowing from outside into the component)"
-  port.Q_flow = lambda_jp12_BC * (port.T - T_j[1]) / width_i * htrfArea;
+  portA.Q_flow = lambda_jp12_BC_A * (portA.T - T_j[1]) / width_i * htrfArea;
+  // "Heat flow rate (positive if flowing from outside into the component)"
+  portB.Q_flow = lambda_jp12_BC_B * (portB.T - T_j[n_FD]) / width_i * htrfArea;
 
 algorithm
 
-    // - Trapezoidal Method - computes material states
+    // - Trapezoidal Method - computes material states (weighting for n_FD elmnts)
     stateOfCharge := 0.0;
     storedEnergy  := 0.0;
     // . inner elmnts
-    for j in 1:n_FD loop
-      stateOfCharge := stateOfCharge + (phTrModel_profile[j].xi + phTrModel_profile[j+1].xi)/2.0*width_i/width;
-      storedEnergy  := storedEnergy  + (phTrModel_profile[j].h  + phTrModel_profile[j+1].h) /2.0*width_i/width*mass;
+    for j in 1:n_FD+1 loop
+      stateOfCharge := stateOfCharge + (phTrModel_profile[j].xi + phTrModel_profile[j+1].xi)/2.0/(n_FD+1);
+      storedEnergy  := storedEnergy  + (phTrModel_profile[j].h  + phTrModel_profile[j+1].h) /2.0/(n_FD+1)*mass;
     end for;
-    // . last elmnt (dT/dz=0) half element
-    stateOfCharge := stateOfCharge + phTrModel_profile[n_FD+1].xi*width_i/2.0/width;
-    storedEnergy  := storedEnergy  + phTrModel_profile[n_FD+1].h *width_i/2.0/width*mass;
 
 //     Modelica.Utilities.Streams.writeRealMatrix(
 //     fileName="C:/temp/test.mat",
@@ -157,69 +159,31 @@ algorithm
       coordinateSystem(preserveAspectRatio=true),
       graphics={
           Rectangle(
-          extent={{80,100},{100,-100}},
-          lineColor={0,0,0},
-          lineThickness=0.2,
-          fillColor={80,180,180},
-          fillPattern=fillPattern.Solid),
-          Rectangle(
           extent={{-80,100},{80,-100}},
           lineColor={28,108,200},
           fillColor={225,225,225},
           fillPattern=FillPattern.Solid),
-          Line(
-          points={{100,60},{80,40}},
-          color={0,0,0},
-          thickness=0.2),
-          Line(
-          points={{100,80},{80,60}},
-          color={0,0,0},
-          thickness=0.2),
-          Line(
-          points={{100,40},{80,20}},
-          color={0,0,0},
-          thickness=0.2),
-          Line(
-          points={{100,20},{80,0}},
-          color={0,0,0},
-          thickness=0.2),
-          Line(
-          points={{100,0},{80,-20}},
-          color={0,0,0},
-          thickness=0.2),
-          Line(
-          points={{100,-20},{80,-40}},
-          color={0,0,0},
-          thickness=0.2),
-          Line(
-          points={{100,-40},{80,-60}},
-          color={0,0,0},
-          thickness=0.2),
-          Line(
-          points={{100,-60},{80,-80}},
-          color={0,0,0},
-          thickness=0.2),
-          Line(
-          points={{100,100},{80,80}},
-          color={0,0,0},
-          thickness=0.2),
+        Text(
+          extent={{-80,46},{80,-32}},
+          lineColor={28,108,200},
+          fillColor={225,225,225},
+          fillPattern=FillPattern.Solid,
+          textStyle={TextStyle.Bold},
+          fontName="Adobe Thai",
+          textString="PCM"),
         Text(
           extent={{-80,-100},{80,-76}},
           lineColor={0,0,0},
           textStyle={TextStyle.Bold},
           textString="heat conduction"),
         Line(
-          points={{-80,-50},{72,-50}},
+          points={{-80,-50},{80,-50}},
           color={1,1,1}),
         Polygon(
-          points={{22,-50},{14,-60},{14,-40},{22,-50}},
+          points={{28,-50},{38,-60},{38,-40},{28,-50}},
           lineColor={1,1,1},
           fillColor={135,135,135},
           fillPattern=FillPattern.Solid),
-        Polygon(
-          points={{80,-50},{72,-54},{72,-46},{80,-50}},
-          lineColor={1,1,1},
-          lineThickness=0.5),
         Polygon(
           points={{-22,-50},{-36,-64},{-36,-36},{-22,-50}},
           lineColor={0,0,0},
@@ -230,30 +194,14 @@ algorithm
           lineColor={1,1,1},
           fillColor={0,0,0},
           fillPattern=FillPattern.Solid),
-          Line(
-          points={{100,-80},{80,-100}},
-          color={0,0,0},
-          thickness=0.2),
-        Text(
-          extent={{-80,46},{80,-32}},
-          lineColor={28,108,200},
-          fillColor={225,225,225},
-          fillPattern=FillPattern.Solid,
-          textStyle={TextStyle.Bold},
-          fontName="Adobe Thai",
-          textString="PCM"),
         Line(
-          points={{-80,60},{72,60}},
+          points={{-80,60},{80,60}},
           color={1,1,1}),
         Polygon(
-          points={{22,60},{14,50},{14,70},{22,60}},
+          points={{28,60},{38,70},{38,50},{28,60}},
           lineColor={1,1,1},
           fillColor={135,135,135},
           fillPattern=FillPattern.Solid),
-        Polygon(
-          points={{80,60},{72,56},{72,64},{80,60}},
-          lineColor={1,1,1},
-          lineThickness=0.5),
         Polygon(
           points={{-22,60},{-36,46},{-36,74},{-22,60}},
           lineColor={0,0,0},
@@ -261,6 +209,16 @@ algorithm
           fillPattern=FillPattern.Solid),
         Polygon(
           points={{-54,60},{-74,44},{-74,76},{-54,60}},
+          lineColor={1,1,1},
+          fillColor={0,0,0},
+          fillPattern=FillPattern.Solid),
+        Polygon(
+          points={{54,60},{74,48},{74,72},{54,60}},
+          lineColor={1,1,1},
+          fillColor={0,0,0},
+          fillPattern=FillPattern.Solid),
+        Polygon(
+          points={{54,-50},{74,-62},{74,-38},{54,-50}},
           lineColor={1,1,1},
           fillColor={0,0,0},
           fillPattern=FillPattern.Solid)}),
@@ -288,13 +246,13 @@ algorithm
           The discretized 1D modeling domain <code> (z direction --->) </code> is: 
     </p>
     <pre>  
-    zStart            zEnd
-    ^                 ^      
-    |----*----*----*--|--  symmetry condition (Neumann boundary condition) 
-         1    2    3       n_FD = 3;  (internal nodes) 
-    1    2    3    4       z_FD = 4  
+    zStart              zEnd
+    ^                   ^      
+    |----*----*----*----|    fix  condition Dirichlet
+         1    2    3         3 dependent states (internal nodes) 
+         
     </pre>
-    The model uses a heat port 
+    The model uses two heat ports 
     <a href>Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a</a>.
     </p>
     <p>
@@ -307,7 +265,7 @@ algorithm
     </html>",
   revisions="<html>
        <ul>
-       <li>2022-06-01; initial version; by Tilman Barz </li>
+       <li>2024-08-12; initial version; by Tilman Barz </li>
        </ul>
        </html>"));
-end PCMlayer_1D_1port_1symmetry;
+end PCMlayer_1D_2ports;
