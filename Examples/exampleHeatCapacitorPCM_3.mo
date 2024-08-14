@@ -13,8 +13,8 @@ model exampleHeatCapacitorPCM_3 "Example using PCM heat capacitor"
       slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
       phTrModel)
     annotation (Placement(transformation(extent={{12,-10},{32,10}})));
-  Components.HeatCapacitorSlPCMlib heatCapacitorSlPCMlib1(redeclare package PCM
-      = slPCMlib.Media_Rubitherm_RT.Rubitherm_RT64HC,
+  Components.HeatCapacitorSlPCMlib heatCapacitorSlPCMlib1(redeclare package PCM =
+        slPCMlib.Media_Rubitherm_RT.Rubitherm_RT64HC,
                                             redeclare
       slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
       phTrModel)
