@@ -11,23 +11,26 @@ model exampleHeatCapacitorPCM_1 "Example using PCM heat capacitor"
   Components.HeatCapacitorSlPCMlib heatCapacitorPCM1(
     T(start=273.15 + 50),
     redeclare package PCM = slPCMlib.Media_generic.generic_7thOrderSmoothStep,
-    redeclare slPCMlib.Interfaces.phTransModMeltingCurve phTrModel)
+    redeclare slPCMlib.Interfaces.phTransMod_MeltingCurve_Algebraic phTrModel)
     annotation (Placement(transformation(extent={{12,14},{32,34}})));
   Components.HeatCapacitorSlPCMlib heatCapacitorPCM2(
     T(start=273.15 + 50),
     redeclare package PCM = slPCMlib.Media_generic.generic_7thOrderSmoothStep,
-    redeclare slPCMlib.Interfaces.phTransModCurveTrackHysteresis phTrModel)
+    redeclare slPCMlib.Interfaces.phTransMod_CurveTrackHysteresis_Algebraic
+      phTrModel)
     annotation (Placement(transformation(extent={{12,-10},{32,10}})));
   Components.HeatCapacitorSlPCMlib heatCapacitorPCM3(
     T(start=273.15 + 50),
     redeclare package PCM = slPCMlib.Media_generic.generic_7thOrderSmoothStep,
-    redeclare slPCMlib.Interfaces.phTransModCurveSwitchHysteresisDifferentiated
+    redeclare
+      slPCMlib.Interfaces.phTransMod_CurveSwitchHysteresis_Differentiated
       phTrModel)
     annotation (Placement(transformation(extent={{12,-34},{32,-14}})));
   Components.HeatCapacitorSlPCMlib heatCapacitorPCM4(
     T(start=273.15 + 50),
     redeclare package PCM = slPCMlib.Media_generic.generic_7thOrderSmoothStep,
-    redeclare slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
+    redeclare
+      slPCMlib.Interfaces.phTransMod_CurveScaleHysteresis_Differentiated
       phTrModel)
     annotation (Placement(transformation(extent={{12,-58},{32,-38}})));
 equation

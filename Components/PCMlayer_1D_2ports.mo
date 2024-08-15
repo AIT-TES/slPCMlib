@@ -20,17 +20,27 @@ model PCMlayer_1D_2ports
           rotation=90,
           origin={90,0})));
 
-  parameter Modelica.Units.SI.Length width=0.003
+  parameter String parameterSet="width, mass"
+    "Defined parameter set"
+    annotation(Dialog(group="Parameters"),
+    choices(choice="width, mass", choice="mass, htrfArea", choice="width, htrfArea"));
+
+  parameter Modelica.Units.SI.Length width_input = 0.003
+    "Width of the PCM layer (direction of heat transfer into the PCM layer)"
+    annotation (Dialog(group="Parameters", enable=(parameterSet=="width, mass" or parameterSet=="width, htrfArea")));
+
+  parameter Modelica.Units.SI.Mass mass_input = 10 "Mass of the PCM element"
+    annotation (Dialog(group="Parameters", enable=(parameterSet=="width, mass" or parameterSet=="mass, htrfArea")));
+
+  parameter Modelica.Units.SI.Area htrfArea_input = 5 "Heat transfer area"
+    annotation (Dialog(group="Parameters", enable=(parameterSet=="mass, htrfArea" or parameterSet=="width, htrfArea")));
+
+  Modelica.Units.SI.Length width
     "Width of the PCM layer (direction of heat transfer into the PCM layer)";
 
-  parameter Modelica.Units.SI.Length height=0.10 "Height of the PCM layer"
-    annotation (Dialog(tab="General", group="Parameters"));
+  Modelica.Units.SI.Mass mass "Mass of the PCM element";
 
-  parameter Modelica.Units.SI.Length length=0.10 "Length of the PCM layer"
-    annotation (Dialog(tab="General", group="Parameters"));
-
-  parameter Modelica.Units.SI.Area htrfArea=height*length "Heat transfer area"
-    annotation (Dialog(group="Parameters", enable=false));
+  Modelica.Units.SI.Area htrfArea "Heat transfer area";
 
   replaceable package PCM =
     slPCMlib.Media_generic.generic_7thOrderSmoothStep
@@ -38,11 +48,11 @@ model PCMlayer_1D_2ports
     annotation (Dialog(group="PCM and phase transition model"),
                 choicesAllMatching=true);
 
-  replaceable slPCMlib.Interfaces.phTransModMeltingCurve
-    phTrModel_profile[n_FD+2](redeclare package PCM = PCM)
-    constrainedby slPCMlib.Interfaces.basicPhTransModel(redeclare package PCM=PCM)
-    annotation(Dialog(group="PCM and phase transition model"),
-               choicesAllMatching=true);
+  replaceable slPCMlib.Interfaces.phTransMod_MeltingCurve_Differentiated
+    phTrModel_profile[n_FD + 2](redeclare package PCM = PCM) constrainedby
+    slPCMlib.Interfaces.basicPhTransModel(redeclare package PCM = PCM)
+    annotation (Dialog(group="PCM and phase transition model"),
+      choicesAllMatching=true);
 
   parameter Modelica.Units.SI.Density
     densitySLPCM = ( PCM.density_solid(PCM.propData.rangeTsolidification[1])
@@ -61,9 +71,6 @@ model PCMlayer_1D_2ports
     "Number of internal nodes (into the PCM)"
     annotation(Dialog(tab = "General", group = "Discretization"));
 
-  parameter Modelica.Units.SI.Mass mass=width*height*length*densitySLPCM
-    "Mass of the PCM element";
-
   Modelica.Units.SI.MassFraction stateOfCharge
     "SoC defined by (liquid mass) fraction of stored/absorbed latent heat";
 
@@ -72,10 +79,10 @@ model PCMlayer_1D_2ports
 
 // ---------------------------------------------------------------------------
 protected
-  parameter Modelica.Units.SI.Length width_i=width/(n_FD+1)
+  Modelica.Units.SI.Length width_i
     "Thickness of a discrete cell in z direction";
-//    % Calculation of position of discrete cells
-//    z_FD = [z0:dz:zEnd];
+  // position of discrete cells
+  // z_FD = [z0:dz:zEnd];
 
   Real lambda_jp12_BC_A, lambda_jp12_BC_B;
   Real T_j[n_FD], T_jm1[n_FD], T_jp1[n_FD];
@@ -91,6 +98,26 @@ initial equation
 
 // ---------------------------------------------------------------------------
 equation
+
+  if (parameterSet=="width, mass") then
+    width = width_input;
+    mass = mass_input;
+    htrfArea = mass/width/densitySLPCM;
+  elseif (parameterSet=="mass, htrfArea") then
+    width = mass/htrfArea/densitySLPCM;
+    mass = mass_input;
+    htrfArea = htrfArea_input;
+  elseif (parameterSet=="width, htrfArea") then
+    width = width_input;
+    mass = width*htrfArea*densitySLPCM;
+    htrfArea = htrfArea_input;
+  else
+    width = width_input;
+    mass = mass_input;
+    terminate("Unknown parameter set.");
+  end if;
+
+  width_i = width/(n_FD+1);
 
   T_profile[1]        = portA.T;  // BC
   T_profile[n_FD+2]   = portB.T;  // BC

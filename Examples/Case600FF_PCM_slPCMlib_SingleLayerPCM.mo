@@ -234,7 +234,7 @@ model Case600FF_PCM_slPCMlib_SingleLayerPCM
     A=2*(6 + 8)*2.7,
     thickness=0.03,
     redeclare package PCM = slPCMlib.Media_Knauf_SmartBoard.SmartBoard_26,
-    redeclare slPCMlib.Interfaces.phTransModMeltingCurve phTrModel,
+    redeclare slPCMlib.Interfaces.phTransMod_MeltingCurve_Algebraic phTrModel,
     steadyStateInitial=false)
     annotation (Placement(transformation(extent={{38,-86},{70,-62}})));
 equation

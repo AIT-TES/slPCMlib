@@ -19,11 +19,11 @@ model HeatCapacitorSlPCMlib "Lumped thermal PCM element storing heat"
     annotation (Dialog(group="PCM and phase transition model"),
     choicesAllMatching=true);
 
-  replaceable slPCMlib.Interfaces.phTransModMeltingCurve
-    phTrModel(redeclare package PCM = PCM)
-    constrainedby slPCMlib.Interfaces.basicPhTransModel(redeclare package PCM = PCM)
-    annotation(Dialog(group="PCM and phase transition model"),
-    choicesAllMatching=true);
+  replaceable slPCMlib.Interfaces.phTransMod_MeltingCurve_Algebraic phTrModel(
+      redeclare package PCM = PCM) constrainedby
+    slPCMlib.Interfaces.basicPhTransModel(redeclare package PCM = PCM)
+    annotation (Dialog(group="PCM and phase transition model"),
+      choicesAllMatching=true);
 
 equation
   // assign temperatures to HeatCapacitor

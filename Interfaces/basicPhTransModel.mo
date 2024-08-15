@@ -34,11 +34,11 @@ partial model basicPhTransModel
     redeclare package PCM = PCM);
 
   Real dxi(unit="1/K");
-  
+
   function integrand
       input Real u;
       output Real y;
-     algorithm
+  algorithm
        y := slPCMlib.BasicUtilities.enthalpyHelpers.spHeatCap_baselineMelting(u);
   end integrand;
 

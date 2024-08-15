@@ -23,7 +23,8 @@ model exampleHeatCapacitorPCM_2 "Example using PCM heat capacitor"
   Components.HeatCapacitorSlPCMlib heatCapacitorPCM(
     T(fixed=true),
     redeclare package PCM = slPCMlib.Media_PLUSS_HS.PLUSS_savE_HS36,
-    redeclare slPCMlib.Interfaces.phTransModCurveScaleHysteresisDifferentiated
+    redeclare
+      slPCMlib.Interfaces.phTransMod_CurveScaleHysteresis_Differentiated
       phTrModel) annotation (Placement(transformation(extent={{60,8},{80,28}})));
 equation
   connect(combiTable1D.y[1], prescribedTemperature.T) annotation (Line(points={{-26.9,

@@ -9,22 +9,28 @@ model heatConduction1D
     rateT=1/180,
     startT=22 + 273.15)
     annotation (Placement(transformation(extent={{-30,24},{-10,44}})));
-  Components.PCMlayer_1D_1port_1symmetry pCMlayer_1D_1port_1symmetry
-    annotation (Placement(transformation(extent={{14,56},{34,76}})));
-  Components.PCMlayer_1D_2ports pCMlayer_1D_2ports
+  Modelica.Thermal.HeatTransfer.Sources.FixedHeatFlow fixedHeatFlow(Q_flow=2000)
+    annotation (Placement(transformation(extent={{-30,-40},{-10,-20}})));
+  Components.PCMlayer_1D_1port_1symmetry pCMlayer_1D_1port_1symmetry1(
+      redeclare slPCMlib.Interfaces.phTransMod_MeltingCurve_Differentiated
+      phTrModel_profile, n_FD=1)
+    annotation (Placement(transformation(extent={{38,-40},{58,-20}})));
+  Components.PCMlayer_1D_2ports pCMlayer_1D_2ports(n_FD=1)
     annotation (Placement(transformation(extent={{16,24},{36,44}})));
+  Components.PCMlayer_1D_1port_1symmetry pCMlayer_1D_1port_1symmetry(n_FD=1)
+    annotation (Placement(transformation(extent={{48,24},{68,44}})));
 equation
 
    //  Advanced.Define.DAEsolver = true;
 
 //annotation (experiment(__Dymola_Algorithm="Radau"));
 
-  connect(sineT.port, pCMlayer_1D_1port_1symmetry.port)
-    annotation (Line(points={{-9,34},{6,34},{6,66},{15,66}}, color={191,0,0}));
+  connect(fixedHeatFlow.port, pCMlayer_1D_1port_1symmetry1.port)
+    annotation (Line(points={{-10,-30},{39,-30}}, color={191,0,0}));
   connect(sineT.port, pCMlayer_1D_2ports.portA)
     annotation (Line(points={{-9,34},{17,34}}, color={191,0,0}));
-  connect(sineT.port, pCMlayer_1D_2ports.portB) annotation (Line(points={{-9,34},
-          {6,34},{6,50},{38,50},{38,34},{35,34}}, color={191,0,0}));
+  connect(pCMlayer_1D_2ports.portB, pCMlayer_1D_1port_1symmetry.port)
+    annotation (Line(points={{35,34},{49,34}}, color={191,0,0}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false)),
     Diagram(coordinateSystem(preserveAspectRatio=false)),

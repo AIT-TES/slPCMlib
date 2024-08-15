@@ -57,11 +57,11 @@ model SingleLayerSlPCMlib
                 choicesAllMatching=true);
 
   // -> new
-  replaceable slPCMlib.Interfaces.phTransModMeltingCurve
-    phTrModel[nSta](redeclare package PCM = PCM)
-    constrainedby slPCMlib.Interfaces.basicPhTransModel(redeclare package PCM = PCM)
-    annotation(Dialog(group="PCM and phase transition model"),
-               choicesAllMatching=true);
+  replaceable slPCMlib.Interfaces.phTransMod_MeltingCurve_Algebraic phTrModel[
+    nSta](redeclare package PCM = PCM) constrainedby
+    slPCMlib.Interfaces.basicPhTransModel(redeclare package PCM = PCM)
+    annotation (Dialog(group="PCM and phase transition model"),
+      choicesAllMatching=true);
 
   //replaceable parameter Buildings.HeatTransfer.Data.BaseClasses.Material material
     //"Material from Data.Solids, Data.SolidsPCM or Data.Resistances" annotation (
