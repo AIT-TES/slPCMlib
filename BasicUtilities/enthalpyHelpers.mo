@@ -75,7 +75,7 @@ package enthalpyHelpers
       extends Modelica.Math.Nonlinear.Interfaces.partialScalarFunction;
     input Real u;
     output Real y;
-    input slPCMlib.BasicUtilities.enthalpyHelpers.cpTFunction cptFunction ;
+    input slPCMlib.BasicUtilities.enthalpyHelpers.cpTFunction cptFunction;
     //  replaceable function cptFunction = slPCMlib.BasicUtilities.enthalpyHelpers.temperatureFunction  "cp(T) function";
   protected
     Real  T;
@@ -91,7 +91,7 @@ package enthalpyHelpers
     input Modelica.Units.SI.Temperature T;
     output Real y;
   end temperatureFunction;
-  
+
   partial function cpTFunction
     extends Modelica.Icons.Function;
     input Modelica.Units.SI.Temperature T;

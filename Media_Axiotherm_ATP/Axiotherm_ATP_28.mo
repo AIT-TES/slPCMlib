@@ -1,7 +1,6 @@
-
 within slPCMlib.Media_Axiotherm_ATP;
 package Axiotherm_ATP_28 "Axiotherm GmbH, ATP 28; data taken from: Axiotherm datasheet."
-  extends  slPCMlib.Interfaces.partialPCM;
+  extends slPCMlib.Interfaces.partialPCM;
 
   // ----------------------------------
   redeclare replaceable record propData "PCM record"
@@ -42,7 +41,7 @@ package Axiotherm_ATP_28 "Axiotherm GmbH, ATP 28; data taken from: Axiotherm dat
     constant Real m_k[:] =      data_H.m_k;
     constant Real iy_start[:] = data_H.iy_start;
     constant Real iy_scaler =   data_H.iy_scaler;
-  algorithm 
+  algorithm
     (xi, dxi) := slPCMlib.BasicUtilities.cubicHermiteSplineEval(T-273.15,
                  len_x, data_x, data_y, m_k, iy_start, iy_scaler);
   end phaseFrac_complMelting;
@@ -50,14 +49,14 @@ package Axiotherm_ATP_28 "Axiotherm GmbH, ATP 28; data taken from: Axiotherm dat
   // ----------------------------------
   redeclare function extends phaseFrac_complSolidification
     "Returns liquid mass phase fraction for complete solidification processes"
-  protected 
+  protected
     constant Integer len_x =    data_C.len_x;
     constant Real data_x[:] =   data_C.data_x;
     constant Real data_y[:] =   data_C.data_y;
     constant Real m_k[:] =      data_C.m_k;
     constant Real iy_start[:] = data_C.iy_start;
     constant Real iy_scaler =   data_C.iy_scaler;
-  algorithm 
+  algorithm
     (xi, dxi) := slPCMlib.BasicUtilities.cubicHermiteSplineEval(T-273.15,
                  len_x, data_x, data_y, m_k, iy_start, iy_scaler);
   end phaseFrac_complSolidification;
@@ -86,22 +85,22 @@ package Axiotherm_ATP_28 "Axiotherm GmbH, ATP 28; data taken from: Axiotherm dat
 
   // ----------------------------------
   redeclare function extends density_solid "Returns solid density"
-  algorithm 
+  algorithm
     rho := 8.4400000000000000E+02;
   end density_solid;
   // ----------------------------------
   redeclare function extends density_liquid "Returns liquid density"
-  algorithm 
+  algorithm
     rho := 7.6000000000000000E+02;
   end density_liquid;
   // ----------------------------------
   redeclare function extends conductivity_solid "Returns solid thermal conductivity"
-  algorithm 
+  algorithm
     lambda := 2.0000000000000001E-01;
   end conductivity_solid;
   // ----------------------------------
   redeclare function extends conductivity_liquid "Returns liquid thermal conductivity"
-  algorithm 
+  algorithm
     lambda := 2.0000000000000001E-01;
   end conductivity_liquid;
 

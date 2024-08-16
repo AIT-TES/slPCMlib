@@ -6,35 +6,35 @@ package slPCMlib "Solid/liquid PCM thermophysical property
     Buildings(version="9.0.0")),
       Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
       graphics={              Rectangle(
-              extent={{-100,80},{100,-80}},
-              lineColor={253,212,198},
-              radius=25,
-              fillColor={235,238,219},
-              fillPattern=FillPattern.Solid,
-              lineThickness=0.5,
-              pattern=LinePattern.None),
-        Ellipse(
-          extent={{-100,80},{100,-80}},
-          lineColor={108,88,49},
-          lineThickness=1),
-        Polygon(
-          points={{68,72},{84,44},{54,54},{68,72}},
-          lineColor={108,88,49},
-          lineThickness=1,
-          fillColor={108,88,49},
-          fillPattern=FillPattern.Solid),
+        extent={{-100,80},{100,-80}},
+        lineColor={200,200,200},
+        radius=25,
+        fillColor={248,248,248},
+        fillPattern=FillPattern.HorizontalCylinder,
+        lineThickness=0.5),
       Line(
-        points={{-64,-30},{-46,-30},{-30,-28},{-14,-18},{-6,4},{-2,32},{2,40},{
-            6,42},{12,36},{16,22},{18,-16},{22,-28},{32,-28},{56,-28}},
-        color={108,88,49},
+        points={{-56,-36},{-44,-36},{-28,-34},{-12,-24},{-4,-2},{0,26},{4,34},{
+            8,36},{14,30},{18,16},{20,-22},{24,-34},{34,-34},{58,-34}},
+        color={238,46,47},
         thickness=1,
         smooth=Smooth.Bezier),
-        Polygon(
-          points={{-68,-72},{-84,-44},{-54,-54},{-68,-72}},
-          lineColor={108,88,49},
-          lineThickness=1,
-          fillColor={108,88,49},
-          fillPattern=FillPattern.Solid)}),
+      Line(
+        points={{-80,66},{-80,-66},{78,-66}},
+        color={28,108,200},
+        thickness=1,
+        arrow={Arrow.Filled,Arrow.Filled}),
+      Line(
+        points={{-80,36},{-68,36}},
+        color={28,108,200},
+        thickness=1),
+      Line(
+        points={{-80,-6},{-68,-6}},
+        color={28,108,200},
+        thickness=1),
+      Line(
+        points={{-80,-48},{-68,-48}},
+        color={28,108,200},
+        thickness=1)}),
   version="1",
   conversion(noneFromVersion=""));
 end slPCMlib;
