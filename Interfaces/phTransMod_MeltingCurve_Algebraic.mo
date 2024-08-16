@@ -1,6 +1,6 @@
 ﻿within slPCMlib.Interfaces;
 model phTransMod_MeltingCurve_Algebraic
-  "Melting curve model, static (no hysteresis) - obsolete -"
+  "Melting curve model, static (no hysteresis, algebraic equations) - obsolete -"
 
   extends Modelica.Icons.ObsoleteModel;
   extends basicPhTransModel;
