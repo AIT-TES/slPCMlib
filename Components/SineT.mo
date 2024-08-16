@@ -23,7 +23,6 @@ model SineT "Generates sinusoidal temperature variations with linear drift"
 equation
 
      port.T = startT + rateT*time + ampl*Modelica.Math.sin(2*pi/timePeriod*time);
-              // (t*frequ - pi/2)  - pi/2
 
     annotation (
       Icon(coordinateSystem(

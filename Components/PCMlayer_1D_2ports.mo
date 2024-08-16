@@ -67,7 +67,7 @@ model PCMlayer_1D_2ports
   Modelica.Units.SI.Temperature T_profile[n_FD+2]
     "Temperature profile in z direction (includes boundary)";
 
-  parameter Integer n_FD(min=1,max=15)=9
+  parameter Integer n_FD(min=1,max=15)=7
     "Number of internal nodes (into the PCM)"
     annotation(Dialog(tab = "General", group = "Discretization"));
 

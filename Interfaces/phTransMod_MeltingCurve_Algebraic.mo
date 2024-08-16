@@ -2,7 +2,7 @@
 model phTransMod_MeltingCurve_Algebraic
   "Melting curve model, static (no hysteresis, algebraic equations) - obsolete -"
 
-  extends Modelica.Icons.ObsoleteModel;
+//  extends Modelica.Icons.ObsoleteModel;
   extends basicPhTransModel;
 
 equation
